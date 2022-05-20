@@ -1,7 +1,7 @@
 const config = {
   PORT: 3010,
   listeningServerHandler: () =>
-    console.log(`The server is listening on port ${config.PORT} now`),
+    console.log(`Сервер работает на порту: ${config.PORT}`),
 };
 
 module.exports = config;

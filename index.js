@@ -6,10 +6,13 @@ const server = http.createServer(function (req, res) {
   const parseUrl = url.parse(req.url, true);
   const path = parseUrl.pathname;
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
-  
-  console.log("Request received on path: " + trimmedPath);
+  const method = req.method.toUpperCase();
 
-  res.end("hi");
+  console.log(
+    "Запрос был отправлен по машруту: " + trimmedPath + " с методом: " + method
+  );
+
+  res.end();
 });
 
 server.listen(config.PORT, config.listeningServerHandler);
