@@ -34,10 +34,10 @@ const server = http.createServer(function (req, res) {
 
     // construct the data object to send to the ahndler
     let data = {
-      'trimmedPath': trimmedPath,
-      'method': method,
-      'headers': headers,
-      'payload': buffer,
+      trimmedPath: trimmedPath,
+      method: method,
+      headers: headers,
+      payload: buffer,
     };
 
     // Route the request to the handler specified in the route
@@ -47,6 +47,7 @@ const server = http.createServer(function (req, res) {
 
       const payloadString = JSON.stringify(payload);
 
+      res.setHeader("Content-Type", "application/json");
       res.writeHead(statusCode);
       res.end(payloadString);
 
