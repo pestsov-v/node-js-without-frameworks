@@ -1,12 +1,14 @@
 const env = {};
 
 env.staging = {
-  PORT: 3010,
+  httpPort: 3010,
+  httpsPort: 3011,
   envName: "staging",
 };
 
 env.production = {
-  PORT: 5010,
+  httpPort: 5010,
+  httpsPort: 5011,
   envName: "production",
 };
 
