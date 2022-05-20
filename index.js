@@ -13,7 +13,7 @@ const server = http.createServer(function (req, res) {
   const method = req.method.toUpperCase();
 
   // get headers
-  const headers = req.rawHeaders;
+  const headers = JSON.stringify(req.headers);
 
   // get payload
   const decoder = new StringDecoder("utf-8");
@@ -26,18 +26,51 @@ const server = http.createServer(function (req, res) {
   req.on("end", function () {
     buffer += decoder.end();
 
-    // log results
-    console.log(
-      "Запрос был отправлен по машруту: " +
-        trimmedPath +
-        " с методом: " +
-        method +
-        " с загаловками: " +
-        buffer
-    );
+    // Choose the handler this request should go to.
+    let chosenHandler =
+      typeof router[trimmedPath] !== "undefined"
+        ? router[trimmedPath]
+        : handlers.notFound;
 
-    res.end();
+    // construct the data object to send to the ahndler
+    let data = {
+      'trimmedPath': trimmedPath,
+      'method': method,
+      'headers': headers,
+      'payload': buffer,
+    };
+
+    // Route the request to the handler specified in the route
+    chosenHandler(data, function (statusCode, payload) {
+      statusCode = typeof statusCode == "number" ? statusCode : 200;
+      payload = typeof payload == "object" ? payload : {};
+
+      const payloadString = JSON.stringify(payload);
+
+      res.writeHead(statusCode);
+      res.end(payloadString);
+
+      console.log(`Returning this response: `, statusCode, payloadString);
+    });
   });
 });
 
 server.listen(config.PORT, config.listeningServerHandler);
+
+// Define the handlers
+const handlers = {};
+
+// Sample handler
+handlers.sample = function (data, callback) {
+  // Callback a http satus code and payload object
+  callback(406, { name: "sample handler" });
+};
+
+// Not Found handler
+handlers.notFound = function (data, callback) {
+  callback(404);
+};
+
+const router = {
+  sample: handlers.sample,
+};
