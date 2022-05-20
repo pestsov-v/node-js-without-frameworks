@@ -1,9 +1,36 @@
 const http = require("http");
+const https = require("https");
+const fs = require("fs");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
 
-const server = http.createServer(function (req, res) {
+const httpServer = http.createServer(function (req, res) {
+  unifiedServer(req, res);
+});
+
+httpServer.listen(config.httpPort, () => {
+  console.log(
+    `Сервер работает на порту: ${config.httpPort} в ${config.envName} моде`
+  );
+});
+
+const httpsServerOptions = {
+  key: fs.readFileSync("./https/key.pem"),
+  cert: fs.readFileSync("./https/cert.pem"),
+};
+
+const httpsServer = https.createServer(httpsServerOptions, function (req, res) {
+  unifiedServer(req, res);
+});
+
+httpsServer.listen(config.httpsPort, () => {
+  console.log(
+    `Сервер работает на порту: ${config.httpsPort} в ${config.envName} моде`
+  );
+});
+
+const unifiedServer = function (req, res) {
   const parseUrl = url.parse(req.url, true);
   const path = parseUrl.pathname;
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
@@ -44,24 +71,14 @@ const server = http.createServer(function (req, res) {
       console.log(`Returning this response: `, statusCode, payloadString);
     });
   });
-});
-
-server.listen(config.PORT, () => {
-  console.log(
-    `Сервер работает на порту: ${config.PORT} в ${config.envName} моде`
-  );
-});
+};
 
 const handlers = {};
 
-handlers.sample = function (data, callback) {
-  callback(406, { name: "sample handler" });
-};
-
-handlers.notFound = function (data, callback) {
-  callback(404);
+handlers.ping = function (data, callback) {
+  callback(200);
 };
 
 const router = {
-  sample: handlers.sample,
+  ping: handlers.ping,
 };
