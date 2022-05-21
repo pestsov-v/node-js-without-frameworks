@@ -5,10 +5,12 @@ const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
 const _data = require("./lib/data");
+const handlers = require("./lib/handlers");
+const helpers = require("./lib/helpers");
 
-_data.delete("test", "newFile", function (err) {
-  console.log("this was the error", err);
-});
+// _data.delete("test", "newFile", function (err) {
+//   console.log("this was the error", err);
+// });
 
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
@@ -38,8 +40,9 @@ httpsServer.listen(config.httpsPort, () => {
 const unifiedServer = function (req, res) {
   const parseUrl = url.parse(req.url, true);
   const path = parseUrl.pathname;
+  const queryStringObject = JSON.parse(JSON.stringify(parseUrl.query));
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
-  const method = req.method.toUpperCase();
+  const method = req.method.toLowerCase();
   const headers = JSON.stringify(req.headers);
   const decoder = new StringDecoder("utf-8");
   let buffer = "";
@@ -58,9 +61,10 @@ const unifiedServer = function (req, res) {
 
     let data = {
       trimmedPath: trimmedPath,
+      queryStringObject: queryStringObject,
       method: method,
       headers: headers,
-      payload: buffer,
+      payload: helpers.parceJsonToObject(buffer),
     };
 
     chosenHandler(data, function (statusCode, payload) {
@@ -78,12 +82,7 @@ const unifiedServer = function (req, res) {
   });
 };
 
-const handlers = {};
-
-handlers.ping = function (data, callback) {
-  callback(200);
-};
-
 const router = {
   ping: handlers.ping,
+  users: handlers.users,
 };
