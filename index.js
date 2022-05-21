@@ -4,6 +4,11 @@ const fs = require("fs");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
+const _data = require("./lib/data");
+
+_data.delete("test", "newFile", function (err) {
+  console.log("this was the error", err);
+});
 
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
