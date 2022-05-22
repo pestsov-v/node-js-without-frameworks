@@ -6,6 +6,11 @@ env.staging = {
   envName: "staging",
   hashingSecret: "ThisIsSecret",
   maxChecks: 5,
+  twilio: {
+    accountSid: "AC699ca45c24a60461b3343bb63b9c2fdb",
+    authToken: "014ebf366319b9fe9b36e6a16c62d5e0",
+    fromPhone: "+380951699263",
+  },
 };
 
 env.production = {
@@ -14,6 +19,11 @@ env.production = {
   envName: "production",
   hashingSecret: "ThisIsAlsoSecret",
   maxChecks: 5,
+  twilio: {
+    accountSid: "ACb32d411ad7fe886aac54c665d25e5c5d",
+    authToken: "9455e3eb3109edc12e3d8c92768f7a67",
+    fromPhone: "+380951699263",
+  },
 };
 
 const currentEnv =
