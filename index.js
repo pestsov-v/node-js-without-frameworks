@@ -7,6 +7,10 @@ const config = require("./config");
 const handlers = require("./lib/handlers");
 const helpers = require("./lib/helpers");
 
+helpers.sendTwillioSMS(`0951699263`, "Hello", function (err) {
+  console.log(`При отправке сообщения возникла ошибка: `, err);
+});
+
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
 });
