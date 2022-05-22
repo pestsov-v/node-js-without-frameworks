@@ -4,13 +4,9 @@ const fs = require("fs");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
-const _data = require("./lib/data");
 const handlers = require("./lib/handlers");
 const helpers = require("./lib/helpers");
 
-// _data.delete("test", "newFile", function (err) {
-//   console.log("this was the error", err);
-// });
 
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
@@ -85,4 +81,5 @@ const unifiedServer = function (req, res) {
 const router = {
   ping: handlers.ping,
   users: handlers.users,
+  tokens: handlers.tokens
 };
