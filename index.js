@@ -7,7 +7,6 @@ const config = require("./config");
 const handlers = require("./lib/handlers");
 const helpers = require("./lib/helpers");
 
-
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
 });
@@ -39,7 +38,7 @@ const unifiedServer = function (req, res) {
   const queryStringObject = JSON.parse(JSON.stringify(parseUrl.query));
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
   const method = req.method.toLowerCase();
-  const headers = JSON.stringify(req.headers);
+  const headers = JSON.parse(JSON.stringify(req.headers));
   const decoder = new StringDecoder("utf-8");
   let buffer = "";
 
@@ -81,5 +80,5 @@ const unifiedServer = function (req, res) {
 const router = {
   ping: handlers.ping,
   users: handlers.users,
-  tokens: handlers.tokens
+  tokens: handlers.tokens,
 };
