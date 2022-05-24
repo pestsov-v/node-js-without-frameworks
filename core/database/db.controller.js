@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const helpers = require("../../lib/helpers");
+const DatabaseHelper = require("./db.helper");
 const { FILE_ERROR_WRITED_TO_EXSISTS_FILE_MESSAGE } = require("./db.constants");
 const {
   FILE_HAS_BEEN_EXISTS,
@@ -37,7 +37,7 @@ class DatabaseController {
 
     fs.readFile(filePath, "utf-8", function (err, data) {
       if (err) return callback(err, data);
-      const parsedData = helpers.parceJsonToObject(data);
+      const parsedData = DatabaseHelper.parseObj(data);
       callback(false, parsedData);
     });
   }
