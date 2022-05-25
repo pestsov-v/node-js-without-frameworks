@@ -1,52 +1,8 @@
-const crypto = require("crypto");
-const config = require("../config");
+const config = require("../config/variables.config");
 const https = require("https");
 const querystring = require("querystring");
 
 const helpers = {};
-
-helpers.hash = function (str) {
-  if (typeof str == "string" && str.length > 0) {
-    const hash = crypto
-      .createHmac("sha256", config.hashingSecret)
-      .update(str)
-      .digest("hex");
-    return hash;
-  } else {
-    return false;
-  }
-};
-
-helpers.parceJsonToObject = function (str) {
-  try {
-    const obj = JSON.parse(str);
-    return obj;
-  } catch (e) {
-    return {};
-  }
-};
-
-helpers.createRandomString = function (strLength) {
-  strLength =
-    typeof strLength === "number" && strLength > 0 ? strLength : false;
-
-  if (strLength) {
-    const possibleCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-    let str = "";
-
-    for (i = 1; i <= strLength; i++) {
-      const randomCharacter = possibleCharacters.charAt(
-        Math.floor(Math.random() * possibleCharacters.length)
-      );
-      str += randomCharacter;
-    }
-
-    return str;
-  } else {
-    return false;
-  }
-};
 
 helpers.sendTwillioSMS = function (phone, msg, callback) {
   phone =
@@ -59,7 +15,6 @@ helpers.sendTwillioSMS = function (phone, msg, callback) {
       ? msg.trim()
       : false;
 
-  console.log(phone);
   if (phone && msg) {
     const payload = {
       From: config.twilio.fromPhone,

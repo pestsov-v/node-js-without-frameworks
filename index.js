@@ -1,89 +1,12 @@
-const http = require("http");
-const https = require("https");
-const fs = require("fs");
-const url = require("url");
-const StringDecoder = require("string_decoder").StringDecoder;
-const config = require("./config");
-const handlers = require("./lib/handlers");
-const helpers = require("./lib/helpers");
+const server = require("./src/server");
+const workers = require("./src/workers");
 
-helpers.sendTwillioSMS(`0951699263`, "Hello", function (err) {
-  console.log(`При отправке сообщения возникла ошибка: `, err);
-});
-
-const httpServer = http.createServer(function (req, res) {
-  unifiedServer(req, res);
-});
-
-httpServer.listen(config.httpPort, () => {
-  console.log(
-    `Сервер работает на порту: ${config.httpPort} в ${config.envName} моде`
-  );
-});
-
-const httpsServerOptions = {
-  key: fs.readFileSync("./https/key.pem"),
-  cert: fs.readFileSync("./https/cert.pem"),
+const app = {};
+app.init = function () {
+  server();
+  // workers.init();
 };
 
-const httpsServer = https.createServer(httpsServerOptions, function (req, res) {
-  unifiedServer(req, res);
-});
+app.init();
 
-httpsServer.listen(config.httpsPort, () => {
-  console.log(
-    `Сервер работает на порту: ${config.httpsPort} в ${config.envName} моде`
-  );
-});
-
-const unifiedServer = function (req, res) {
-  const parseUrl = url.parse(req.url, true);
-  const path = parseUrl.pathname;
-  const queryStringObject = JSON.parse(JSON.stringify(parseUrl.query));
-  const trimmedPath = path.replace(/^\/+|\/+$/g, "");
-  const method = req.method.toLowerCase();
-  const headers = JSON.parse(JSON.stringify(req.headers));
-  const decoder = new StringDecoder("utf-8");
-  let buffer = "";
-
-  req.on("data", function (data) {
-    buffer += decoder.write(data);
-  });
-
-  req.on("end", function () {
-    buffer += decoder.end();
-
-    let chosenHandler =
-      typeof router[trimmedPath] !== "undefined"
-        ? router[trimmedPath]
-        : handlers.notFound;
-
-    let data = {
-      trimmedPath: trimmedPath,
-      queryStringObject: queryStringObject,
-      method: method,
-      headers: headers,
-      payload: helpers.parceJsonToObject(buffer),
-    };
-
-    chosenHandler(data, function (statusCode, payload) {
-      statusCode = typeof statusCode == "number" ? statusCode : 200;
-      payload = typeof payload == "object" ? payload : {};
-
-      const payloadString = JSON.stringify(payload);
-
-      res.setHeader("Content-Type", "application/json");
-      res.writeHead(statusCode);
-      res.end(payloadString);
-
-      console.log(`Returning this response: `, statusCode, payloadString);
-    });
-  });
-};
-
-const router = {
-  ping: handlers.ping,
-  users: handlers.users,
-  tokens: handlers.tokens,
-  checks: handlers.checks,
-};
+module.exports = app;
