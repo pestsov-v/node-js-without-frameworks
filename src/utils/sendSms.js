@@ -2,9 +2,7 @@ const config = require("../config/variables.config");
 const https = require("https");
 const querystring = require("querystring");
 
-const helpers = {};
-
-helpers.sendTwillioSMS = function (phone, msg, callback) {
+const sendSms = (phone, msg, callback) => {
   phone =
     typeof phone == "string" && phone.trim().length == 10
       ? phone.trim()
@@ -55,4 +53,4 @@ helpers.sendTwillioSMS = function (phone, msg, callback) {
   }
 };
 
-module.exports = helpers;
+module.exports = sendSms;
