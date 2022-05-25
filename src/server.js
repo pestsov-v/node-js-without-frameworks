@@ -7,9 +7,9 @@ const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("../config");
 const handlers = require("./handlers");
 const helpers = require("./helpers");
-const UserModule = require("./user/user.module");
-const TokenModule = require("./token/token.module");
-const CheckModule = require("./check/check.module");
+const UserModule = require("../src/modules/user/user.module");
+const TokenModule = require("../src/modules/token/token.module");
+const CheckModule = require("../src/modules/check/check.module");
 
 const server = {};
 

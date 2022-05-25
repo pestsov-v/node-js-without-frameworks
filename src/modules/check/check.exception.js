@@ -1,4 +1,4 @@
-const statusCode = require("../../core/base/statusCode");
+const statusCode = require("../../../core/base/statusCode");
 const {
   MISSED_REQUIRE_FIEILDS_MESSAGE,
   USER_NOT_AUTH_MESSAGE,

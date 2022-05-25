@@ -1,5 +1,5 @@
-const server = require("./lib/server");
-const workers = require("./lib/workers");
+const server = require("./src/server");
+const workers = require("./src/workers");
 
 const app = {};
 app.init = function () {

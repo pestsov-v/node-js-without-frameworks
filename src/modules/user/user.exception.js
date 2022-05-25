@@ -1,4 +1,4 @@
-const statusCode = require("../../core/base/statusCode");
+const statusCode = require("../../../core/base/statusCode");
 const {
   USER_WAS_CREATED_MESSAGE,
   USER_NOT_CREATED_MESSAGE,

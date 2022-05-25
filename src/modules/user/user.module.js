@@ -1,4 +1,4 @@
-const method = require("../../core/base/enum/method.enum");
+const method = require("../../../core/base/enum/method.enum");
 const UserRouter = require("./user.router");
 
 let UserModule = {};

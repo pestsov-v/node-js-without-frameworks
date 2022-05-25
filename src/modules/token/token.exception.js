@@ -1,4 +1,4 @@
-const statusCode = require("../../core/base/statusCode");
+const statusCode = require("../../../core/base/statusCode");
 const {
   INCORRECT_PHONE_FIELD_MESSAGE,
   INCORRECT_PASSWORD_FIELD_MESSAGE,

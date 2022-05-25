@@ -1,4 +1,4 @@
-const method = require("../../core/base/enum/method.enum");
+const method = require("../../../core/base/enum/method.enum");
 const TokenRouter = require("./token.router");
 
 let TokenModule = {};
