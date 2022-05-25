@@ -1,18 +1,8 @@
-const config = require("../config");
+const config = require("../config/variables.config");
 const https = require("https");
 const querystring = require("querystring");
 
 const helpers = {};
-
-
-helpers.parceJsonToObject = function (str) {
-  try {
-    const obj = JSON.parse(str);
-    return obj;
-  } catch (e) {
-    return {};
-  }
-};
 
 helpers.sendTwillioSMS = function (phone, msg, callback) {
   phone =

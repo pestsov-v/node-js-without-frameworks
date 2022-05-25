@@ -1,9 +1,9 @@
+const config = require("./variables.config");
 const StringDecoder = require("string_decoder").StringDecoder;
 const url = require("url");
-const config = require("../config");
+const router = require("../src/router");
 const page404 = require("../src/modules/404/404.router");
-const router = require("../src/router.path");
-const helpers = require("../src/helpers");
+const parceJsonToObject = require("../src/utils/JsonToObject");
 
 class ServerConfig {
   httpPort = config.httpPort;
@@ -36,7 +36,7 @@ class ServerConfig {
         queryStringObject: queryStringObject,
         method: method,
         headers: headers,
-        payload: helpers.parceJsonToObject(buffer),
+        payload: parceJsonToObject(buffer),
       };
 
       chosenHandler(data, function (statusCode, payload) {
