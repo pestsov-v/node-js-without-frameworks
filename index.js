@@ -3,7 +3,7 @@ const workers = require("./src/workers");
 
 const app = {};
 app.init = function () {
-  server.init();
+  server();
   // workers.init();
 };
 
