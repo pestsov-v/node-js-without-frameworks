@@ -5,6 +5,7 @@ const router = require("../src/router");
 const page404 = require("../src/modules/404/404.router");
 const parceJsonToObject = require("../src/utils/JsonToObject");
 const util = require("util");
+const handlers = require("../src/handlers");
 const debug = util.debuglog("server");
 
 class ServerConfig {
@@ -33,6 +34,9 @@ class ServerConfig {
           ? router[trimmedPath]
           : page404;
 
+      chosenHandler =
+        trimmedPath.indexOf("public/") > -1 ? handlers.public : chosenHandler;
+
       let data = {
         trimmedPath: trimmedPath,
         queryStringObject: queryStringObject,
@@ -54,6 +58,31 @@ class ServerConfig {
 
         if (contentType == "html") {
           res.setHeader("Content-Type", "text/html");
+          payloadString = typeof payload == "string" ? payload : "";
+        }
+
+        if (contentType == "favicon") {
+          res.setHeader("Content-Type", "image/x-icon");
+          payloadString = typeof payload !== "undefined" ? payload : "";
+        }
+
+        if (contentType == "css") {
+          res.setHeader("Content-Type", "text/css");
+          payloadString = typeof payload !== "undefined" ? payload : "";
+        }
+
+        if (contentType == "png") {
+          res.setHeader("Content-Type", "image/png");
+          payloadString = typeof payload !== "undefined" ? payload : "";
+        }
+
+        if (contentType == "jpg") {
+          res.setHeader("Content-Type", "image/jpeg");
+          payloadString = typeof payload !== "undefined" ? payload : "";
+        }
+
+        if (contentType == "plain") {
+          res.setHeader("Content-Type", "image/plain");
           payloadString = typeof payload == "string" ? payload : "";
         }
 

@@ -34,19 +34,18 @@ helpers.getTemplate = function (templateName, data, callback) {
 helpers.addUniversalTemplates = function (str, data, callback) {
   str = typeof str == "string" && str.length > 0 ? str : "";
   data = typeof data == "object" && data !== null ? data : {};
-
   helpers.getTemplate("_header", data, function (err, headerString) {
     if (!err && headerString) {
       helpers.getTemplate("_footer", data, function (err, footerString) {
-        if (!err && footerString) {
-          const fullString = headerString + str + footerString;
+        if (!err && headerString) {
+          var fullString = headerString + str + footerString;
           callback(false, fullString);
         } else {
           callback("Could not find the footer template");
         }
       });
     } else {
-      callback("Could-not find the header template");
+      callback("Could not find the header template");
     }
   });
 };
@@ -55,21 +54,36 @@ helpers.interpolate = function (str, data) {
   str = typeof str == "string" && str.length > 0 ? str : "";
   data = typeof data == "object" && data !== null ? data : {};
 
-  for (const keyName in config.templateGlobals) {
+  for (var keyName in config.templateGlobals) {
     if (config.templateGlobals.hasOwnProperty(keyName)) {
       data["global." + keyName] = config.templateGlobals[keyName];
     }
   }
-
-  for (const key in data) {
-    if (data.hasOwnProperty(key) && typeof data[key] == "string") {
-      const replace = data[key];
-      const find = "{" + key + "}";
+  for (var key in data) {
+    if (data.hasOwnProperty(key) && typeof (data[key] == "string")) {
+      var replace = data[key];
+      var find = "{" + key + "}";
       str = str.replace(find, replace);
     }
   }
-
   return str;
+};
+
+helpers.getStaticAsset = function (fileName, callback) {
+  fileName =
+    typeof fileName == "string" && fileName.length > 0 ? fileName : false;
+  if (fileName) {
+    var publicDir = path.join(__dirname, "/../public/");
+    fs.readFile(publicDir + fileName, function (err, data) {
+      if (!err && data) {
+        callback(false, data);
+      } else {
+        callback("No file could be found");
+      }
+    });
+  } else {
+    callback("A valid file name was not specified");
+  }
 };
 
 module.exports = helpers;

@@ -14,6 +14,8 @@ const router = {
   "checks/create": handlers.checksCreate,
   "checks/edit": handlers.checksEdit,
   "checks/deleted": handlers.checksDeleted,
+  "favicon.ico": handlers.favicon,
+  public: handlers.public,
   "api/users": UserModule,
   "api/tokens": TokenModule,
   "api/checks": CheckModule,
