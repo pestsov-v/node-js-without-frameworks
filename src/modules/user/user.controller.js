@@ -53,7 +53,7 @@ class UserController {
 
       db.create(router.users, phone, userObject, (err) => {
         if (err) return callback(statusCode.SERVER_ERROR, USER_NOT_CREATED);
-        return callback(statusCode.CREATED, USER_SUCCESS_CREATE(phone));
+        return callback(statusCode.OK, USER_SUCCESS_CREATE(phone));
       });
     });
   }
@@ -88,7 +88,7 @@ class UserController {
 
     const token = TokenValidator.tokenValidate(data.headers.token);
 
-    TokenController.verifyToke(token, phone, (validToken) => {
+    TokenController.verifyToken(token, phone, (validToken) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
 
       db.read(router.users, phone, (err, userData) => {
