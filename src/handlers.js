@@ -85,6 +85,33 @@ handlers.sessionCreate = function (data, callback) {
   }
 };
 
+handlers.sessionDeleted = function (data, callback) {
+  if (data.method == "get") {
+    const templateData = {
+      "head.title": "Выйти",
+      "head.description": "Вы выйшли со своего профиля",
+      "body.class": "sessionDeleted",
+    };
+
+    helpers.getTemplate("sessionDeleted", templateData, function (err, str) {
+      console.log(err);
+      if (!err && str) {
+        helpers.addUniversalTemplates(str, templateData, function (err, str) {
+          if (!err && str) {
+            callback(200, str, "html");
+          } else {
+            callback(500, undefined, "html");
+          }
+        });
+      } else {
+        callback(500, undefined, "html");
+      }
+    });
+  } else {
+    callback(400, undefined, "html");
+  }
+};
+
 handlers.favicon = function (data, callback) {
   if (data.method == "get") {
     helpers.getStaticAsset("favicon.ico", function (err, data) {
@@ -96,6 +123,31 @@ handlers.favicon = function (data, callback) {
     });
   } else {
     callback(405);
+  }
+};
+
+handlers.checksList = function (data, callback) {
+  if (data.method == "get") {
+    var templateData = {
+      "head.title": "Доска",
+      "body.class": "checksList",
+    };
+
+    helpers.getTemplate("checksList", templateData, function (err, str) {
+      if (!err && str) {
+        helpers.addUniversalTemplates(str, templateData, function (err, str) {
+          if (!err && str) {
+            callback(200, str, "html");
+          } else {
+            callback(500, undefined, "html");
+          }
+        });
+      } else {
+        callback(500, undefined, "html");
+      }
+    });
+  } else {
+    callback(405, undefined, "html");
   }
 };
 
