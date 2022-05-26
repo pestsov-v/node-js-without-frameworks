@@ -11,6 +11,12 @@ env.staging = {
     authToken: "014ebf366319b9fe9b36e6a16c62d5e0",
     fromPhone: "+380951699263",
   },
+  templateGlobals: {
+    appName: "UptimeChecker",
+    companyName: "S-Prof",
+    yearCreated: "2011",
+    baseUrl: "http://localhost:3010/",
+  },
 };
 
 env.production = {
@@ -23,6 +29,12 @@ env.production = {
     accountSid: "ACb32d411ad7fe886aac54c665d25e5c5d",
     authToken: "9455e3eb3109edc12e3d8c92768f7a67",
     fromPhone: "+380951699263",
+  },
+  templateGlobals: {
+    appName: "UptimeChecker",
+    companyName: "S-Prof",
+    yearCreated: "2011",
+    baseUrl: "http://localhost:3010/",
   },
 };
 

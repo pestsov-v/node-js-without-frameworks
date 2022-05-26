@@ -34,8 +34,9 @@ class TokenController {
       return callback(statusCode.BAD_REQUEST, INCORRECT_PASSWORD_FIELD);
 
     db.read(router.users, phone, (err, userData) => {
-      if (err)
+      if (err) {
         return callback(statusCode.BAD_REQUEST, USER_NOT_FOUND_WITH_PHONE);
+      }
 
       const hashPassword = UserHelper.hashPassword(password);
       if (hashPassword != userData.hashPassword)

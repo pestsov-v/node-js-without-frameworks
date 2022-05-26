@@ -6,9 +6,22 @@ let handlers = {};
 
 handlers.index = function (data, callback) {
   if (data.method == "get") {
-    helpers.getTemplate("index", function (err, str) {
+    const templateData = {
+      "head.title": "Заголовок",
+      "head.description": "Описание",
+      "body.title": "Заголовок тела",
+      "body.class": "Index",
+    };
+
+    helpers.getTemplate("index", templateData, function (err, str) {
       if (!err && str) {
-        callback(200, str, "html");
+        helpers.addUniversalTemplates(str, templateData, function (err, str) {
+          if (!err && str) {
+            callback(200, str, "html");
+          } else {
+            callback(500, undefined, "html");
+          }
+        });
       } else {
         callback(500, undefined, "html");
       }
