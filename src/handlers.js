@@ -7,9 +7,9 @@ let handlers = {};
 handlers.index = function (data, callback) {
   if (data.method == "get") {
     const templateData = {
-      "head.title": "Заголовок",
-      "head.description": "Описание",
-      "body.title": "Заголовок тела",
+      "head.title": "Мониторинг времени безотказной работы — это просто",
+      "head.description":
+        "Мы предлагаем бесплатный простой мониторинг обновлений для сайтов HTTP/HTTPS всех видов. Когда ваш сайт выйдет из строя, мы отправим вам текстовое сообщение, чтобы вы знали",
       "body.class": "Index",
     };
 
