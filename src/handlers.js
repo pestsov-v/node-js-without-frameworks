@@ -58,6 +58,33 @@ handlers.accountCreate = function (data, callback) {
   }
 };
 
+handlers.sessionCreate = function (data, callback) {
+  if (data.method == "get") {
+    const templateData = {
+      "head.title": "Войти в профиль",
+      "head.description":
+        "Введите Ваш номер телефона и пароль, чтобы зайти в профиль",
+      "body.class": "sessionCreate",
+    };
+
+    helpers.getTemplate("sessionCreate", templateData, function (err, str) {
+      if (!err && str) {
+        helpers.addUniversalTemplates(str, templateData, function (err, str) {
+          if (!err && str) {
+            callback(200, str, "html");
+          } else {
+            callback(500, undefined, "html");
+          }
+        });
+      } else {
+        callback(500, undefined, "html");
+      }
+    });
+  } else {
+    callback(400, undefined, "html");
+  }
+};
+
 handlers.favicon = function (data, callback) {
   if (data.method == "get") {
     helpers.getStaticAsset("favicon.ico", function (err, data) {
