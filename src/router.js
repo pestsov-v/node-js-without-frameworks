@@ -5,9 +5,9 @@ const handlers = require("./handlers");
 
 const router = {
   "": handlers.index,
-  "account/create": handlers.AccountCreate,
-  "account/edit": handlers.AccountEdit,
-  "account/deleted": handlers.AccountDeleted,
+  "account/create": handlers.accountCreate,
+  "account/edit": handlers.accountEdit,
+  "account/deleted": handlers.accountDeleted,
   "session/create": handlers.sessionCreate,
   "session/deleted": handlers.sessionDeleted,
   "checks/all": handlers.checksList,

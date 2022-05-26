@@ -74,3 +74,65 @@ app.client.request = function (
   const payloadString = JSON.stringify(payload);
   xhr.send(payloadString);
 };
+
+app.bindForms = function () {
+  document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var formId = this.id;
+    var path = this.action;
+    var method = this.method.toUpperCase();
+
+    document.querySelector("#" + formId + " .formError").style.display =
+      "hidden";
+
+    var payload = {};
+    var elements = this.elements;
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].type !== "submit") {
+        var valueOfElement =
+          elements[i].type == "checkbox"
+            ? elements[i].checked
+            : elements[i].value;
+        payload[elements[i].name] = valueOfElement;
+      }
+    }
+
+    app.client.request(
+      undefined,
+      path,
+      method,
+      undefined,
+      payload,
+      function (statusCode, responsePayload) {
+        if (statusCode !== 201) {
+          var error =
+            typeof responsePayload.Error == "string"
+              ? responsePayload.Error
+              : "An error has occured, please try again";
+
+          document.querySelector("#" + formId + " .formError").innerHTML =
+            error;
+
+          document.querySelector("#" + formId + " .formError").style.display =
+            "block";
+        } else {
+          app.formResponseProcessor(formId, payload, responsePayload);
+        }
+      }
+    );
+  });
+};
+
+app.formResponseProcessor = function (formId, requestPayload, responsePayload) {
+  var functionToCall = false;
+  if (formId == "accountCreate") {
+  }
+};
+
+app.init = function () {
+  app.bindForms();
+};
+
+window.onload = function () {
+  app.init();
+};

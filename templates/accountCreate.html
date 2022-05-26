@@ -1,0 +1,31 @@
+<h1>Создайте аккаунт</h1>
+<h2>Зарегистрируйтесь легко, ведь это займёт всего несколько секунд</h2>
+
+<div class="formWrapper">
+	  <form id="accountCreate" action="/api/users" method="POST">
+    <div class="formError"></div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Имя</div>
+      <input type="text" name="firstName" placeholder="Иван" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Фамилия</div>
+      <input type="text" name="lastName" placeholder="Иванов" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Номер телефона</div>
+      <input type="text" name="phone" placeholder="095 16 99 243" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Пароль</div>
+      <input type="password" name="password" placeholder="Пароль" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Вы согласны с пользовательским соглашением?</div>
+      <input type="checkbox" name="tosAggrement" value="agree">
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta blue">Начать</button>
+    </div>
+  </form>
+</div>

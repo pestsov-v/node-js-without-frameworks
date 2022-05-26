@@ -29,13 +29,13 @@ exports.USER_NOT_CREATED = {
 
 exports.USER_SUCCESS_CREATE = (phone) => {
   return {
-    statusCode: statusCode.CREATED,
+    statusCode: statusCode.OK,
     message: USER_SUCCESS_CREATE_MESSAGE(phone),
   };
 };
 
 exports.USER_HAS_BEEN_CREATED = {
-  statusCode: statusCode.SERVER_ERROR,
+  statusCode: statusCode.BAD_REQUEST,
   Error: USER_WAS_BEEN_CREATED_MESSAGE,
 };
 

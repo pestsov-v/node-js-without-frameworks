@@ -31,6 +31,33 @@ handlers.index = function (data, callback) {
   }
 };
 
+handlers.accountCreate = function (data, callback) {
+  if (data.method == "get") {
+    const templateData = {
+      "head.title": "Создать аккаунт",
+      "head.description":
+        "Зарегистрируйтесь легко, ведь это займёт всего несколько секунд",
+      "body.class": "accountCreate",
+    };
+
+    helpers.getTemplate("accountCreate", templateData, function (err, str) {
+      if (!err && str) {
+        helpers.addUniversalTemplates(str, templateData, function (err, str) {
+          if (!err && str) {
+            callback(200, str, "html");
+          } else {
+            callback(500, undefined, "html");
+          }
+        });
+      } else {
+        callback(500, undefined, "html");
+      }
+    });
+  } else {
+    callback(400, undefined, "html");
+  }
+};
+
 handlers.favicon = function (data, callback) {
   if (data.method == "get") {
     helpers.getStaticAsset("favicon.ico", function (err, data) {
