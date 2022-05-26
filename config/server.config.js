@@ -4,6 +4,8 @@ const url = require("url");
 const router = require("../src/router");
 const page404 = require("../src/modules/404/404.router");
 const parceJsonToObject = require("../src/utils/JsonToObject");
+const util = require("util");
+const debug = util.debuglog("server");
 
 class ServerConfig {
   httpPort = config.httpPort;
@@ -49,19 +51,32 @@ class ServerConfig {
         res.writeHead(statusCode);
         res.end(payloadString);
 
-        console.log(`Ответ от Сервера: `, statusCode, payloadString);
+        if (statusCode == 200) {
+          debug(
+            "\x1b[32m%s\x1b[0m",
+            method.toUpperCase() + " /" + trimmedPath + " " + statusCode
+          );
+        } else {
+          debug(
+            "\x1b[31m%s\x1b[0m",
+            method.toUpperCase() + " /" + trimmedPath + " " + statusCode
+          );
+        }
+        debug(`Ответ от Сервера: `, statusCode, payloadString);
       });
     });
   }
 
   httpHandler() {
     return console.log(
+      "\x1b[36m%s\x1b[0m",
       `Сервер работает на порту: http://localhost:${config.httpPort} в ${config.envName} моде`
     );
   }
 
   httpsHandler() {
     return console.log(
+      "\x1b[35m%s\x1b[0m",
       `Сервер работает на порту: https://localhost:${config.httpsPort} в ${config.envName} моде`
     );
   }
