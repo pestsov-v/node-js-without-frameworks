@@ -1,4 +1,4 @@
-const config = require("../config/variables.config");
+const config = require("../../config/variables.config");
 const https = require("https");
 const querystring = require("querystring");
 

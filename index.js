@@ -4,7 +4,7 @@ const workers = require("./src/workers");
 const app = {};
 app.init = function () {
   server();
-  // workers.init();
+  workers.init();
 };
 
 app.init();
