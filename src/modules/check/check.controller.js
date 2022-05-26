@@ -104,6 +104,7 @@ class CheckController {
   }
 
   updateCheck(data, callback) {
+    console.log(data);
     const id = TokenValidator.idValidate(data.payload.id);
     if (!id) return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
 
@@ -113,7 +114,7 @@ class CheckController {
     const code = CheckValidator.codeValidate(data.payload.code);
     const time = CheckValidator.timeValidate(data.payload.time);
 
-    if (!protocol || !url || !method || code || time) {
+    if (!protocol || !url || !method || !code || !time) {
       return callback(statusCode.BAD_REQUEST, EMPTY_UPDATE_FILEDS);
     }
 
@@ -138,7 +139,7 @@ class CheckController {
           if (err) {
             return callback(statusCode.SERVER_ERROR, SERVER_ERROR_UPDATE);
           }
-          return callback(statusCode.CREATED, SERVER_UPDATE_SUCCESS);
+          return callback(statusCode.OK, SERVER_UPDATE_SUCCESS);
         });
       });
     });

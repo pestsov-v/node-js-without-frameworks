@@ -1,0 +1,62 @@
+<h1>Настройки профиля</h1>
+
+<hr />
+
+<h2>Настройте детали Вашего профиля</h2>
+
+<div class="formWrapper">
+  <form id="accountEdit1" action="/api/users" method="PUT">
+    <input type="hidden" name="_method" value="PUT"/>
+    <div class="formError"></div>
+    <div class="formSuccess">Ваши изменения были сохранены</div>
+    <input class="hiddenPhoneNumberInput"  type="hidden" name="phone" />
+    <div class="inputWrapper">
+      <div class="inputLabel">Номер телефона</div>
+      <input class="disabled displayPhoneInput" type="text" name="displayPhone" disabled />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Имя</div>
+      <input class="firstNameInput" type="text" name="firstName" placeholder="Имя" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Фамилия</div>
+      <input class="lastNameInput" type="text" name="lastName" placeholder="Фамилия" />
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta green">Сохранить изменения</button>
+    </div>
+  </form>
+</div>
+
+<hr />
+<h2>Изменить пароль</h2>
+<div class="formWrapper">
+  <form id="accountEdit2" action="/api/users" method="PUT">
+    <input type="hidden" name="_method" value="PUT"/>
+    <div class="formError"></div>
+    <div class="formSuccess">Новый пароль был успешно сохранён</div>
+    <input class="hiddenPhoneNumberInput" type="hidden" name="phone" />
+    <div class="inputWrapper">
+      <div class="inputLabel">Введите новый пароль</div>
+      <input type="password" name="password" placeholder="********" />
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta green">Сохранить новый пароль</button>
+    </div>
+  </form>
+</div>
+
+
+<hr />
+<h2>Удалить Ваш аккаунт</h2>
+<div class="formWrapper">
+  <form id="accountEdit3" action="/api/users" method="DELETE">
+    <input type="hidden" name="_method" value="DELETE"/>
+    <div class="formError"></div>
+    <div class="warning">Внимание: это действие нельзя отменить. Не нажимайте эту кнопку случайно!</div>
+    <input class="hiddenPhoneNumberInput" type="hidden" name="phone" />
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta red">Удалить профиль</button>
+    </div>
+  </form>
+</div>

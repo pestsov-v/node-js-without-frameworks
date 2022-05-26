@@ -88,7 +88,7 @@ class UserController {
 
     const token = TokenValidator.tokenValidate(data.headers.token);
 
-    TokenController.verifyToke(token, phone, (validToken) => {
+    TokenController.verifyToken(token, phone, (validToken) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
 
       db.read(router.users, phone, (err, userData) => {

@@ -84,7 +84,7 @@ exports.SERVER_ERROR_UPDATE = {
 };
 
 exports.SERVER_UPDATE_SUCCESS = {
-  statusCode: statusCode.CREATED,
+  statusCode: statusCode.OK,
   message: CHECK_UPDATE_SUCCESS_MESSAGE,
 };
 
