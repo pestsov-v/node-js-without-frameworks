@@ -90,7 +90,6 @@ class CheckController {
     if (!id) return callback(statusCode.BAD_REQUEST, INCORRECT_PHONE);
 
     db.read(router.checks, id, (err, checkData) => {
-      console.log(checkData);
       if (err) return callback(statusCode.BAD_REQUEST, TOKEN_NOT_FOUND(id));
       const token = TokenValidator.tokenValidate(data.headers.token);
       const phone = checkData.userPhone;
