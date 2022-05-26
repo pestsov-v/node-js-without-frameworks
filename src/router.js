@@ -1,6 +1,6 @@
-const UserModule = require("./modules/user/user.module");
-const TokenModule = require("./modules/token/token.module");
-const CheckModule = require("./modules/check/check.module");
+const UserModule = require("./api/user/user.module");
+const TokenModule = require("./api/token/token.module");
+const CheckModule = require("./api/check/check.module");
 const handlers = require("./handlers");
 
 const router = {
