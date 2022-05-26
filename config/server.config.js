@@ -41,13 +41,22 @@ class ServerConfig {
         payload: parceJsonToObject(buffer),
       };
 
-      chosenHandler(data, function (statusCode, payload) {
+      chosenHandler(data, function (statusCode, payload, contentType) {
+        contentType = typeof contentType == "string" ? contentType : "json";
         statusCode = typeof statusCode == "number" ? statusCode : 200;
-        payload = typeof payload == "object" ? payload : {};
+        let payloadString = "";
 
-        const payloadString = JSON.stringify(payload);
+        if (contentType == "json") {
+          res.setHeader("Content-Type", "application/json");
+          payload = typeof payload == "object" ? payload : {};
+          payloadString = JSON.stringify(payload);
+        }
 
-        res.setHeader("Content-Type", "application/json");
+        if (contentType == "html") {
+          res.setHeader("Content-Type", "text/html");
+          payloadString = typeof payload == "string" ? payload : "";
+        }
+
         res.writeHead(statusCode);
         res.end(payloadString);
 
