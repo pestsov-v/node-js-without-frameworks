@@ -47,11 +47,11 @@ handlers.favicon = function (data, callback) {
 
 handlers.public = function (data, callback) {
   if (data.method == "get") {
-    const trimmedAssetName = data.trimmedPath.replace("public/", "").trim();
-    if (trimmedAssetName > 0) {
+    var trimmedAssetName = data.trimmedPath.replace("public/", "").trim();
+    if (trimmedAssetName.length > 0) {
       helpers.getStaticAsset(trimmedAssetName, function (err, data) {
         if (!err && data) {
-          const contentType = "plain";
+          var contentType = "plain";
 
           if (trimmedAssetName.indexOf(".css") > -1) {
             contentType = "css";
@@ -68,14 +68,13 @@ handlers.public = function (data, callback) {
           if (trimmedAssetName.indexOf(".ico") > -1) {
             contentType = "favicon";
           }
-
           callback(200, data, contentType);
         } else {
-          callback(404, "could not find asset");
+          callback(404);
         }
       });
     } else {
-      callback(404, "could not find asset");
+      callback(404);
     }
   } else {
     callback(405);

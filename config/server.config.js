@@ -82,8 +82,8 @@ class ServerConfig {
         }
 
         if (contentType == "plain") {
-          res.setHeader("Content-Type", "image/plain");
-          payloadString = typeof payload == "string" ? payload : "";
+          res.setHeader("Content-Type", "text/plain");
+          payloadString = typeof payload !== "undefined" ? payload : "";
         }
 
         res.writeHead(statusCode);
