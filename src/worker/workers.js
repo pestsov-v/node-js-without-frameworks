@@ -1,11 +1,9 @@
-var path = require("path");
-var fs = require("fs");
-var _data = require("../core/database/db.router");
+var _data = require("../../core/database/db.router");
 var https = require("https");
 var http = require("http");
-var sendTwilioSms = require("./utils/sendSms");
+var sendTwilioSms = require("../utils/sendSms");
 var url = require("url");
-const _logs = require("./logs");
+const _logs = require("../logs");
 const util = require("util");
 const debug = util.debuglog("workers");
 
