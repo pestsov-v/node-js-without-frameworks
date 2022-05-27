@@ -8,6 +8,84 @@ const e = new _events();
 
 let cli = {};
 
+e.on("man", function (str) {
+  cli.responders.help();
+});
+
+e.on("help", function (str) {
+  cli.responders.help();
+});
+
+e.on("exit", function (str) {
+  cli.responders.exit();
+});
+
+e.on("stats", function (str) {
+  cli.responders.stats();
+});
+
+e.on("list users", function (str) {
+  cli.responders.listUsers();
+});
+
+e.on("more user info", function (str) {
+  cli.responders.moreUserInfo();
+});
+
+e.on("list checks", function (str) {
+  cli.responders.listChecks();
+});
+
+e.on("more check info", function (str) {
+  cli.responders.moreCheckInfo();
+});
+
+e.on("list logs", function (str) {
+  cli.responders.listLogs();
+});
+
+e.on("more log info", function (str) {
+  cli.responders.moreLogInfo();
+});
+
+cli.responders = {};
+
+cli.responders.help = function () {
+  console.log("Вы спросили про help");
+};
+
+cli.responders.exit = function () {
+  console.log("Вы спросили про exit");
+};
+
+cli.responders.stats = function () {
+  console.log("Вы спросили про stats");
+};
+
+cli.responders.listUsers = function () {
+  console.log("Вы спросили про listUsers");
+};
+
+cli.responders.moreUserInfo = function () {
+  console.log("Вы спросили про moreUserInfo");
+};
+
+cli.responders.listChecks = function () {
+  console.log("Вы спросили про listChecks");
+};
+
+cli.responders.moreCheckInfo = function () {
+  console.log("Вы спросили про moreCheckInfo");
+};
+
+cli.responders.listLogs = function () {
+  console.log("Вы спросили про listLogs");
+};
+
+cli.responders.moreLogInfo = function () {
+  console.log("Вы спросили про moreLogInfo");
+};
+
 cli.processInput = function (str) {
   str = typeof str == "string" && str.trim().length > 0 ? str.trim() : false;
   if (str) {
@@ -24,7 +102,7 @@ cli.processInput = function (str) {
       "more log info",
     ];
 
-    const matchFound = false;
+    let matchFound = false;
     const counter = 0;
 
     uniqueInputs.some(function (input) {
