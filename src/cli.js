@@ -2,6 +2,8 @@ const readLine = require("readline");
 const events = require("events");
 const util = require("util");
 const debug = util.debuglog("cli");
+const os = require("os");
+const v8 = require("v8");
 
 class _events extends events {}
 const e = new _events();
@@ -66,14 +68,14 @@ cli.responders.help = function () {
   };
 
   cli.horizontalLine();
-  cli.centered("CLI MANUAL");
+  cli.centered("CLI ОПИСАНИЕ");
   cli.horizontalLine();
   cli.verticalSpace(2);
 
   for (var key in commands) {
     if (commands.hasOwnProperty(key)) {
       var value = commands[key];
-      var line = "      \x1b[33m " + key + "      \x1b[0m";
+      var line = "\x1b[33m " + key + "\x1b[0m";
       var padding = 60 - line.length;
       for (i = 0; i < padding; i++) {
         line += " ";
@@ -125,7 +127,46 @@ cli.responders.exit = function () {
 };
 
 cli.responders.stats = function () {
-  console.log("Вы спросили про stats");
+  var stats = {
+    "Load Average: ": os.loadavg().join(" "),
+    "CPU count: ": os.cpus().length,
+    "Free memory: ": os.freemem(),
+    "Current Malloced Memory: ": v8.getHeapStatistics().malloced_memory,
+    "Peak Malloced Memory: ": v8.getHeapStatistics().peak_malloced_memory,
+    "Allocated Heap Used (%): ": Math.round(
+      (v8.getHeapStatistics().used_heap_size /
+        v8.getHeapStatistics().total_heap_size) *
+        100
+    ),
+    "Available Heap Allocated (%): ": Math.round(
+      (v8.getHeapStatistics().total_heap_size /
+        v8.getHeapStatistics().heap_size_limit) *
+        100
+    ),
+    "Uptime: ": os.uptime() + " Секунд",
+  };
+
+  cli.horizontalLine();
+  cli.centered("CLI Статистика");
+  cli.horizontalLine();
+  cli.verticalSpace(2);
+
+  for (var key in stats) {
+    if (stats.hasOwnProperty(key)) {
+      var value = stats[key];
+      var line = "\x1b[33m " + key + "\x1b[0m";
+      var padding = 10 - line.length;
+      for (i = 0; i < padding; i++) {
+        line += " ";
+      }
+      line += value;
+      console.log(line);
+      cli.verticalSpace();
+    }
+  }
+  cli.verticalSpace(1);
+
+  cli.horizontalLine();
 };
 
 cli.responders.listUsers = function () {
