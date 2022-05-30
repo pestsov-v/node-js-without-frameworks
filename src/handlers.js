@@ -31,6 +31,12 @@ handlers.index = function (data, callback) {
   }
 };
 
+
+handlers.exampleError = function(data, callback) {
+  var err = new Error('This is example error')
+  throw(err)
+}
+
 handlers.accountCreate = function (data, callback) {
   if (data.method == "get") {
     const templateData = {
@@ -59,22 +65,17 @@ handlers.accountCreate = function (data, callback) {
 };
 
 handlers.sessionCreate = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Login to your account.",
       "head.description":
         "Please enter your phone number and password to access your account.",
       "body.class": "sessionCreate",
     };
-    // Read in a template as a string
     helpers.getTemplate("sessionCreate", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -89,22 +90,16 @@ handlers.sessionCreate = function (data, callback) {
   }
 };
 
-// Edit Your Account
 handlers.accountEdit = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Account Settings",
       "body.class": "accountEdit",
     };
-    // Read in a template as a string
     helpers.getTemplate("accountEdit", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -119,23 +114,17 @@ handlers.accountEdit = function (data, callback) {
   }
 };
 
-// Session has been deleted
 handlers.sessionDeleted = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Logged Out",
       "head.description": "You have been logged out of your account.",
       "body.class": "sessionDeleted",
     };
-    // Read in a template as a string
     helpers.getTemplate("sessionDeleted", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -150,23 +139,17 @@ handlers.sessionDeleted = function (data, callback) {
   }
 };
 
-// Account has been deleted
 handlers.accountDeleted = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Account Deleted",
       "head.description": "Your account has been deleted.",
       "body.class": "accountDeleted",
     };
-    // Read in a template as a string
     helpers.getTemplate("accountDeleted", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -181,22 +164,16 @@ handlers.accountDeleted = function (data, callback) {
   }
 };
 
-// Create a new check
 handlers.checksCreate = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Create a New Check",
       "body.class": "checksCreate",
     };
-    // Read in a template as a string
     helpers.getTemplate("checksCreate", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -211,22 +188,16 @@ handlers.checksCreate = function (data, callback) {
   }
 };
 
-// Dashboard (view all checks)
 handlers.checksList = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Dashboard",
       "body.class": "checksList",
     };
-    // Read in a template as a string
     helpers.getTemplate("checksList", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
@@ -241,22 +212,16 @@ handlers.checksList = function (data, callback) {
   }
 };
 
-// Edit a Check
 handlers.checksEdit = function (data, callback) {
-  // Reject any request that isn't a GET
   if (data.method == "get") {
-    // Prepare data for interpolation
     var templateData = {
       "head.title": "Check Details",
       "body.class": "checksEdit",
     };
-    // Read in a template as a string
     helpers.getTemplate("checksEdit", templateData, function (err, str) {
       if (!err && str) {
-        // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, function (err, str) {
           if (!err && str) {
-            // Return that page as HTML
             callback(200, str, "html");
           } else {
             callback(500, undefined, "html");
