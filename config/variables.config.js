@@ -19,6 +19,25 @@ env.staging = {
   },
 };
 
+env.testing = {
+  httpPort: 4010,
+  httpsPort: 4011,
+  envName: "staging",
+  hashingSecret: "ThisIsSecret",
+  maxChecks: 5,
+  twilio: {
+    accountSid: "AC699ca45c24a60461b3343bb63b9c2fdb",
+    authToken: "014ebf366319b9fe9b36e6a16c62d5e0",
+    fromPhone: "+380951699263",
+  },
+  templateGlobals: {
+    appName: "UptimeChecker",
+    companyName: "S-Prof",
+    yearCreated: "2011",
+    baseUrl: "http://localhost:3010/",
+  },
+};
+
 env.production = {
   httpPort: 5010,
   httpsPort: 5011,
