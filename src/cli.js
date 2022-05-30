@@ -36,7 +36,7 @@ e.on("list checks", function (str) {
 });
 
 e.on("more check info", function (str) {
-  cli.responders.moreCheckInfo();
+  cli.responders.moreCheckInfo(str);
 });
 
 e.on("list logs", function (str) {
@@ -249,7 +249,7 @@ cli.responders.listChecks = function (str) {
             typeof checkData.state == "string" ? checkData.state : "unknown";
 
           if (
-            loverString.indexOf("--", state) > -1 ||
+            loverString.indexOf("--" + state) > -1 ||
             (loverString.indexOf("--down") == -1 &&
               loverString.indexOf("--up") == -1)
           ) {
@@ -276,8 +276,28 @@ cli.responders.listChecks = function (str) {
   });
 };
 
-cli.responders.moreCheckInfo = function () {
-  console.log("Вы спросили про moreCheckInfo");
+cli.responders.moreCheckInfo = function (str) {
+  var arr = str.split("--");
+  const checkId =
+    typeof arr[1] == "string" && arr[1].length > 0 ? arr[1].trim() : false;
+
+  if (checkId) {
+    _data.read("checks", checkId, function (err, checkData) {
+      if (!err && checkData) {
+        cli.verticalSpace();
+        console.dir(checkData, { colors: true });
+        cli.verticalSpace();
+      } else {
+        cli.verticalSpace();
+        console.log("Такого checkId не существует");
+        cli.verticalSpace();
+      }
+    });
+  } else {
+    cli.verticalSpace();
+    console.log("Ведён не коректный checkId");
+    cli.verticalSpace();
+  }
 };
 
 cli.responders.listLogs = function () {
