@@ -37,7 +37,7 @@ lib.list = function (includeCompressLogs, callback) {
           trimmedNames.push(fileName.replace(".log", ""));
         }
         if (fileName.indexOf(".gz.b64") > -1 && includeCompressLogs) {
-          trimmedNames.push(fileName.replace(".gz.b64"), "");
+          trimmedNames.push(fileName.replace(".gz.b64", ""));
         }
       });
       callback(false, trimmedNames);
@@ -89,13 +89,13 @@ lib.compress = function (logId, newFileId, callback) {
 };
 
 lib.decompress = function (fileId, callback) {
-  const fileName = fileId + ".gs.b64";
+  var fileName = fileId + ".gz.b64";
   fs.readFile(lib.baseDir + fileName, "utf8", function (err, str) {
     if (!err && str) {
-      const inputBuffer = Buffer.from(str, "base64");
-      zlib.unzip(inputBuffer, function (err, outputBUffer) {
-        if (!err && outputBUffer) {
-          const str = outputBUffer.toString();
+      var inputBuffer = Buffer.from(str, "base64");
+      zlib.unzip(inputBuffer, function (err, outputBuffer) {
+        if (!err && outputBuffer) {
+          var str = outputBuffer.toString();
           callback(false, str);
         } else {
           callback(err);
