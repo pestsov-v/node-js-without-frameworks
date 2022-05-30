@@ -1,27 +1,14 @@
-const db = require("../../../core/database/db.router");
 const statusCode = require("../../../core/base/statusCode");
-const router = require("../../../core/base/enum/route.enum");
-const UserHelper = require("./user.helper");
+const UserService = require("./user.service");
 const UserValidator = require("./user.validator");
 const TokenValidator = require("../token/token.validator");
-const CheckValidator = require("../check/check.validator");
 const TokenController = require("../token/token.controller");
+
 const {
-  USER_WAS_CREATED,
-  USER_SUCCESS_CREATE,
-  USER_HAS_BEEN_CREATED,
   INVALID_USER_PHONE,
-  USER_NOT_CREATED,
   USER_NOT_AUTH,
-  USER_NOT_FOUND,
   USER_NOT_FIELDS_TO_UPDATE,
-  USER_CAN_NOT_UPDATE,
-  USER_SUCCESS_UPDATE,
   MISS_REQUIRED_FIELDS,
-  USER_PHONE_NOT_FOUND,
-  USER_NOT_EXISTS,
-  USER_SUCCESS_DELETE,
-  USER_CAN_NOT_DELETE,
 } = require("./user.exception");
 
 class UserController {
@@ -38,24 +25,8 @@ class UserController {
       return callback(statusCode.BAD_REQUEST, MISS_REQUIRED_FIELDS);
     }
 
-    db.read(router.users, phone, (err, data) => {
-      if (!err) return callback(statusCode.BAD_REQUEST, USER_HAS_BEEN_CREATED);
-      const hashPassword = UserHelper.hashPassword(password);
-      if (!hashPassword)
-        return callback(statusCode.BAD_REQUEST, USER_WAS_CREATED);
-
-      const userObject = UserHelper.hashUserObject(
-        firstName,
-        lastName,
-        phone,
-        hashPassword
-      );
-
-      db.create(router.users, phone, userObject, (err) => {
-        if (err) return callback(statusCode.SERVER_ERROR, USER_NOT_CREATED);
-        return callback(statusCode.OK, USER_SUCCESS_CREATE(phone));
-      });
-    });
+    const userObj = { firstName, lastName, phone, password };
+    UserService.writeUser(userObj, callback);
   }
 
   getUser(data, callback) {
@@ -66,12 +37,7 @@ class UserController {
 
     TokenController.verifyToken(token, phone, (validToken) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
-
-      db.read(router.users, phone, (err, data) => {
-        if (err) return callback(statusCode.NOT_FOUND, USER_NOT_FOUND);
-        delete data.hashPassword;
-        callback(statusCode.OK, data);
-      });
+      UserService.readUser(phone, callback);
     });
   }
 
@@ -90,20 +56,9 @@ class UserController {
 
     TokenController.verifyToken(token, phone, (validToken) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
+      const updateObj = { firstName, lastName, password };
 
-      db.read(router.users, phone, (err, userData) => {
-        if (err) return callback(statusCode.BAD_REQUEST, USER_NOT_EXISTS);
-
-        if (firstName) userData.firstName = firstName;
-        if (lastName) userData.lastName = lastName;
-        if (password) userData.hashPassword = UserHelper.hashPassword(password);
-
-        db.update(router.users, phone, userData, (err) => {
-          if (err)
-            return callback(statusCode.SERVER_ERROR, USER_CAN_NOT_UPDATE);
-          callback(statusCode.OK, USER_SUCCESS_UPDATE);
-        });
-      });
+      UserService.updateUser(phone, updateObj, callback);
     });
   }
 
@@ -112,37 +67,10 @@ class UserController {
     if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
     const token = TokenValidator.tokenValidate(data.headers.token);
-    TokenController.verifyToke(token, phone, (validToken) => {
+    TokenController.verifyToken(token, phone, (validToken) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
 
-      db.read(router.users, phone, (err, userData) => {
-        if (err) return callback(statusCode.BAD_REQUEST, USER_PHONE_NOT_FOUND);
-
-        db.delete(router.users, phone, (err) => {
-          if (err) return callback(statusCode.NOT_FOUND, USER_NOT_EXISTS);
-          let userChecks = CheckValidator.userChecks(userData.checks);
-
-          if (userChecks.length < 0)
-            return callback(statusCode.OK, USER_SUCCESS_DELETE);
-
-          let checksDeleted = 0;
-          let deletionErrors = false;
-
-          userChecks.forEach((checkId) => {
-            db.delete(router.checks, checkId, (err) => {
-              if (!err) deletionErrors = true;
-              checksDeleted++;
-
-              if (checksDeleted == checksToDelete) {
-                if (deletionErrors)
-                  return callback(statusCode.SERVER_ERROR, USER_CAN_NOT_DELETE);
-              }
-            });
-          });
-
-          return callback(statusCode.OK, USER_SUCCESS_DELETE);
-        });
-      });
+      UserService.deleteUser(phone, callback);
     });
   }
 }

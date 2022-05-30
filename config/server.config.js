@@ -9,7 +9,7 @@ const util = require("util");
 const handlers = require("../src/handlers");
 const debug = util.debuglog("server");
 
-class ServerConfig { 
+class ServerConfig {
   httpPort = config.httpPort;
   httpsPort = config.httpsPort;
 
@@ -58,6 +58,7 @@ class ServerConfig {
           );
         });
       } catch (e) {
+        console.log(e);
         debug(e);
         processResponse(
           res,

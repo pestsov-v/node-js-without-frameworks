@@ -1,30 +1,35 @@
-var _data = require("../../core/database/db.router");
-var https = require("https");
-var http = require("http");
-var sendTwilioSms = require("../utils/sendSms");
-var url = require("url");
-const _logs = require("../logs");
-const util = require("util");
-const debug = util.debuglog("workers");
-const workers = require("./workers");
+const db = require("../../core/database/db.router");
+const router = require("../../core/base/enum/route.enum");
+const WorkerService = require("./worker.service");
+const WorkerLogger = require("./worker.logger");
+const WorkerDebugger = require("./worker.debug");
 
 class WorkerController {
-  collectChecks() {
-    _data.list("checks", function (err, checks) {
-      if (!err && checks && checks.length > 0) {
-        checks.forEach(function (check) {
-          _data.read("checks", check, function (err, originalCheckData) {
-            if (!err && originalCheckData) {
-              workers.validateCheckData(originalCheckData);
-            } else {
-              debug("Error reading one of the check's data: ", err);
-            }
-          });
-        });
-      } else {
-        debug("Error: Could not find any checks to process");
-      }
+  gatherAllChecks() {
+    db.list(router.checks, (err, checks) => {
+      if (err) WorkerDebugger.CHECKS_NOT_FOUND;
+      checks.forEach(function (check) {
+        WorkerService.readChecks(check);
+      });
     });
+  }
+
+  loop() {
+    setInterval(() => {
+      this.gatherAllChecks();
+    }, 1000 * 60);
+  }
+
+  rotateLogs() {
+    WorkerLogger.truncateData();
+  }
+
+  logRotationLoop() {
+    this.loop = () => {
+      setInterval(() => {
+        this.rotateLogs();
+      }, 1000 * 60 * 60 * 24);
+    };
   }
 }
 

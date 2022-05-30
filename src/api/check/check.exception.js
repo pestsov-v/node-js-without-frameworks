@@ -19,6 +19,7 @@ const {
   USER_NOT_FOUND_MESSAGE,
   USER_EMPTY_CHECKS_MESSAGE,
   CHECK_DELETE_SUCCESS_MESSAGE,
+  INVALID_HOSTNAME_MESSAGE,
 } = require("./check.constants");
 
 exports.MISSED_REQUIRE_FIEILDS = {
@@ -116,4 +117,9 @@ exports.USER_EMPTY_CHECKS = {
 exports.CHECK_DELETE_SUCCESS = {
   statusCode: statusCode.OK,
   message: CHECK_DELETE_SUCCESS_MESSAGE,
+};
+
+exports.INVALID_HOSTNAME = {
+  statusCode: statusCode.BAD_REQUEST,
+  Error: INVALID_HOSTNAME_MESSAGE,
 };

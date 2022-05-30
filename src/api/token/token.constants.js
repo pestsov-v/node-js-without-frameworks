@@ -29,4 +29,4 @@ exports.TOKEN_UPDATE_SUCCESS_MESSAGE = "Токен был успешно обн�
 
 exports.TOKEN_NOT_FOUND_MESSAGE = "Такой токен не был найден";
 exports.TOKEN_ERROR_MESSAGE = "Такой токен не был найден";
-exports.TOKEN_DELETE_SUCCESS_MESSAGE = "Такой токен не был найден";
+exports.TOKEN_DELETE_SUCCESS_MESSAGE = "Токен был успешно удалён";

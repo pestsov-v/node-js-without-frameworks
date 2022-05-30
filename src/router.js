@@ -19,7 +19,6 @@ const router = {
   "api/users": UserModule,
   "api/tokens": TokenModule,
   "api/checks": CheckModule,
-  'examples/error': handlers.exampleError
 };
 
 module.exports = router;

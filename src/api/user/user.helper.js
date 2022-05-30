@@ -14,7 +14,8 @@ class UserHelper {
     }
   }
 
-  hashUserObject(firstName, lastName, phone, hashPassword) {
+  hashUserObject(hashObj) {
+    const { firstName, lastName, phone, hashPassword } = hashObj;
     return {
       firstName: firstName,
       lastName: lastName,
