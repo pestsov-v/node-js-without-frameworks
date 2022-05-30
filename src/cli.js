@@ -28,7 +28,7 @@ e.on("list users", function (str) {
 });
 
 e.on("more user info", function (str) {
-  cli.responders.moreUserInfo();
+  cli.responders.moreUserInfo(str);
 });
 
 e.on("list checks", function (str) {
@@ -209,8 +209,30 @@ cli.responders.listUsers = function () {
   });
 };
 
-cli.responders.moreUserInfo = function () {
-  console.log("Вы спросили про moreUserInfo");
+cli.responders.moreUserInfo = function (str) {
+  var arr = str.split("--");
+  const userId =
+    typeof arr[1] == "string" && arr[1].length > 0 ? arr[1].trim() : false;
+
+  if (userId) {
+    _data.read("users", userId, function (err, userData) {
+      if (!err && userData) {
+        delete userData.hashedPassword;
+
+        cli.verticalSpace();
+        console.dir(userData, { colors: true });
+        cli.verticalSpace();
+      } else {
+        cli.verticalSpace();
+        console.log("Такого userId не существует");
+        cli.verticalSpace();
+      }
+    });
+  } else {
+    cli.verticalSpace();
+    console.log("Ведён не коректный userId");
+    cli.verticalSpace();
+  }
 };
 
 cli.responders.listChecks = function () {
