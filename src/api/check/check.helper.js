@@ -1,5 +1,8 @@
+const _url = require("url");
+
 class CheckHelper {
-  checkObj(checkId, userPhone, protocol, url, method, code, time) {
+  checkObj(obj) {
+    const { checkId, userPhone, protocol, url, method, code, time } = obj;
     return {
       id: checkId,
       userPhone: userPhone,
@@ -9,6 +12,10 @@ class CheckHelper {
       code: code,
       time: time,
     };
+  }
+
+  getUrl(protocol, url) {
+    return _url.parse(protocol + "://" + url, true);
   }
 }
 

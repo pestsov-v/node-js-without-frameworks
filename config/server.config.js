@@ -58,6 +58,7 @@ class ServerConfig {
           );
         });
       } catch (e) {
+        console.log(e);
         debug(e);
         processResponse(
           res,

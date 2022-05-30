@@ -32,6 +32,12 @@ class CheckValidator {
       ? time
       : false;
   }
+
+  hostnameValidate(hostname) {
+    return typeof hostname == "string" && hostname.length > 0
+      ? hostname
+      : false;
+  }
 }
 
 module.exports = new CheckValidator();
