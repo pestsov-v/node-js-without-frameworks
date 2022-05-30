@@ -32,7 +32,7 @@ e.on("more user info", function (str) {
 });
 
 e.on("list checks", function (str) {
-  cli.responders.listChecks();
+  cli.responders.listChecks(str);
 });
 
 e.on("more check info", function (str) {
@@ -235,8 +235,45 @@ cli.responders.moreUserInfo = function (str) {
   }
 };
 
-cli.responders.listChecks = function () {
-  console.log("Вы спросили про listChecks");
+cli.responders.listChecks = function (str) {
+  _data.list("checks", function (err, checkIds) {
+    if (!err && checkIds) {
+      cli.verticalSpace();
+      checkIds.forEach(function (checkId) {
+        _data.read("checks", checkId, function (err, checkData) {
+          var includeCheck = false;
+          var loverString = str.toLowerCase();
+          var state =
+            typeof checkData.state == "string" ? checkData.state : "down";
+          var stateOrUnknown =
+            typeof checkData.state == "string" ? checkData.state : "unknown";
+
+          if (
+            loverString.indexOf("--", state) > -1 ||
+            (loverString.indexOf("--down") == -1 &&
+              loverString.indexOf("--up") == -1)
+          ) {
+            const line =
+              "Id: " +
+              checkData.id +
+              " " +
+              checkData.method.toUpperCase() +
+              " " +
+              checkData.protocol +
+              "://" +
+              " State: " +
+              stateOrUnknown;
+            console.log(line);
+            cli.verticalSpace();
+          }
+        });
+      });
+    } else {
+      cli.verticalSpace();
+      console.log("Список чеков пуст");
+      cli.verticalSpace();
+    }
+  });
 };
 
 cli.responders.moreCheckInfo = function () {
