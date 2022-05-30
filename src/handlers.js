@@ -31,12 +31,10 @@ handlers.index = function (data, callback) {
   }
 };
 
-
-handlers.exampleError = function(data, callback) {
-  var err = new Error('This is example error')
-  throw(err)
-}
-
+handlers.exampleError = function (data, callback) {
+  var err = new Error("This is example error");
+  throw err;
+};
 handlers.accountCreate = function (data, callback) {
   if (data.method == "get") {
     const templateData = {

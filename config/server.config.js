@@ -4,12 +4,12 @@ const url = require("url");
 const router = require("../src/router");
 const page404 = require("../src/api/404/404.router");
 const parceJsonToObject = require("../src/utils/JsonToObject");
+const processResponse = require("../src/utils/processResponse");
 const util = require("util");
 const handlers = require("../src/handlers");
-const processHandlerResponse = require("../core/base/processHandlerResponse");
 const debug = util.debuglog("server");
 
-class ServerConfig {
+class ServerConfig { 
   httpPort = config.httpPort;
   httpsPort = config.httpsPort;
 
@@ -48,7 +48,7 @@ class ServerConfig {
 
       try {
         chosenHandler(data, (statusCode, payload, contentType) => {
-          processHandlerResponse(
+          processResponse(
             res,
             method,
             trimmedPath,
@@ -59,7 +59,7 @@ class ServerConfig {
         });
       } catch (e) {
         debug(e);
-        processHandlerResponse(
+        processResponse(
           res,
           method,
           trimmedPath,

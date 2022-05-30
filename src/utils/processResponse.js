@@ -1,7 +1,7 @@
 const util = require("util");
 const debug = util.debuglog("server");
 
-function processHandlerResponse(
+function processResponse(
   res,
   method,
   trimmedPath,
@@ -65,4 +65,4 @@ function processHandlerResponse(
   }
 }
 
-module.exports = processHandlerResponse;
+module.exports = processResponse;

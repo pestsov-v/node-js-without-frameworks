@@ -4,6 +4,10 @@ const config = require("../config/variables.config");
 
 const helpers = {};
 
+helpers.getNumber = function () {
+  return 1;
+};
+
 helpers.getTemplate = function (templateName, data, callback) {
   templateName =
     typeof templateName == "string" && templateName.length > 0
