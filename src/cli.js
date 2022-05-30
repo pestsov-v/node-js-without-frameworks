@@ -4,6 +4,7 @@ const util = require("util");
 const debug = util.debuglog("cli");
 const os = require("os");
 const v8 = require("v8");
+const _data = require("../core/database/db.router");
 
 class _events extends events {}
 const e = new _events();
@@ -170,7 +171,42 @@ cli.responders.stats = function () {
 };
 
 cli.responders.listUsers = function () {
-  console.log("Вы спросили про listUsers");
+  _data.list("users", function (err, userIds) {
+    if (!err && userIds && userIds.length > 0) {
+      cli.verticalSpace();
+      userIds.forEach(function (userId) {
+        _data.read("users", userId, function (err, userData) {
+          if (!err && userData) {
+            let line =
+              "Name: " +
+              userData.firstName +
+              " " +
+              userData.lastName +
+              " Phone: " +
+              userData.phone +
+              " Чеков: ";
+            let numberOfChecks =
+              typeof userData.checks == "object" &&
+              userData.checks instanceof Array &&
+              userData.checks.length > 0
+                ? userData.checks.length
+                : 0;
+            line += numberOfChecks;
+            console.log(line);
+            cli.verticalSpace();
+          } else {
+            cli.verticalSpace();
+            console.log(`Пользователя с ID ${userId} не существует`);
+            cli.verticalSpace();
+          }
+        });
+      });
+    } else {
+      cli.verticalSpace();
+      console.log("Список пользователей пуст");
+      cli.verticalSpace();
+    }
+  });
 };
 
 cli.responders.moreUserInfo = function () {
