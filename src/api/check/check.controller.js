@@ -7,6 +7,8 @@ const CheckValidator = require("./check.validator");
 const TokenValidator = require("../token/token.validator");
 const TokenHelper = require("../token/token.helper");
 const TokenController = require("../token/token.controller");
+const _url = require("url");
+const dns = require("dns");
 
 const {
   MISSED_REQUIRE_FIEILDS,
@@ -54,32 +56,47 @@ class CheckController {
           return callback(statusCode.BAD_REQUEST, GET_MAX_CHECKS);
         }
 
-        const checkId = TokenHelper.createRandomString(20);
-        const checkObject = CheckHelper.checkObj(
-          checkId,
-          userPhone,
-          protocol,
-          url,
-          method,
-          code,
-          time
-        );
+        var parsedUrl = _url.parse(protocol + "://" + url, true);
+        const hostName =
+          typeof parsedUrl.hostname == "string" && parsedUrl.hostname.length > 0
+            ? parsedUrl.hostname
+            : false;
 
-        db.create(router.checks, checkId, checkObject, (err) => {
-          if (err) {
-            return callback(statusCode.SERVER_ERROR, SERVER_CREATE_CHECK);
+        dns.resolve(hostName, function (err, records) {
+          if (!err && records) {
+            const checkId = TokenHelper.createRandomString(20);
+            const checkObject = CheckHelper.checkObj(
+              checkId,
+              userPhone,
+              protocol,
+              url,
+              method,
+              code,
+              time
+            );
+
+            db.create(router.checks, checkId, checkObject, (err) => {
+              if (err) {
+                return callback(statusCode.SERVER_ERROR, SERVER_CREATE_CHECK);
+              }
+
+              userData.checks = userChecks;
+              userData.checks.push(checkId);
+
+              db.update(router.users, userPhone, userData, (err) => {
+                if (err) {
+                  return callback(statusCode.SERVER_ERROR, SERVER_UPDATE_CHECK);
+                }
+
+                return callback(200, checkObject);
+              });
+            });
+          } else {
+            callback(400, {
+              Error:
+                "The hostname of the url entered did not resolve to any DNS entries",
+            });
           }
-
-          userData.checks = userChecks;
-          userData.checks.push(checkId);
-
-          db.update(router.users, userPhone, userData, (err) => {
-            if (err) {
-              return callback(statusCode.SERVER_ERROR, SERVER_UPDATE_CHECK);
-            }
-
-            return callback(200, checkObject);
-          });
         });
       });
     });

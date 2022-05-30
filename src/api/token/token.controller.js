@@ -30,8 +30,9 @@ class TokenController {
     if (!phone) return callback(statusCode.BAD_REQUEST, INCORRECT_PHONE_FIELD);
 
     const password = UserValidator.passwordValidate(data.payload.password);
-    if (!password)
+    if (!password) {
       return callback(statusCode.BAD_REQUEST, INCORRECT_PASSWORD_FIELD);
+    }
 
     db.read(router.users, phone, (err, userData) => {
       if (err) {
