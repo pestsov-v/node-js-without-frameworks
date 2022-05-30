@@ -6,6 +6,7 @@ const os = require("os");
 const v8 = require("v8");
 const _data = require("../core/database/db.router");
 const _logs = require("./logs");
+const _dataHelper = require("../core/database/db.helper");
 
 class _events extends events {}
 const e = new _events();
@@ -16,15 +17,15 @@ e.on("man", function () {
   cli.responders.help();
 });
 
-e.on("exit", function (str) {
+e.on("exit", function () {
   cli.responders.exit();
 });
 
-e.on("stats", function (str) {
+e.on("stats", function () {
   cli.responders.stats();
 });
 
-e.on("list users", function (str) {
+e.on("list users", function () {
   cli.responders.listUsers();
 });
 
@@ -40,12 +41,12 @@ e.on("more check info", function (str) {
   cli.responders.moreCheckInfo(str);
 });
 
-e.on("list logs", function (str) {
+e.on("list logs", function () {
   cli.responders.listLogs();
 });
 
 e.on("more log info", function (str) {
-  cli.responders.moreLogInfo();
+  cli.responders.moreLogInfo(str);
 });
 
 cli.responders = {};
@@ -295,7 +296,6 @@ cli.responders.moreCheckInfo = function (str) {
 cli.responders.listLogs = function () {
   _logs.list(true, function (err, logFileNames) {
     if (!err && logFileNames && logFileNames.length > 0) {
-      console.log(logFileNames);
       cli.verticalSpace();
       logFileNames.forEach(function (logFileName) {
         if (logFileName.indexOf("-") > -1) {
@@ -304,14 +304,33 @@ cli.responders.listLogs = function () {
         }
       });
     } else {
-      console.log("Список чеков пуст");
+      console.log("Список логов пуст");
       cli.verticalSpace();
     }
   });
 };
 
-cli.responders.moreLogInfo = function () {
-  console.log("Вы спросили про moreLogInfo");
+cli.responders.moreLogInfo = function (str) {
+  var arr = str.split("--");
+  var logFileName =
+    typeof arr[1] == "string" && arr[1].trim().length > 0
+      ? arr[1].trim()
+      : false;
+  if (logFileName) {
+    cli.verticalSpace();
+    _logs.decompress(logFileName, function (err, strData) {
+      if (!err && strData) {
+        var arr = strData.split("\n");
+        arr.forEach(function (jsonString) {
+          var logObject = _dataHelper.parseObj(jsonString);
+          if (logObject && JSON.stringify(logObject) !== "{}") {
+            console.dir(logObject, { colors: true });
+            cli.verticalSpace();
+          }
+        });
+      }
+    });
+  }
 };
 
 cli.processInput = function (str) {
