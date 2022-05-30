@@ -1,22 +1,19 @@
 const server = require("./src/server");
-const workers = require("./src/worker/workers");
+const worker = require("./src/worker/worker.module");
 const cli = require("./src/cli");
 
-const app = {};
-app.init = function (callback) {
+function app(callback) {
   server();
-  workers.init();
+  worker();
 
   setTimeout(() => {
     cli.init();
     callback;
   }, 50);
-};
-
-if (require.main === module) {
-  app.init(function () {}); 
 }
 
-
+if (require.main === module) {
+  app(function () {});
+}
 
 module.exports = app;
