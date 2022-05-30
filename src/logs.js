@@ -37,7 +37,7 @@ lib.list = function (includeCompressLogs, callback) {
           trimmedNames.push(fileName.replace(".log", ""));
         }
         if (fileName.indexOf(".gz.b64") > -1 && includeCompressLogs) {
-          trimmedNames.push(fileName.replace(".gz.b64"), "");
+          trimmedNames.push(fileName.replace(".gz.b64", ""));
         }
       });
       callback(false, trimmedNames);

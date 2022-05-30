@@ -5,6 +5,7 @@ const debug = util.debuglog("cli");
 const os = require("os");
 const v8 = require("v8");
 const _data = require("../core/database/db.router");
+const _logs = require("./logs");
 
 class _events extends events {}
 const e = new _events();
@@ -195,14 +196,12 @@ cli.responders.listUsers = function () {
             console.log(line);
             cli.verticalSpace();
           } else {
-            cli.verticalSpace();
             console.log(`Пользователя с ID ${userId} не существует`);
             cli.verticalSpace();
           }
         });
       });
     } else {
-      cli.verticalSpace();
       console.log("Список пользователей пуст");
       cli.verticalSpace();
     }
@@ -219,17 +218,14 @@ cli.responders.moreUserInfo = function (str) {
       if (!err && userData) {
         delete userData.hashedPassword;
 
-        cli.verticalSpace();
         console.dir(userData, { colors: true });
         cli.verticalSpace();
       } else {
-        cli.verticalSpace();
         console.log("Такого userId не существует");
         cli.verticalSpace();
       }
     });
   } else {
-    cli.verticalSpace();
     console.log("Ведён не коректный userId");
     cli.verticalSpace();
   }
@@ -269,7 +265,6 @@ cli.responders.listChecks = function (str) {
         });
       });
     } else {
-      cli.verticalSpace();
       console.log("Список чеков пуст");
       cli.verticalSpace();
     }
@@ -284,24 +279,35 @@ cli.responders.moreCheckInfo = function (str) {
   if (checkId) {
     _data.read("checks", checkId, function (err, checkData) {
       if (!err && checkData) {
-        cli.verticalSpace();
         console.dir(checkData, { colors: true });
         cli.verticalSpace();
       } else {
-        cli.verticalSpace();
         console.log("Такого checkId не существует");
         cli.verticalSpace();
       }
     });
   } else {
-    cli.verticalSpace();
     console.log("Ведён не коректный checkId");
     cli.verticalSpace();
   }
 };
 
 cli.responders.listLogs = function () {
-  console.log("Вы спросили про listLogs");
+  _logs.list(true, function (err, logFileNames) {
+    if (!err && logFileNames && logFileNames.length > 0) {
+      console.log(logFileNames);
+      cli.verticalSpace();
+      logFileNames.forEach(function (logFileName) {
+        if (logFileName.indexOf("-") > -1) {
+          cli.verticalSpace();
+          console.log(logFileName);
+        }
+      });
+    } else {
+      console.log("Список чеков пуст");
+      cli.verticalSpace();
+    }
+  });
 };
 
 cli.responders.moreLogInfo = function () {
