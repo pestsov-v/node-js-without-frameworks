@@ -1,30 +1,11 @@
-const helpers = require("../src/helpers");
-const assert = require("assert");
-const { FILE_ERROR_CLOSED } = require("../core/database/db.exception");
+process.env.NODE_ENV = "testing";
 
 _app = {};
 
-_app.tests = {
-  unit: {},
-};
+_app.tests = {};
 
-_app.tests.unit["helpers.getNumber should return a number"] = function (done) {
-  var val = helpers.getNumber();
-  assert.equal(typeof val, "number");
-  done();
-};
-
-_app.tests.unit["helpers.getNumber should return 1"] = function (done) {
-  var val = helpers.getNumber();
-  assert.equal(val, 1);
-  done();
-};
-
-_app.tests.unit["helpers.getNumber should return 2"] = function (done) {
-  var val = helpers.getNumber();
-  assert.equal(val, 2);
-  done();
-};
+_app.tests.unit = require("./unit");
+_app.tests.api = require("./api");
 
 _app.countTests = function () {
   var counter = 0;
@@ -104,6 +85,7 @@ _app.produceTestReport = function (limit, successes, errors) {
 
   console.log("");
   console.log("--------------------END TEST REPORT--------------------");
+  process.exit(0);
 };
 
 _app.runTests();

@@ -28,19 +28,19 @@ lib.append = function (file, str, callback) {
   });
 };
 
-lib.list = function (includeCompressLogs, callback) {
+lib.list = function (includeCompressedLogs, callback) {
   fs.readdir(lib.baseDir, function (err, data) {
     if (!err && data && data.length > 0) {
-      const trimmedNames = [];
+      var trimmedFileNames = [];
       data.forEach(function (fileName) {
         if (fileName.indexOf(".log") > -1) {
-          trimmedNames.push(fileName.replace(".log", ""));
+          trimmedFileNames.push(fileName.replace(".log", ""));
         }
-        if (fileName.indexOf(".gz.b64") > -1 && includeCompressLogs) {
-          trimmedNames.push(fileName.replace(".gz.b64", ""));
+        if (fileName.indexOf(".gz.b64") > -1 && includeCompressedLogs) {
+          trimmedFileNames.push(fileName.replace(".gz.b64", ""));
         }
       });
-      callback(false, trimmedNames);
+      callback(false, trimmedFileNames);
     } else {
       callback(err, data);
     }
