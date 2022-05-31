@@ -7,7 +7,7 @@ const WorkerDebugger = require("./worker.debug");
 class WorkerController {
   gatherAllChecks() {
     db.list(router.checks, (err, checks) => {
-      if (err) WorkerDebugger.CHECKS_NOT_FOUND;
+      if (err) WorkerDebugger.CHECKS_NOT_FOUN();
       checks.forEach(function (check) {
         WorkerService.readChecks(check);
       });

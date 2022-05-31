@@ -3,6 +3,7 @@ const CLIHelper = require("./cli.helper");
 const CLIService = require("./cli.service");
 const CLIValidator = require("./cli.validator");
 const CLILogger = require("./cli.logger");
+const CLIDebugger = require("./cli.debug");
 
 class CLIController {
   help() {
@@ -39,13 +40,13 @@ class CLIController {
 
   moreUserInfo(str) {
     const userId = CLIValidator.idValidate(str);
-    if (!userId) console.log("Ведён не коректный userId");
+    if (!userId) CLIDebugger.INVALID_USER_ID();
     CLIService.readUser(userId);
   }
 
   moreCheckInfo(str) {
     const checkId = CLIValidator.idValidate(str);
-    if (!checkId) console.log("Ведён не коректный checkId");
+    if (!checkId) CLIDebugger.INVALID_CHECK_ID();
     CLIService.readCheck(checkId);
   }
 

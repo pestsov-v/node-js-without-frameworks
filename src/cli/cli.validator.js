@@ -22,6 +22,45 @@ class CLIValidator {
 
     return fileName;
   }
+
+  checksValidate(checks) {
+    return typeof checks == "object" &&
+      checks instanceof Array &&
+      checks.length > 0
+      ? checks.length
+      : 0;
+  }
+
+  stateValidate(state) {
+    return typeof state == "string" ? state : "down";
+  }
+
+  unknownValidate(state) {
+    return typeof state == "string" ? state : "unknown";
+  }
+
+  lowerStrValidate(lowerString, state) {
+    if (
+      lowerString.indexOf("--" + state) > -1 ||
+      (lowerString.indexOf("--down") == -1 && lowerString.indexOf("--up") == -1)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  logFileValidate(logFileName) {
+    if (
+      typeof logFileName == "string" &&
+      logFileName.length > 0 &&
+      logFileName.indexOf("-") > -1
+    ) {
+      return true;
+    } else {
+      false;
+    }
+  }
 }
 
 module.exports = new CLIValidator();
