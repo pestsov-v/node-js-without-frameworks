@@ -11,7 +11,7 @@ const {
   FILE_ERROR_DELETE_EXISTS_FILE,
 } = require("./db.exception");
 
-const baseDir = path.join(__dirname, "../../../../.data/");
+const baseDir = path.join(__dirname, "../../../../server/data/");
 
 class DatabaseController {
   dbCreate(dir, file, data, callback) {

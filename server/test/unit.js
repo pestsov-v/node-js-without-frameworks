@@ -1,6 +1,6 @@
 const helpers = require("../src/helpers");
 const assert = require("assert");
-var logs = require("../src/logs");
+const logs = require("../modules/logger/logger.module");
 
 var unit = {};
 
