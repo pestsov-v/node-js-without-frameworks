@@ -27,7 +27,7 @@ exports.USER_NOT_CREATED = {
   Error: USER_NOT_CREATED_MESSAGE,
 };
 
-exports.USER_SUCCESS_CREATE = (phone) => {
+exports.USER_SUCCESS_CREATE = (phone: string) => {
   return {
     statusCode: statusCode.OK,
     message: USER_SUCCESS_CREATE_MESSAGE(phone),

@@ -1,8 +1,6 @@
 const method = require("../../../core/base/enum/method.enum");
 const UserRouter = require("./user.router");
 
-let UserModule = {};
-
 UserModule = function (data, callback) {
   const acceptableMethods = [
     method.post,
