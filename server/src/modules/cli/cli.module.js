@@ -1,11 +1,9 @@
 const readLine = require("readline");
 const inputCommandMatched = require("./cli.utils");
+const colors = require("../../core/color");
 
 function cli() {
-  console.log(
-    "\x1b[34m%s\x1b[0m",
-    `Интерфейс командной строки успешно запущен`
-  );
+  console.log(colors.blue, `Интерфейс командной строки успешно запущен`);
 
   const _interface = readLine.createInterface({
     input: process.stdin,

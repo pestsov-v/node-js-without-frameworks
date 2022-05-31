@@ -1,4 +1,5 @@
 const util = require("util");
+const colors = require("../core/color");
 const debug = util.debuglog("server");
 
 function processResponse(
@@ -54,12 +55,12 @@ function processResponse(
 
   if (statusCode == 200) {
     debug(
-      "\x1b[32m%s\x1b[0m",
+      colors.green,
       method.toUpperCase() + " /" + trimmedPath + " " + statusCode
     );
   } else {
     debug(
-      "\x1b[31m%s\x1b[0m",
+      colors.orange,
       method.toUpperCase() + " /" + trimmedPath + " " + statusCode
     );
   }
