@@ -1,5 +1,5 @@
 const util = require("util");
-const colors = require("../core/color");
+const colors = require("../core/base/color");
 const debug = util.debuglog("server");
 
 function processResponse(

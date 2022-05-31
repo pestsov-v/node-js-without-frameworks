@@ -8,7 +8,7 @@ const processResponse = require("../src/utils/processResponse");
 const util = require("util");
 const debug = util.debuglog("server");
 const GUIModule = require("../src/modules/gui/gui.module");
-const colors = require("../src/core/color");
+const colors = require("../src/core/base/color");
 
 class ServerConfig {
   httpPort = config.httpPort;

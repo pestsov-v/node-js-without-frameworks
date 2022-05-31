@@ -1,4 +1,4 @@
-const colors = require("../../core/color");
+const colors = require("../../core/base/color");
 const WorkerController = require("./worker.controller");
 
 function worker() {

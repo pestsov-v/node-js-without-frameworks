@@ -1,6 +1,6 @@
 const readLine = require("readline");
 const inputCommandMatched = require("./cli.utils");
-const colors = require("../../core/color");
+const colors = require("../../core/base/color");
 
 function cli() {
   console.log(colors.blue, `Интерфейс командной строки успешно запущен`);
