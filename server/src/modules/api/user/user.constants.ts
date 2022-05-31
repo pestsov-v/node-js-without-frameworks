@@ -3,7 +3,7 @@ exports.USER_WAS_CREATED_MESSAGE =
 
 exports.USER_NOT_CREATED_MESSAGE = "Произошла ошибка при создании пользователя";
 
-exports.USER_SUCCESS_CREATE_MESSAGE = (phone) => {
+exports.USER_SUCCESS_CREATE_MESSAGE = (phone: string) => {
   return `Пользователь с телефоном ${phone} был успешно создан`;
 };
 
