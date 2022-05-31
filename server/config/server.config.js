@@ -8,6 +8,7 @@ const processResponse = require("../src/utils/processResponse");
 const util = require("util");
 const debug = util.debuglog("server");
 const GUIModule = require("../src/modules/gui/gui.module");
+const colors = require("../src/core/base/color");
 
 class ServerConfig {
   httpPort = config.httpPort;
@@ -76,14 +77,14 @@ class ServerConfig {
 
   httpHandler() {
     return console.log(
-      "\x1b[36m%s\x1b[0m",
+      colors.turquoise,
       `Сервер работает на порту: http://localhost:${config.httpPort} в ${config.envName} моде`
     );
   }
 
   httpsHandler() {
     return console.log(
-      "\x1b[35m%s\x1b[0m",
+      colors.purple,
       `Сервер работает на порту: https://localhost:${config.httpsPort} в ${config.envName} моде`
     );
   }
