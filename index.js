@@ -1,6 +1,6 @@
-const server = require("./src/server");
-const worker = require("./src/worker/worker.module");
-const cli = require("./src/cli/cli.module");
+const server = require("./server/src/server");
+const worker = require("./server/modules/worker/worker.module");
+const cli = require("./server/modules/cli/cli.module");
 
 function app(callback) {
   server();
