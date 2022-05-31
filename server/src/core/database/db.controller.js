@@ -75,7 +75,6 @@ class DatabaseController {
 
   dbList(dir, callback) {
     fs.readdir(`${baseDir}${dir}/`, function (err, data) {
-      console.log(baseDir);
       if (err) callback(err, data);
 
       let trimmedFileNames = [];
