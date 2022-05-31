@@ -2,12 +2,12 @@ const config = require("./variables.config");
 const StringDecoder = require("string_decoder").StringDecoder;
 const url = require("url");
 const router = require("../src/router");
-const page404 = require("../src/api/404/404.router");
+const page404 = require("../src/modules/api/404/404.router");
 const parceJsonToObject = require("../src/utils/JsonToObject");
 const processResponse = require("../src/utils/processResponse");
 const util = require("util");
 const debug = util.debuglog("server");
-const GUIModule = require("../src/gui/gui.module");
+const GUIModule = require("../src/modules/gui/gui.module");
 
 class ServerConfig {
   httpPort = config.httpPort;

@@ -1,7 +1,7 @@
-const UserModule = require("./api/user/user.module");
-const TokenModule = require("./api/token/token.module");
-const CheckModule = require("./api/check/check.module");
-const GUIModule = require("./gui/gui.module");
+const UserModule = require("./modules/api/user/user.module");
+const TokenModule = require("./modules/api/token/token.module");
+const CheckModule = require("./modules/api/check/check.module");
+const GUIModule = require("./modules/gui/gui.module");
 
 const router = {
   "": GUIModule.index,
