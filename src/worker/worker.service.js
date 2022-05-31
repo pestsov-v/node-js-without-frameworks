@@ -15,8 +15,8 @@ class WorkerService {
 
 exports.updateCheck = function (newCheckData, alert) {
   db.update(router.checks, newCheckData.id, newCheckData, (err) => {
-    if (err) WorkerDebugger.SAVE_UPDATE_CHECKS_ERROR;
-    if (!alert) WorkerDebugger.NO_ALERT_NEEDED;
+    if (err) WorkerDebugger.SAVE_UPDATE_CHECKS_ERROR();
+    if (!alert) WorkerDebugger.NO_ALERT_NEEDED();
     WorkerHelper.sendSms(newCheckData);
   });
 };
