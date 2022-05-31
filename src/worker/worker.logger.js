@@ -1,4 +1,4 @@
-const logger = require("../logs");
+const logger = require("../logger/logger.module");
 const WorkerHelper = require("./worker.helper");
 const WorkerDebugger = require("./worker.debug");
 
