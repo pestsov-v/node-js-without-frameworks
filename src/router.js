@@ -1,21 +1,21 @@
 const UserModule = require("./api/user/user.module");
 const TokenModule = require("./api/token/token.module");
 const CheckModule = require("./api/check/check.module");
-const handlers = require("./handlers");
+const GUIModule = require("./gui/gui.module");
 
 const router = {
-  "": handlers.index,
-  "account/create": handlers.accountCreate,
-  "account/edit": handlers.accountEdit,
-  "account/deleted": handlers.accountDeleted,
-  "session/create": handlers.sessionCreate,
-  "session/deleted": handlers.sessionDeleted,
-  "checks/all": handlers.checksList,
-  "checks/create": handlers.checksCreate,
-  "checks/edit": handlers.checksEdit,
-  "checks/deleted": handlers.checksDeleted,
-  "favicon.ico": handlers.favicon,
-  public: handlers.public,
+  "": GUIModule.index,
+  "account/create": GUIModule.accountCreate,
+  "account/edit": GUIModule.accountEdit,
+  "account/deleted": GUIModule.accountDeleted,
+  "session/create": GUIModule.sessionCreate,
+  "session/deleted": GUIModule.sessionDeleted,
+  "checks/all": GUIModule.checksList,
+  "checks/create": GUIModule.checksCreate,
+  "checks/edit": GUIModule.checksEdit,
+  "checks/deleted": GUIModule.checksDeleted,
+  "favicon.ico": GUIModule.favicon,
+  public: GUIModule.public,
   "api/users": UserModule,
   "api/tokens": TokenModule,
   "api/checks": CheckModule,

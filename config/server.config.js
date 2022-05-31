@@ -6,8 +6,8 @@ const page404 = require("../src/api/404/404.router");
 const parceJsonToObject = require("../src/utils/JsonToObject");
 const processResponse = require("../src/utils/processResponse");
 const util = require("util");
-const handlers = require("../src/handlers");
 const debug = util.debuglog("server");
+const GUIModule = require("../src/gui/gui.module");
 
 class ServerConfig {
   httpPort = config.httpPort;
@@ -36,7 +36,7 @@ class ServerConfig {
           : page404;
 
       chosenHandler =
-        trimmedPath.indexOf("public/") > -1 ? handlers.public : chosenHandler;
+        trimmedPath.indexOf("public/") > -1 ? GUIModule.public : chosenHandler;
 
       let data = {
         trimmedPath: trimmedPath,
