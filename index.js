@@ -1,13 +1,13 @@
 const server = require("./src/server");
 const worker = require("./src/worker/worker.module");
-const cli = require("./src/cli/cli");
+const cli = require("./src/cli/cli.module");
 
 function app(callback) {
   server();
   worker();
 
   setTimeout(() => {
-    cli.init();
+    cli();
     callback;
   }, 50);
 }
