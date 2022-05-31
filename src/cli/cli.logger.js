@@ -1,4 +1,4 @@
-const logger = require("../logs");
+const logger = require("../logger/logger.module");
 const dbHelper = require("../../core/database/db.helper");
 
 class CLILogger {
