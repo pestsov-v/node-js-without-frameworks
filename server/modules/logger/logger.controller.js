@@ -1,7 +1,7 @@
 const path = require("path");
 const LoggerService = require("./logger.service");
 
-const baseDir = path.join(__dirname, "/../../../.logs/");
+const baseDir = path.join(__dirname, "/../../../server/data/logs/");
 
 class LoggerController {
   append(file, str, callback) {
