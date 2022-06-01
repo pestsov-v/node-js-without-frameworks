@@ -1,4 +1,5 @@
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { strOrBool, strOrUndef } from "./guard/isString.guard";
 
 import { callbackType } from "./type/callback.type";
 import { IGetUserDto } from "./dto/getUser.dto";
@@ -13,24 +14,24 @@ import { ICreateUserResponse } from "./response/createUser.response";
 import { IUpdateUserResponse } from "./response/updateUser.response";
 import { IDeleteUserResponse } from "./response/deleteUser.response";
 
-const UserService = require("./user.service");
-const UserValidator = require("./user.validator");
+import UserService from "./user.service";
+import UserValidator from "./user.validator";
 const TokenValidator = require("../token/token.validator");
 const TokenController = require("../token/token.controller");
 
-const {
-  INVALID_USER_PHONE,
-  USER_NOT_AUTH,
-  USER_NOT_FIELDS_TO_UPDATE,
-  MISS_REQUIRED_FIELDS,
-} = require("./user.exception");
+import { 
+  INVALID_USER_PHONE, 
+  USER_NOT_AUTH, 
+  USER_NOT_FIELDS_TO_UPDATE, 
+  MISS_REQUIRED_FIELDS 
+} from "./user.exception";
 
-class UserController {
-  createUser(data: ICreateUserDto, callback: callbackType): ICreateUserResponse {
-    const firstName: string = UserValidator.nameValidate(data.payload.firstName);
-    const lastName: string = UserValidator.nameValidate(data.payload.lastName);
-    const phone: string = UserValidator.phoneValidate(data.payload.phone);
-    const password: string = UserValidator.passwordValidate(data.payload.password);
+export default class UserController {
+  public static createUser(data: ICreateUserDto, callback: callbackType): ICreateUserResponse {
+    const firstName: strOrBool = UserValidator.nameValidate(data.payload.firstName);
+    const lastName: strOrBool = UserValidator.nameValidate(data.payload.lastName);
+    const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
+    const password: strOrBool = UserValidator.passwordValidate(data.payload.password);
     const tosAggrement: boolean = UserValidator.tosAggValidate(
       data.payload.tosAggrement
     );
@@ -43,8 +44,8 @@ class UserController {
     return UserService.writeUser(userObj, callback);
   }
 
-  getUser(data: IGetUserDto, callback: callbackType): IGetUserResponse {
-    const phone: string = UserValidator.phoneValidate(data.queryStringObject.phone);
+  public static getUser(data: IGetUserDto, callback: callbackType): IGetUserResponse {
+    const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
     if (!phone) callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
     const token: string = TokenValidator.tokenValidate(data.headers.token);
 
@@ -54,13 +55,13 @@ class UserController {
     });
   }
 
-  updateUser(data: IUpdateUserDto, callback: callbackType): IUpdateUserResponse {
-    const phone: string = UserValidator.phoneValidate(data.payload.phone);
+  public static updateUser(data: IUpdateUserDto, callback: callbackType): IUpdateUserResponse {
+    const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
     if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
-    const firstName: string = UserValidator.nameValidate(data.payload.firstName);
-    const lastName: string = UserValidator.nameValidate(data.payload.lastName);
-    const password: string = UserValidator.passwordValidate(data.payload.password);
+    const firstName: strOrUndef = UserValidator.nameUpdateValidate(data.payload.firstName);
+    const lastName: strOrUndef = UserValidator.nameUpdateValidate(data.payload.lastName);
+    const password: strOrUndef = UserValidator.passwordUpdateValidate(data.payload.password);
     if (!firstName && !lastName && !password) {
       return callback(statusCode.BAD_REQUEST, USER_NOT_FIELDS_TO_UPDATE);
     }
@@ -75,8 +76,8 @@ class UserController {
     });
   }
 
-  deleteUser(data: IDeleteUserDto, callback: callbackType): IDeleteUserResponse {
-    const phone: string = UserValidator.phoneValidate(data.queryStringObject.phone);
+  public static deleteUser(data: IDeleteUserDto, callback: callbackType): IDeleteUserResponse {
+    const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
     if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
     const token: string = TokenValidator.tokenValidate(data.headers.token);
@@ -87,5 +88,3 @@ class UserController {
     });
   }
 }
-
-module.exports = new UserController();

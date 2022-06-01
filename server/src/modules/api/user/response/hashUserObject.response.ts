@@ -1,8 +1,9 @@
 import { strOrBool } from "../guard/isString.guard";
 
-export interface IUserObj {
+export interface IHashUserObjectResponse {
 	firstName: strOrBool,
 	lastName: strOrBool,
 	phone: strOrBool,
-	password: strOrBool,
+	hashPassword: strOrBool,
+	tosAggrement: boolean
 }

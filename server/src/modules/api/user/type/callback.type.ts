@@ -3,5 +3,5 @@ import { messageType } from "./message.type"
 
 
 export type callbackType = {
-	(statusCode: statusCode, message: messageType): messageType
+	(statusCode: statusCode, Error: messageType): messageType
 }

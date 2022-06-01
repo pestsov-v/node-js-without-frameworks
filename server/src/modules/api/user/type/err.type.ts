@@ -1,6 +1,6 @@
 import { statusCode } from "../../../../core/base/enum/statusCode.enum"
 
-export interface IUpdateUserResponse {
+export type errType = {
 	statusCode: statusCode,
 	Error: string,
 }

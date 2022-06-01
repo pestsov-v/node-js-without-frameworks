@@ -1,7 +1,7 @@
 import { strOrBool } from "../guard/isString.guard";
 
-export interface IUpdateObj {
+export interface IUpdateUserDataDto {
 	firstName?: strOrBool,
 	lastName?: strOrBool,
-	password?: strOrBool,
+	hashPassword?: strOrBool,
 }

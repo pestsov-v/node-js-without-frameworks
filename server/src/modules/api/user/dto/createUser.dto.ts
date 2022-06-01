@@ -1,4 +1,9 @@
-import { methodEnum } from "../../../../core/base/enum/method.enum";
+import { method } from "../../../../core/base/enum/method.enum";
+
+interface IQuery {
+	phone: string,
+}
+
 
 interface payload {
 	firstName: string,
@@ -10,8 +15,8 @@ interface payload {
 
 export interface ICreateUserDto {
 	trimmedPath: string,
-	queryStringObject: string;
-	method: methodEnum
+	queryStringObject: IQuery;
+	method: method
 	headers: object,
 	payload: payload
 }

@@ -1,4 +1,4 @@
-import { methodEnum } from "../../../../core/base/enum/method.enum";
+import { method } from "../../../../core/base/enum/method.enum";
 
 interface IQuery {
 	phone: string,
@@ -8,7 +8,7 @@ interface IQuery {
 export interface IDeleteUserDto {
 	trimmedPath: string,
 	queryStringObject: IQuery;
-	method: methodEnum
+	method: method
 	headers: {
 		token: string
 	},
