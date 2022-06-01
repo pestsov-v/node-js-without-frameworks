@@ -1,29 +1,29 @@
-const commands = require("./cli.commands");
-const messages = require("./constants/messages.constants");
-const stats = require("./constants/stats.constants");
+import { command } from "./cli.command";
+import { message } from "./constants/message.constants"
+import { stats } from "./constants/stats.constants"
+import { getCommandsDescriptionResponse } from "./response/getCommandsDescription.response";
 
-
-class CLIHelper {
-  getCommandsDescription() {
+export default class CLIHelper {
+  protected static getCommandsDescription(): getCommandsDescriptionResponse {
     return {
-      exit: messages.exit,
-      man: messages.man,
-      help: messages.help,
-      stats: messages.stats,
-      "List users": messages.listUsers,
-      "More user info --{userId}": messages.moreUserInfo,
-      "List checks --up --down": messages.listChecks,
-      "More check info --{checkId}": messages.moreCheckInfo,
-      "List logs": messages.listLogs,
-      "More log info --{logFileName}": messages.moreLogInfo,
+      exit: message.exit,
+      man: message.man,
+      help: message.help,
+      stats: message.stats,
+      "List users": message.listUsers,
+      "More user info --{userId}": message.moreUserInfo,
+      "List checks --up --down": message.listChecks,
+      "More check info --{checkId}": message.moreCheckInfo,
+      "List logs": message.listLogs,
+      "More log info --{logFileName}": message.moreLogInfo,
     };
   }
 
-  getCommands() {
-    const commands = this.getCommandsDescription();
-    for (const key in commands) {
+  static getCommands() {
+    const commands: getCommandsDescriptionResponse = this.getCommandsDescription();
+    for (let key in commands) {
       if (commands.hasOwnProperty(key)) {
-        const value = commands[key];
+        let value = commands[key as keyof typeof commands];
         let line = "\x1b[33m " + key + "\x1b[0m";
         const padding = 60 - line.length;
 
@@ -36,7 +36,7 @@ class CLIHelper {
     }
   }
 
-  getStatsDescription() {
+   protected static getStatsDescription() {
     return {
       "Среднняя нагрузка: ": stats.loadAverage,
       "Количество потоков: ": stats.cpuCount,
@@ -49,11 +49,11 @@ class CLIHelper {
     };
   }
 
-  getStats() {
+  static getStats() {
     const stats = this.getStatsDescription();
     for (const key in stats) {
       if (stats.hasOwnProperty(key)) {
-        const value = stats[key];
+        const value = stats[key as keyof typeof stats];
         let line = "\x1b[33m " + key + "\x1b[0m";
         const padding = 10 - line.length;
         for (let i = 0; i < padding; i++) {
@@ -65,22 +65,20 @@ class CLIHelper {
     }
   }
 
-  getCommandsArray() {
+  static getCommandsArray() {
     const array = [
-      commands.man,
-      commands.help,
-      commands.exit,
-      commands.stats,
-      commands.listUsers,
-      commands.moreUserInfo,
-      commands.listChecks,
-      commands.moreCheckInfo,
-      commands.listLogs,
-      commands.moreLogInfo,
+      command.man,
+      command.help,
+      command.exit,
+      command.stats,
+      command.listUsers,
+      command.moreUserInfo,
+      command.listChecks,
+      command.moreCheckInfo,
+      command.listLogs,
+      command.moreLogInfo,
     ];
 
     return array;
   }
 }
-
-module.exports = new CLIHelper();

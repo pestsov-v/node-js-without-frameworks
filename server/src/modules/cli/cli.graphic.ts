@@ -1,7 +1,7 @@
-const CLIValidator = require("./cli.validator");
+import CLIValidator from "./cli.validator";
 
-class CLIGraphic {
-  horizontalLine() {
+export default class CLIGraphic {
+  static horizontalLine(): void {
     const width = process.stdout.columns;
     let line = "";
     for (let i = 0; i < width; i++) {
@@ -10,14 +10,14 @@ class CLIGraphic {
     console.log(line);
   }
 
-  verticalSpace = function (lines) {
+  static verticalSpace = function (lines: number): void {
     lines = CLIValidator.linesValidate(lines);
     for (let i = 0; i < lines; i++) {
       console.log("");
     }
   };
 
-  centered(str) {
+  static centered(str: string): void {
     str = CLIValidator.strValidate(str);
     const width = process.stdout.columns;
     const leftPadding = Math.floor((width - str.length) / 2);
@@ -31,5 +31,3 @@ class CLIGraphic {
     console.log(line);
   }
 }
-
-module.exports = new CLIGraphic();

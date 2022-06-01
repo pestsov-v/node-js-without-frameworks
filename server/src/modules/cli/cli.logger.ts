@@ -1,13 +1,13 @@
 const logger = require("../logger/logger.module");
 const dbHelper = require("../../core/database/db.helper");
 
-class CLILogger {
-  decompressFile(fileName) {
-    logger.decompress(fileName, (err, strData) => {
+export default class CLILogger {
+  static decompressFile(fileName: string): void {
+    logger.decompress(fileName, (err: Error, strData: string) => {
       if (err) return false;
       const arr = strData.split("\n");
-      arr.forEach(function (jsonString) {
-        const logObject = dbHelper.parseObj(jsonString);
+      arr.forEach((str: string) => {
+        const logObject = dbHelper.parseObj(str);
         if (logObject == "{}") return false;
 
         console.dir(logObject, { colors: true });
@@ -15,5 +15,3 @@ class CLILogger {
     });
   }
 }
-
-module.exports = new CLILogger();

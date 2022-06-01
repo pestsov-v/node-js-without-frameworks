@@ -1,14 +1,14 @@
-const CLIValidator = require("./cli.validator");
-const CLIHelper = require("./cli.helper");
-const e = require("./cli.events");
+import CLIValidator from "./cli.validator";
+import CLIHelper from "./cli.helper";
+import { e } from "./cli.events";
 
-function inputCommandMatched(str) {
+export function inputCommandMatched(str: string): void {
   str = CLIValidator.strValidate(str);
   if (!str) console.log("Введена некоректная строка запроса");
   const uniqueInputs = CLIHelper.getCommandsArray();
   let matchFound = false;
 
-  uniqueInputs.some((input) => {
+  uniqueInputs.some((input: string) => {
     if (str.toLowerCase().indexOf(input) > -1) {
       matchFound = true;
       e.emit(input, str);
@@ -20,5 +20,3 @@ function inputCommandMatched(str) {
     console.log("Такой команды не существует");
   }
 }
-
-module.exports = inputCommandMatched;

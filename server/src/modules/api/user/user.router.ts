@@ -1,10 +1,8 @@
-const userController = require("./user.controller");
+import UserController from "./user.controller";
 
-class UserRouter {
-  post = userController.createUser;
-  get = userController.getUser;
-  put = userController.updateUser;
-  delete = userController.deleteUser;
+export default class UserRouter {
+  public static post =  UserController.createUser;
+  public static get = UserController.getUser;
+  public static put = UserController.updateUser;
+  public static delete = UserController.deleteUser;
 }
-
-module.exports = new UserRouter();

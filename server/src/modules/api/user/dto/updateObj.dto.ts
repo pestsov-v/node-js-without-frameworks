@@ -1,5 +1,6 @@
-export interface IUpdateObj {
-	firstName?: string,
-	lastName?: string,
-	password?: string,
+export interface IUpdateObject {
+	firstName: string,
+	lastName: string,
+	password: string,
+	hashPassword: string,
 }

@@ -1,6 +1,6 @@
-export enum methodEnum {
+export enum method {
 	get = 'get',
 	post = 'post', 
-	delete= 'delete',
+	delete = 'delete',
 	put = 'put'
 }
