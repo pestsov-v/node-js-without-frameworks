@@ -1,13 +1,7 @@
 import { router } from "../../../core/base/enum/router.enum";
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 
-import { IReadUserDataDto } from "./dto/readUserData.dto";
-import { IWriteUserDataDto } from "./dto/writeUserData.dto";
-import { IUpdateUserDataDto } from "./dto/updateUserData.dto";
-import { IDeleteUserDataDto } from "./dto/deleteUserData.dto";
-import { IUserObj } from "./dto/userObj.dto";
-import { IHashObj } from "./dto/hashObj.dto";
-import { IUpdateObj } from "./dto/updateObj.dto";
+import { IUserObject } from "./dto/userObject.dto";
 
 import { strOrBool } from "./guard/isString.guard";
 
@@ -21,6 +15,8 @@ import { callbackType } from "./type/callback.type";
 import { errType } from "./type/err.type";
 
 import UserHelper from "./user.helper";
+import { IUserDataDto } from "./dto/userData.dto";
+import { IUpdateObject } from "./dto/updateObj.dto";
 const db = require("../../../core/database/db.router");
 const CheckValidator = require("../check/check.validator");
 
@@ -41,10 +37,10 @@ const {
 
 export default class UserService {
   
-  public static writeUser(userObj: IUserObj, callback: callbackType): ICreateUserResponse {
+  public static writeUser(userObj: IUserObject, callback: callbackType): ICreateUserResponse {
     const { firstName, lastName, phone, password } = userObj;
 
-    return db.read(router.users, phone, (err: errType, data: IWriteUserDataDto) => {
+    return db.read(router.users, phone, (err: errType, data: Pick<IUserDataDto, 'firstName' | 'lastName' | 'password' | 'phone' | 'tosAggrement'>) => {
       if (!err) return callback(statusCode.BAD_REQUEST, USER_HAS_BEEN_CREATED);
 
       const hashPassword: strOrBool = UserHelper.hashPassword(password);
@@ -52,7 +48,7 @@ export default class UserService {
         return callback(statusCode.BAD_REQUEST, USER_WAS_CREATED);
       }
 
-      const hashObj: IHashObj = { firstName, lastName, phone, hashPassword };
+      const hashObj: Omit<IUserObject, 'password'> = { firstName, lastName, phone, hashPassword };
       const userObject: IHashUserObjectResponse = UserHelper.hashUserObject(hashObj);
       this.createUser(phone, userObject, callback);
     });
@@ -66,15 +62,17 @@ export default class UserService {
   }
 
   public static readUser(phone: strOrBool, callback: callbackType): IGetUserResponse {
-    return db.read(router.users, phone, (err: errType, data: IReadUserDataDto) => {
+    return db.read(router.users, phone, (err: errType, data: Omit<IUserDataDto, 'checks' | 'password'>) => {
       if (err) return callback(statusCode.NOT_FOUND, USER_NOT_FOUND);
       delete data.hashPassword;
       return callback(statusCode.OK, USER_GET_SUCCESS(data));
     });
   }
 
-  public static updateUser(phone: strOrBool, updateObj: IUpdateObj, callback: callbackType): IUpdateUserResponse {
-    return db.read(router.users, phone, (err: errType, userData: IUpdateUserDataDto) => {
+ 
+  public static updateUser(phone: strOrBool, updateObj: Partial<IUpdateObject>, callback: callbackType): IUpdateUserResponse {
+    return db.read(router.users, phone, (err: errType, userData: Partial<Omit<IUserDataDto, 'checks' | 'password'>>) => {
+      console.log(userData)
       if (err) return callback(statusCode.BAD_REQUEST, USER_NOT_EXISTS);
       const { firstName, lastName, password } = updateObj;
 
@@ -90,8 +88,7 @@ export default class UserService {
   }
 
   public static deleteUser(phone: strOrBool, callback: callbackType): IDeleteUserResponse {
-    return db.read(router.users, phone, (err:errType, userData: IDeleteUserDataDto) => {
-      console.log(userData)
+    return db.read(router.users, phone, (err:errType, userData: IUserDataDto) => {
       if (err) return callback(statusCode.BAD_REQUEST, USER_PHONE_NOT_FOUND);
 
       db.delete(router.users, phone, (err: errType) => {

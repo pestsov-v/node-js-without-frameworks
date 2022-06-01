@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-import { IHashObj } from "./dto/hashObj.dto";
+import { IHashObj } from "./dto/userObject.dto";
 import { strOrBool } from "./guard/isString.guard";
 import { IHashUserObjectResponse } from "./response/hashUserObject.response";
 

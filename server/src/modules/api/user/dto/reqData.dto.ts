@@ -4,7 +4,7 @@ interface IQuery {
 	phone: string,
 }
 
-interface payload {
+interface IPayload {
 	firstName: string,
 	lastName: string,
 	phone: string,
@@ -19,5 +19,5 @@ export interface IReqData {
 	headers: {
 		token: string
 	},
-	payload: payload
+	payload: IPayload
 }
