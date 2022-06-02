@@ -10,12 +10,12 @@ import { truncateCallback } from "./type/truncateCallback.type";
 const baseDir = path.join(__dirname, "/../../../data/logs/");
 
 export default class LoggerController {
-  static append(file: string, str: string, callback: appendCallback): void {
+  static append(file: string, str: string, callback: appendCallback) {
     const filePath: string = `${baseDir}${file}.log`;
     LoggerService.appendFile(filePath, str, callback);
   }
 
-  static list(includeCompressedLogs: string, callback: listCallback): void {
+  static list(includeCompressedLogs: boolean, callback: listCallback): void {
     LoggerService.listFiles(baseDir, includeCompressedLogs, callback);
   }
 

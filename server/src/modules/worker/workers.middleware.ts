@@ -1,10 +1,14 @@
-const WorkerValidator = require("./worker.validator");
-const WorkerHelper = require("./worker.helper");
-const WorkerLogger = require("./worker.logger");
-const WorkerDebugger = require("./worker.debug");
-const WorkerService = require("./worker.service");
+import { IOriginalCheckData } from "./dto/originalCheckData.dto";
+import { ICheckOutcomeDto } from "./dto/checkOutcome.dto";
 
-function workersValidateMiddleware(originalCheckData) {
+import WorkerValidator from "./worker.validator";
+import WorkerHelper from "./worker.helper";
+import WorkerLogger from "./worker.logger";
+import WorkerDebugger from "./worker.debug";
+import WorkerService from "./worker.service";
+import { IParseUrl } from "./response/parseUrl.response";
+ 
+function workersValidateMiddleware(originalCheckData: IOriginalCheckData) {
   const { id, userPhone, protocol, url, method } = originalCheckData;
   originalCheckData = WorkerValidator.objValidate(originalCheckData);
   originalCheckData.id = WorkerValidator.idValidate(id);
@@ -26,16 +30,19 @@ function workersValidateMiddleware(originalCheckData) {
   performCheck(originalCheckData);
 }
 
-function performCheck(originalCheckData) {
+function performCheck(originalCheckData: IOriginalCheckData) {
   const checkOutcome = {
     error: false,
     responseCode: false,
   };
-  let outcomeSent = false;
+
+  let outcomeSent: boolean = false;
 
   const { protocol, url } = originalCheckData;
-  const parcedUrl = WorkerHelper.parceUrl(protocol, url);
+  const parcedUrl: IParseUrl = WorkerHelper.parceUrl(protocol, url);
   const requestDetails = WorkerHelper.getDetails(originalCheckData, parcedUrl);
+
+  console.log(requestDetails)
 
   const useModule = WorkerValidator.useModuleValidate(protocol);
 
@@ -68,10 +75,10 @@ function performCheck(originalCheckData) {
   req.end();
 }
 
-function processCheckOutcome(originalCheckData, checkOutcome) {
+function processCheckOutcome(originalCheckData: IOriginalCheckData, checkOutcome: ICheckOutcomeDto) {
   const { code } = originalCheckData;
-  const state = WorkerValidator.outcomeStateValidate(checkOutcome, code);
-  const alert = WorkerValidator.alertValidate(originalCheckData, state);
+  const state: string = WorkerValidator.outcomeStateValidate(checkOutcome, code);
+  const alert: string = WorkerValidator.alertValidate(originalCheckData, state);
   const timeOfCheck = Date.now();
 
   const processOutcome = { state, alert, timeOfCheck };

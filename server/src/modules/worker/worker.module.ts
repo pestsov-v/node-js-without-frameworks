@@ -1,5 +1,5 @@
 const colors = require("../../core/base/color");
-const WorkerController = require("./worker.controller");
+import WorkerController from "./worker.controller";
 
 function worker() {
   console.log(colors.yellow, "Фоновая запись логов успешно запущена");

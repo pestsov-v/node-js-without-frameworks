@@ -30,7 +30,7 @@ export default class LoggerService {
     });
   }
 
-  static listFiles(baseDir: string, includeCompressedLogs: string, callback: listCallback): void {
+  static listFiles(baseDir: string, includeCompressedLogs: boolean, callback: listCallback): void {
     fs.readdir(baseDir, (err: errOrNull, data: string[]) => {
       if (err) return callback(err, data);
       const trimmedFileNames: string[] = [];
