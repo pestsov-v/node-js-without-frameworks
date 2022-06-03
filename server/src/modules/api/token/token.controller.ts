@@ -4,7 +4,7 @@ import TokenService from "./token.service";
 
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 import { ITokenData } from "./dto/tokenData.dto";
-import { strOrBool } from "../user/guard/isString.guard";
+import { strOrBool } from "../user/guard/base.guard";
 
 import {
   INCORRECT_PHONE_FIELD, 

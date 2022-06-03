@@ -1,4 +1,4 @@
-import { isStringUndef, strOrBool, strOrUndef } from "./guard/isString.guard";
+import { isStringUndef, strOrBool, strOrUndef } from "./guard/base.guard";
 
 
 export default class UserValidator {

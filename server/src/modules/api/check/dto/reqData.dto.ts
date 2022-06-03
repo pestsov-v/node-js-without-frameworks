@@ -1,10 +1,11 @@
 import { method } from "../../../../core/base/enum/method.enum";
 
 interface IQuery {
-	phone: string,
+	id: string,
 }
 
 export interface IPayload {
+	id: string;
 	protocol: string;
 	url: string;
 	method: method
@@ -12,7 +13,7 @@ export interface IPayload {
 	time: number
 }
 
-export interface IReqData {
+export interface ICheckData {
 	trimmedPath: string,
 	queryStringObject: IQuery;
 	method: method

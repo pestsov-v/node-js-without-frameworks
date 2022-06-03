@@ -1,8 +1,9 @@
+import { method } from "../../../core/base/enum/method.enum";
 import { isCheks, isCode, isMethod, isProtocol, isString, isTime } from "./guard/object.guard";
 import { numOrBool, objOrBool, strOrBool } from "./type/union.type";
 
 export default class CheckValidator {
-  static userChecks(checks: object): object {
+  static userChecks(checks: string[]): string[] | [] {
     return isCheks(checks) ? checks : [];
   }
 
@@ -14,11 +15,11 @@ export default class CheckValidator {
     return isString(url) ? url : false;
   }
 
-  static methodValidate(method: string): strOrBool {
+  static methodValidate(method: method): method | boolean {
     return isMethod(method) ? method : false;
   }
 
-  static codeValidate(code: object): objOrBool {
+  static codeValidate(code: number[]): number[] | boolean {
     return isCode(code) ? code : false;
   }
 

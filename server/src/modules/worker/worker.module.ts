@@ -1,4 +1,3 @@
-const colors = require("../../core/base/color");
 import WorkerController from "./worker.controller";
 
 function worker() {
@@ -10,4 +9,4 @@ function worker() {
   WorkerController.logRotationLoop();
 }
 
-module.exports = worker;
+export default worker

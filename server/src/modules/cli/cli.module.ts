@@ -2,7 +2,7 @@ import readLine from "readline";
 import { inputCommandMatched } from "./cli.utils";
 
 export function cli(): void {
-  console.log("\x1b[34m%s\x1b[0m", `Интерфейс командной строки успешно запущен`);
+  console.log("\x1b[33m%s\x1b[0m", `Интерфейс командной строки успешно запущен`);
 
   const _interface = readLine.createInterface({
     input: process.stdin,

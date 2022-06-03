@@ -1,11 +1,11 @@
-import { strOrBool } from "../guard/isString.guard";
+import { strOrBool } from "../guard/base.guard";
 
 export interface IUserDataDto {
 	firstName: string;
 	lastName: string;
 	phone: string;
 	password: string;
-	hashPassword?: strOrBool;
+	hashPassword?: string;
 	tosAggrement: boolean;
 	checks: string[]
 }

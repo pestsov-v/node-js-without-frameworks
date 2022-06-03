@@ -1,74 +1,81 @@
 import dns from "dns";
+import db from "../../../core/database/db.router";
 import config from "../../../../config/variables.config";
+
 import { router } from "../../../core/base/enum/router.enum";
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
-import db from "../../../core/database/db.router";
+
 import CheckHelper from "./check.helper";
 import CheckValidator from "./check.validator";
-import { IPayload } from "./dto/reqData.dto";
 import TokenValidator from "../token/token.validator";
 import TokenHelper from "../token/token.helper";
 import TokenController from "../token/token.controller";
 
-const {
-  USER_NOT_AUTH,
-  GET_MAX_CHECKS,
-  SERVER_CREATE_CHECK,
-  SERVER_UPDATE_CHECK,
-  USER_NOT_AUTH_GET,
-  TOKEN_NOT_FOUND,
-  CHECK_NOT_FOUND,
-  CHECK_NOT_AUTH_UPDATE,
-  SERVER_ERROR_UPDATE,
-  SERVER_UPDATE_SUCCESS,
-  CHECK_NOT_FOUND_ID,
-  CHECK_NOT_AUTH_DELETE,
-  SERVER_ERROR_DELETE,
-  USER_NOT_FOUND,
-  USER_EMPTY_CHECKS,
-  CHECK_DELETE_SUCCESS,
-  INVALID_HOSTNAME,
-} = require("./check.exception");
+import { ICheckObject } from "./dto/checkObject.dto";
+
+import {
+   USER_NOT_AUTH, 
+  GET_MAX_CHECKS, 
+  SERVER_CREATE_CHECK, 
+  SERVER_UPDATE_CHECK, 
+  USER_NOT_AUTH_GET, 
+  TOKEN_NOT_FOUND, 
+  CHECK_NOT_FOUND, 
+  CHECK_NOT_AUTH_UPDATE, 
+  SERVER_ERROR_UPDATE, 
+  SERVER_UPDATE_SUCCESS, 
+  CHECK_NOT_FOUND_ID, 
+  CHECK_NOT_AUTH_DELETE, 
+  SERVER_ERROR_DELETE, 
+  USER_NOT_FOUND, 
+  USER_EMPTY_CHECKS, 
+  CHECK_DELETE_SUCCESS, 
+  INVALID_HOSTNAME 
+} from "./check.exception";
+import { strOrBool } from "./type/union.type";
+import { INCORRECT_TOKEN } from "../token/token.exception";
+import { errOrNull } from "../../logger/type/errorOrNull.type";
+import { ITokenData } from "./dto/tokenData.dto";
+import { IUserDataDto } from "../user/dto/userData.dto";
+import { ICheckDataDto } from "./dto/checkData.dto";
 
 export default class CheckService {
-  static writeCheck(checkObj: IPayload, token: string, callback) {
+  static writeCheck(checkObj: ICheckObject, token: string, callback) {
     const { protocol, url, method, code, time } = checkObj;
 
-    const validToken = TokenValidator.tokenValidate(token);
-    db.read(router.tokens, validToken, (err, tokenData) => {
+    const validToken: strOrBool = TokenValidator.tokenValidate(token);
+    if (typeof validToken === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
+    db.read(router.tokens, validToken, (err: errOrNull, tokenData: ITokenData) => {
       if (err) return callback(statusCode.BAD_REQUEST, USER_NOT_AUTH);
-      const userPhone = tokenData.phone;
+      const userPhone: string = tokenData.phone;
 
-      db.read(router.users, userPhone, (err, userData) => {
+      db.read(router.users, userPhone, (err: errOrNull, userData: IUserDataDto) => {
         if (err) return callback(statusCode.BAD_REQUEST, USER_NOT_AUTH);
-        const userChecks = CheckValidator.userChecks(userData.checks);
+        const userChecks: string | string[] = CheckValidator.userChecks(userData.checks);
 
         if (userChecks.length > config.maxChecks) {
           return callback(statusCode.BAD_REQUEST, GET_MAX_CHECKS);
         }
 
         const parsedUrl = CheckHelper.getUrl(protocol, url);
-        const hostName = CheckValidator.hostnameValidate(parsedUrl.hostname);
+        if (!parsedUrl.hostname) return callback(statusCode.BAD_REQUEST, INVALID_HOSTNAME)
+        const hostName: strOrBool = CheckValidator.hostnameValidate(parsedUrl.hostname);
+        if (typeof hostName === 'boolean') return callback(statusCode.BAD_REQUEST, INVALID_HOSTNAME)
 
-        dns.resolve(hostName, function (err, records) {
+        dns.resolve(hostName, (err: errOrNull, records) => {
           if (err) return callback(statusCode.BAD_REQUEST, INVALID_HOSTNAME);
-          const checkId = TokenHelper.createRandomString(20);
-          const obj = { checkId, userPhone, protocol, url, method, code, time };
-          const checkObject = CheckHelper.checkObj(obj);
+          const id: string = TokenHelper.createRandomString(20,callback);
+          const obj = { id, userPhone, protocol, url, method, code, time };
+          const checkObject: Omit<ICheckDataDto, 'state' | 'lastChecked'> = CheckHelper.checkObj(obj);
 
-          db.create(router.checks, checkId, checkObject, (err) => {
-            if (err) {
-              return callback(statusCode.SERVER_ERROR, SERVER_CREATE_CHECK);
-            }
+          db.create(router.checks, id, checkObject, (err: errOrNull) => {
+            if (err) return callback(statusCode.SERVER_ERROR, SERVER_CREATE_CHECK);
 
             userData.checks = userChecks;
-            userData.checks.push(checkId);
+            userData.checks.push(id);
 
-            db.update(router.users, userPhone, userData, (err) => {
-              if (err) {
-                return callback(statusCode.SERVER_ERROR, SERVER_UPDATE_CHECK);
-              }
-
+            db.update(router.users, userPhone, userData, (err: errOrNull) => {
+              if (err) return callback(statusCode.SERVER_ERROR, SERVER_UPDATE_CHECK);
               return callback(200, checkObject);
             });
           });
@@ -77,33 +84,32 @@ export default class CheckService {
     });
   }
 
-  static readCheck(id, token, callback) {
-    db.read(router.checks, id, (err, checkData) => {
+  static readCheck(id: string, token: string, callback) {
+    db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
       if (err) return callback(statusCode.BAD_REQUEST, TOKEN_NOT_FOUND(id));
-      const validToken = TokenValidator.tokenValidate(token);
+      const validToken: strOrBool = TokenValidator.tokenValidate(token);
+      if (typeof validToken === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
       const phone = checkData.userPhone;
 
-      TokenController.verifyToken(validToken, phone, (validToken) => {
-        if (!validToken) {
-          return callback(statusCode.FORBIDDEN, USER_NOT_AUTH_GET);
-        }
+      TokenController.verifyToken(validToken, phone, (validToken: boolean) => {
+        if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH_GET);
         return callback(200, checkData);
       });
     });
   }
 
-  static updateCheck(updateObj, token, callback) {
+  static updateCheck(updateObj: Partial<Pick<ICheckDataDto, 'id' | 'method' | 'protocol' | 'url' | 'code' | 'time'>>, token: string, callback) {
     const { id, protocol, url, method, code, time } = updateObj;
-    db.read(router.checks, id, (err, checkData) => {
+    if (typeof id === 'undefined') return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND_ID)
+    db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
       if (err) return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND);
 
-      const ValidToken = TokenValidator.tokenValidate(token);
-      const phone = checkData.userPhone;
+      const validToken: strOrBool = TokenValidator.tokenValidate(token);
+      if (typeof validToken === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
+      const phone: string = checkData.userPhone;
 
-      TokenController.verifyToken(ValidToken, phone, (validToken) => {
-        if (!validToken) {
-          return callback(statusCode.FORBIDDEN, CHECK_NOT_AUTH_UPDATE);
-        }
+      TokenController.verifyToken(validToken, phone, (validToken: boolean) => {
+        if (!validToken) return callback(statusCode.FORBIDDEN, CHECK_NOT_AUTH_UPDATE);
 
         if (protocol) checkData.protocol = protocol;
         if (url) checkData.url = url;
@@ -111,7 +117,7 @@ export default class CheckService {
         if (code) checkData.code = code;
         if (time) checkData.time = time;
 
-        db.update(router.checks, id, checkData, (err) => {
+        db.update(router.checks, id, checkData, (err: errOrNull) => {
           if (err) {
             return callback(statusCode.SERVER_ERROR, SERVER_ERROR_UPDATE);
           }
@@ -121,38 +127,33 @@ export default class CheckService {
     });
   }
 
-  static deleteCheck(id, token, callback) {
-    db.read(router.checks, id, (err, checkData) => {
+  static deleteCheck(id: string, token: string, callback) {
+    db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
       if (err) return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND_ID);
 
-      const validToken = TokenValidator.tokenValidate(token);
-      const phone = checkData.userPhone;
+      const validToken: strOrBool = TokenValidator.tokenValidate(token);
+      if (typeof validToken === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
+      const phone: string = checkData.userPhone;
 
-      TokenController.verifyToken(validToken, phone, (validToken) => {
-        if (!validToken) {
-          return callback(statusCode.FORBIDDEN, CHECK_NOT_AUTH_DELETE);
-        }
+      TokenController.verifyToken(validToken, phone, (validToken: boolean) => {
+        if (!validToken) return callback(statusCode.FORBIDDEN, CHECK_NOT_AUTH_DELETE);
 
-        db.delete(router.checks, id, (err) => {
-          if (err) {
-            return callback(statusCode.SERVER_ERROR, SERVER_ERROR_DELETE);
-          }
-          db.read(router.users, phone, (err, userData) => {
+        db.delete(router.checks, id, (err: errOrNull) => {
+          if (err) return callback(statusCode.SERVER_ERROR, SERVER_ERROR_DELETE);
+        
+          db.read(router.users, phone, (err: errOrNull, userData: IUserDataDto) => {
             if (err) return callback(statusCode.NOT_FOUND, USER_NOT_FOUND);
 
             const userChecks = CheckValidator.userChecks(userData.checks);
-            const checkPosition = userChecks.indexOf(id);
-
-            if (checkPosition < 1) {
+            const checkPosition = userChecks.length
+            if (userChecks.length < 1) {
               return callback(statusCode.SERVER_ERROR, USER_EMPTY_CHECKS);
             }
             userChecks.splice(checkPosition, 1);
             userData.checks = userChecks;
 
-            db.update(router.users, phone, userData, (err) => {
-              if (err) {
-                return callback(statusCode.SERVER_ERROR, SERVER_ERROR_UPDATE);
-              }
+            db.update(router.users, phone, userData, (err: errOrNull) => {
+              if (err) return callback(statusCode.SERVER_ERROR, SERVER_ERROR_UPDATE);
               return callback(statusCode.OK, CHECK_DELETE_SUCCESS);
             });
           });
