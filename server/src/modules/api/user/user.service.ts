@@ -17,7 +17,7 @@ import { errType } from "./type/err.type";
 import UserHelper from "./user.helper";
 import { IUserDataDto } from "./dto/userData.dto";
 import { IUpdateObject } from "./dto/updateObj.dto";
-const db = require("../../../core/database/db.router");
+import db from "../../../core/database/db.router";
 const CheckValidator = require("../check/check.validator");
 
 const {

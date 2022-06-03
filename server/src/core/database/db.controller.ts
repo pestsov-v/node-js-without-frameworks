@@ -1,25 +1,25 @@
-const fs = require("fs");
-const path = require("path");
-const DatabaseHelper = require("./db.helper");
-const { FILE_ERROR_WRITED_TO_EXSISTS_FILE_MESSAGE } = require("./db.constants");
-const {
-  FILE_HAS_BEEN_EXISTS,
-  FILE_ERROR_WRITED,
-  FILE_ERROR_CLOSED,
-  FILE_ERROR_UPDATE,
-  FILE_ERROR_DELETE,
-  FILE_ERROR_DELETE_EXISTS_FILE,
-} = require("./db.exception");
+import fs from "fs";
+import path from "path";
+import DatabaseHelper from "./db.helper";
+
+import { FILE_ERROR_WRITED_TO_EXSISTS_FILE_MESSAGE } from "./db.constants";
+import {
+  FILE_HAS_BEEN_EXISTS, FILE_ERROR_WRITED, 
+  FILE_ERROR_CLOSED, 
+  FILE_ERROR_UPDATE, 
+  FILE_ERROR_DELETE, 
+  FILE_ERROR_DELETE_EXISTS_FILE 
+} from "./db.exception";
 
 const baseDir = path.join(__dirname, "../../../../server/data/");
 
-class DatabaseController {
-  dbCreate(dir, file, data, callback) {
-    const filePath = `${baseDir}${dir}/${file}.json`;
+export default class DatabaseController {
+  static dbCreate(dir: string, file: string, data, callback) {
+    const filePath: string = `${baseDir}${dir}/${file}.json`;
 
     fs.open(filePath, "wx", function (err, fileDescriptior) {
       if (err) return callback(FILE_HAS_BEEN_EXISTS);
-      const stringData = JSON.stringify(data);
+      const stringData: string = JSON.stringify(data);
 
       fs.writeFile(fileDescriptior, stringData, function (err) {
         if (err) callback(FILE_ERROR_WRITED);
@@ -32,8 +32,8 @@ class DatabaseController {
     });
   }
 
-  dbRead(dir, file, callback) {
-    const filePath = `${baseDir}${dir}/${file}.json`;
+  static dbRead(dir: string, file: string, callback) {
+    const filePath: string = `${baseDir}${dir}/${file}.json`;
 
     fs.readFile(filePath, "utf-8", function (err, data) {
       if (err) return callback(err, data);
@@ -42,7 +42,7 @@ class DatabaseController {
     });
   }
 
-  dbUpdate(dir, file, data, callback) {
+  static dbUpdate(dir: string, file: string, data, callback) {
     const filePath = `${baseDir}${dir}/${file}.json`;
 
     fs.open(filePath, "r+", function (err, fileDescriptior) {
@@ -64,8 +64,8 @@ class DatabaseController {
     });
   }
 
-  dbDelete(dir, file, callback) {
-    const filePath = `${baseDir}${dir}/${file}.json`;
+  static dbDelete(dir: string, file: string, callback) {
+    const filePath: string = `${baseDir}${dir}/${file}.json`;
 
     fs.unlink(filePath, function (err) {
       if (err) return callback(FILE_ERROR_DELETE_EXISTS_FILE);
@@ -73,11 +73,11 @@ class DatabaseController {
     });
   }
 
-  dbList(dir, callback) {
+  static dbList(dir: string, callback) {
     fs.readdir(`${baseDir}${dir}/`, function (err, data) {
       if (err) callback(err, data);
 
-      let trimmedFileNames = [];
+      let trimmedFileNames: string[] = [];
       data.forEach(function (filename) {
         trimmedFileNames.push(filename.replace(".json", ""));
       });
@@ -85,5 +85,3 @@ class DatabaseController {
     });
   }
 }
-
-module.exports = new DatabaseController();

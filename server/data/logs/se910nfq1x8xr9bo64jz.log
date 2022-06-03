@@ -1,1 +1,1 @@
-{"check":{"id":"se910nfq1x8xr9bo64jz","userPhone":"3931200549","protocol":"http","url":"google.com","method":"get","code":[200,201],"time":2,"state":"down","lastChecked":1654190867312},"outcome":{"error":false,"responseCode":301},"state":"down","alert":false,"timeOfCheck":1654190870009}
+{"check":{"id":"se910nfq1x8xr9bo64jz","userPhone":"3931200549","protocol":"http","url":"google.com","method":"get","code":[200,201],"time":2,"state":"down","lastChecked":1654247693806},"outcome":{"error":false,"responseCode":301},"state":"down","alert":false,"timeOfCheck":1654247729309}
