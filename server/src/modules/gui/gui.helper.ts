@@ -1,17 +1,17 @@
-const path = require("path");
-const pages = require("./gui.pages");
-const config = require("../../../config/variables.config");
-const GUIValidator = require("./gui.validator");
-const GUIService = require("./gui.service");
+import path from "path";
+import config from "../../../config/variables.config";
+import GUIValidator from "./gui.validator";
+import GUIService from "./gui.service";
 
-const {
-  FOOTER_NOT_FOUND,
-  HEADER_NOT_FOUND,
-  TEMPLATE_NOT_FOUND,
-  PUBLIC_NOT_FOUND,
-} = require("./gui.constants");
+import {
+  FOOTER_NOT_FOUND, 
+  HEADER_NOT_FOUND, 
+  TEMPLATE_NOT_FOUND, 
+  PUBLIC_NOT_FOUND
+ } from "./gui.constants";
+import pages from "./gui.pages";
 
-exports.getTemplate = function (templateName, data, callback) {
+export function getTemplate (templateName, data, callback) {
   templateName = GUIValidator.nameValidate(templateName);
   data = GUIValidator.dataValidate(data);
 
@@ -22,14 +22,14 @@ exports.getTemplate = function (templateName, data, callback) {
   GUIService.interpolateTemplate(templatePath, data, callback);
 };
 
-exports.addUniversalTemplates = function (str, data, callback) {
+export function addUniversalTemplates (str, data, callback) {
   str = GUIValidator.strValidate(str);
   data = GUIValidator.dataValidate(data);
 
-  this.getTemplate(pages.header, data, (err, headerString) => {
+  getTemplate(pages.header, data, (err, headerString) => {
     if (err) return callback(HEADER_NOT_FOUND);
 
-    this.getTemplate(pages.footer, data, (err, footerString) => {
+    getTemplate(pages.footer, data, (err, footerString) => {
       if (err) return callback(FOOTER_NOT_FOUND);
 
       const fullString = `${headerString}${str}${footerString}`;
@@ -38,7 +38,7 @@ exports.addUniversalTemplates = function (str, data, callback) {
   });
 };
 
-exports.interpolate = function (str, data) {
+export function interpolate(str, data) {
   str = GUIValidator.strValidate(str);
   data = GUIValidator.dataValidate(data);
 
@@ -58,7 +58,7 @@ exports.interpolate = function (str, data) {
   return str;
 };
 
-exports.getStaticAsset = function (fileName, callback) {
+export function getStaticAsset (fileName, callback) {
   fileName = GUIValidator.fileNameValidate(fileName);
   if (!fileName) return callback(PUBLIC_NOT_FOUND);
 

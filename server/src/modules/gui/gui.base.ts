@@ -1,10 +1,11 @@
-const GUIHelper = require("./gui.helper");
-const method = require("../../core/base/enum/method.enum");
-const statusCode = require("../../core/base/statusCode");
-const format = require("../../core/base/format");
+import format from "../../core/base/enum/format.enum";
+import { method } from "../../core/base/enum/method.enum";
+import { statusCode } from "../../core/base/enum/statusCode.enum";
 
-class GUIBase {
-  renderPage(namePage, templateData) {
+const GUIHelper = require("./gui.helper");
+
+export default class GUIBase {
+  static renderPage(namePage, templateData) {
     return (data, callback) => {
       if (data.method != method.get) {
         return callback(statusCode.BAD_REQUEST, null, format.html);
@@ -20,5 +21,3 @@ class GUIBase {
     };
   }
 }
-
-module.exports = new GUIBase();

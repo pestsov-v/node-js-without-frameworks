@@ -1,6 +1,6 @@
 import server from "./src/server";
-const worker = require("./src/modules/worker/worker.module");
-import { cli } from "./src/modules/cli/cli.module";
+import worker from "./src/modules/worker/worker.module";
+import {cli} from "./src/modules/cli/cli.module";
 
 export default function app(callback) {
   server();

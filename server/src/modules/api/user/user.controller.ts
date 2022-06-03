@@ -1,10 +1,10 @@
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
-import { strOrBool, strOrUndef } from "./guard/isString.guard";
+import { strOrBool, strOrUndef } from "./guard/base.guard";
 
-import { callbackType } from "./type/callback.type";
 import { IUserObj } from "./dto/userObj.dto";
 import { IUpdateObj } from "./dto/updateObj.dto";
-
+import { IReqData } from "./dto/reqData.dto";
+import { INCORRECT_TOKEN } from "../token/token.exception";
 
 import UserService from "./user.service";
 import UserValidator from "./user.validator";
@@ -17,10 +17,9 @@ import {
   USER_NOT_FIELDS_TO_UPDATE, 
   MISS_REQUIRED_FIELDS 
 } from "./user.exception";
-import { IReqData } from "./dto/reqData.dto";
 
 export default class UserController {
-  public static createUser(data: IReqData, callback: callbackType) {
+  public static createUser(data: IReqData, callback) {
     const firstName: strOrBool = UserValidator.nameValidate(data.payload.firstName);
     const lastName: strOrBool = UserValidator.nameValidate(data.payload.lastName);
     const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
@@ -37,10 +36,12 @@ export default class UserController {
     return UserService.writeUser(userObj, callback);
   }
 
-  public static getUser(data: Omit<IReqData, 'payload'>, callback: callbackType) {
+  public static getUser(data: Omit<IReqData, 'payload'>, callback) {
     const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
-    if (!phone) callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
-    const token: string = TokenValidator.tokenValidate(data.headers.token);
+    if (typeof phone === 'boolean') return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
+
+    const token: strOrBool = TokenValidator.tokenValidate(data.headers.token);
+    if (typeof token === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
 
     return TokenController.verifyToken(token, phone, (validToken: boolean) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
@@ -48,9 +49,9 @@ export default class UserController {
     });
   }
 
-  public static updateUser(data: IReqData, callback: callbackType) {
+  public static updateUser(data: IReqData, callback) {
     const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
-    if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
+    if (typeof phone === 'boolean') return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
     const firstName: strOrUndef = UserValidator.nameUpdateValidate(data.payload.firstName);
     const lastName: strOrUndef = UserValidator.nameUpdateValidate(data.payload.lastName);
@@ -59,7 +60,8 @@ export default class UserController {
       return callback(statusCode.BAD_REQUEST, USER_NOT_FIELDS_TO_UPDATE);
     }
 
-    const token: string = TokenValidator.tokenValidate(data.headers.token);
+    const token: strOrBool = TokenValidator.tokenValidate(data.headers.token);
+    if (typeof token === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
 
     return TokenController.verifyToken(token, phone, (validToken: boolean) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
@@ -69,11 +71,12 @@ export default class UserController {
     });
   }
 
-  public static deleteUser(data: Omit<IReqData, 'payload'>, callback: callbackType) {
+  public static deleteUser(data: Omit<IReqData, 'payload'>, callback) {
     const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
-    if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
+    if (typeof phone === 'boolean') return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
-    const token: string = TokenValidator.tokenValidate(data.headers.token);
+    const token: strOrBool = TokenValidator.tokenValidate(data.headers.token);
+    if (typeof token === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN)
     return TokenController.verifyToken(token, phone, (validToken: boolean) => {
       if (!validToken) return callback(statusCode.FORBIDDEN, USER_NOT_AUTH);
 

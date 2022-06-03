@@ -1,5 +1,4 @@
-const util = require("util");
-const colors = require("../core/base/color");
+import util from "util";
 const debug = util.debuglog("server");
 
 export default function processResponse(
@@ -14,6 +13,11 @@ export default function processResponse(
   statusCode = typeof statusCode == "number" ? statusCode : 200;
   let payloadString = "";
 
+  console.log("method", method)
+  console.log("trimmedPath", trimmedPath)
+  console.log("statusCode", statusCode)
+  console.log("payload", payload)
+  console.log("contentType", contentType)
   if (contentType == "json") {
     res.setHeader("Content-Type", "application/json");
     payload = typeof payload == "object" ? payload : {};
@@ -55,12 +59,12 @@ export default function processResponse(
 
   if (statusCode == 200) {
     debug(
-      colors.green,
+      "\x1b[32m%s\x1b[0m",
       method.toUpperCase() + " /" + trimmedPath + " " + statusCode
     );
   } else {
     debug(
-      colors.orange,
+      "\x1b[31m%s\x1b[0m",
       method.toUpperCase() + " /" + trimmedPath + " " + statusCode
     );
   }

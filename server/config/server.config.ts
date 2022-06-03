@@ -5,7 +5,7 @@ import router from "../src/router";
 import page404 from "../src/modules/api/404/404.router";
 const parceJsonToObject = require("../src/utils/JsonToObject");
 import processResponse from "../src/utils/processResponse";
-const GUIModule = require("../src/modules/gui/gui.module"); 
+import GUIModule from "../src/modules/gui/gui.module"; 
 
 import util from "util";
 const debug = util.debuglog("server");

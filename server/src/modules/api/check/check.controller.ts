@@ -4,7 +4,7 @@ import TokenValidator from "../token/token.validator";
 
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 import { ICheckData } from "./dto/reqData.dto";
-import { strOrBool } from "./type/union.type";
+import { numOrBool, strOrBool } from "./type/union.type";
 
 import {
   MISSED_REQUIRE_FIEILDS, 
@@ -12,6 +12,7 @@ import {
   EMPTY_UPDATE_FILEDS 
 } from "./check.exception";
 import { ICheckObject } from "./dto/checkObject.dto";
+import { method } from "../../../core/base/enum/method.enum";
 
 export default class CheckController {
   static postCheck(data: ICheckData, callback) {
@@ -40,11 +41,11 @@ export default class CheckController {
     const id = TokenValidator.idValidate(data.payload.id);
     if (typeof id === 'boolean') return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
 
-    const protocol = CheckValidator.protocolValidate(data.payload.protocol);
-    const url = CheckValidator.urlValidate(data.payload.url);
-    const method = CheckValidator.methodValidate(data.payload.method);
-    const code = CheckValidator.codeValidate(data.payload.code);
-    const time = CheckValidator.timeValidate(data.payload.time);
+    const protocol: strOrBool = CheckValidator.protocolValidate(data.payload.protocol);
+    const url: strOrBool = CheckValidator.urlValidate(data.payload.url);
+    const method: method | boolean = CheckValidator.methodValidate(data.payload.method);
+    const code: number[] | boolean = CheckValidator.codeValidate(data.payload.code);
+    const time: numOrBool = CheckValidator.timeValidate(data.payload.time);
 
     if (typeof protocol == 'boolean' || typeof url == 'boolean' || typeof method == 'boolean' || typeof code == 'boolean' || typeof time == 'boolean') {
       return callback(statusCode.BAD_REQUEST, EMPTY_UPDATE_FILEDS);
@@ -55,8 +56,8 @@ export default class CheckController {
   }
 
   static deleteCheck(data: ICheckData, callback) {
-    const id = TokenValidator.idValidate(data.queryStringObject.id);
-    if (!id) return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
+    const id: strOrBool = TokenValidator.idValidate(data.queryStringObject.id);
+    if (typeof id === 'boolean') return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
 
     CheckService.deleteCheck(id, data.headers.token, callback);
   }

@@ -1,4 +1,4 @@
-import { strOrBool } from "../guard/isString.guard";
+import { strOrBool } from "../guard/base.guard";
 
 export interface IHashUserObjectResponse {
 	firstName: strOrBool,

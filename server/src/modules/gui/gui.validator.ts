@@ -1,23 +1,21 @@
-class GUIValidator {
-  nameValidate(templateName) {
+export default class GUIValidator {
+  static nameValidate(templateName) {
     return typeof templateName == "string" && templateName.length > 0
       ? templateName
       : false;
   }
 
-  dataValidate(data) {
+  static dataValidate(data) {
     return typeof data == "object" && data !== null ? data : {};
   }
 
-  strValidate(str) {
+  static strValidate(str) {
     return typeof str == "string" && str.length > 0 ? str : "";
   }
 
-  fileNameValidate(fileName) {
+  static fileNameValidate(fileName) {
     return typeof fileName == "string" && fileName.length > 0
       ? fileName
       : false;
   }
 }
-
-module.exports = new GUIValidator();

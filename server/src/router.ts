@@ -1,7 +1,7 @@
 import UserModule from "./modules/api/user/user.module";
 import TokenModule from "./modules/api/token/token.module";
 import CheckModule from "./modules/api/check/check.module";
-const GUIModule = require("./modules/gui/gui.module");
+import GUIModule from "./modules/gui/gui.module";
 
 const router = {
   "": GUIModule.index,
@@ -13,7 +13,6 @@ const router = {
   "checks/all": GUIModule.checksList,
   "checks/create": GUIModule.checksCreate,
   "checks/edit": GUIModule.checksEdit,
-  "checks/deleted": GUIModule.checksDeleted,
   "favicon.ico": GUIModule.favicon,
   public: GUIModule.public,
   "api/users": UserModule,

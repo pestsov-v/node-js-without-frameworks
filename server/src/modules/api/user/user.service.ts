@@ -1,55 +1,57 @@
+import db from "../../../core/database/db.router";
 import { router } from "../../../core/base/enum/router.enum";
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
-import { IUserObject } from "./dto/userObject.dto";
-import { strOrBool } from "./guard/isString.guard";
-import { IHashUserObjectResponse } from "./response/hashUserObject.response";
-
-import { callbackType } from "./type/callback.type";
-import { errType } from "./type/err.type";
 
 import UserHelper from "./user.helper";
+import CheckValidator from "../check/check.validator";
+
+import { IUserObject } from "./dto/userObject.dto";
+import { strOrBool } from "./guard/base.guard";
+import { IHashUserObjectResponse } from "./response/hashUserObject.response";
+import { errType } from "./type/err.type";
+
 import { IUserDataDto } from "./dto/userData.dto";
 import { IUpdateObject } from "./dto/updateObj.dto";
-import db from "../../../core/database/db.router";
-const CheckValidator = require("../check/check.validator");
 
-const {
-  USER_WAS_CREATED,
+import {
+   USER_WAS_CREATED, 
   USER_SUCCESS_CREATE,
-  USER_HAS_BEEN_CREATED,
-  USER_NOT_CREATED,
-  USER_NOT_FOUND,
-  USER_CAN_NOT_UPDATE,
-  USER_SUCCESS_UPDATE,
-  USER_PHONE_NOT_FOUND,
-  USER_NOT_EXISTS,
-  USER_SUCCESS_DELETE,
-  USER_CAN_NOT_DELETE,
-  USER_GET_SUCCESS
-} = require("./user.exception");
+   USER_HAS_BEEN_CREATED, 
+  USER_NOT_CREATED, 
+  USER_NOT_FOUND, 
+  USER_CAN_NOT_UPDATE, 
+  USER_SUCCESS_UPDATE, 
+  USER_PHONE_NOT_FOUND, 
+  USER_NOT_EXISTS, 
+  USER_SUCCESS_DELETE, 
+  USER_CAN_NOT_DELETE, 
+  USER_GET_SUCCESS 
+} from "./user.exception";
+import { INCORRECT_PASSWORD_FIELD, PASSWORD_NOT_MATCHED } from "../token/token.exception";
 
 export default class UserService {
   
-  public static writeUser(userObj: IUserObject, callback: callbackType) {
+  public static writeUser(userObj: IUserObject, callback) {
     const { firstName, lastName, phone, password } = userObj;
-
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
+    if (typeof password === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_PASSWORD_FIELD)
+    if (typeof password === 'undefined') return callback(statusCode.BAD_REQUEST, PASSWORD_NOT_MATCHED)
 
     return db.read(router.users, phone, (err: errType, data: Pick<IUserDataDto, 'firstName' | 'lastName' | 'password' | 'phone' | 'tosAggrement'>) => {
       if (!err) return callback(statusCode.BAD_REQUEST, USER_HAS_BEEN_CREATED);
 
-      const hashPassword: strOrBool = UserHelper.hashPassword(password);
+      const hashPassword: strOrBool = UserHelper.hashPassword(password, callback);
       if (!hashPassword) {
         return callback(statusCode.BAD_REQUEST, USER_WAS_CREATED);
       }
 
-      const hashObj: Omit<IUserObject, 'password'> = { firstName, lastName, phone, hashPassword };
+      const hashObj: IUserObject = { firstName, lastName, phone, hashPassword };
       const userObject: IHashUserObjectResponse = UserHelper.hashUserObject(hashObj);
       this.createUser(phone, userObject, callback);
     });
   }
 
-  public static createUser(phone: strOrBool, userObject: IHashUserObjectResponse, callback: callbackType) {
+  public static createUser(phone: strOrBool, userObject: IHashUserObjectResponse, callback) {
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
 
     return db.create(router.users, phone, userObject, (err: errType) => {
@@ -58,7 +60,7 @@ export default class UserService {
     });
   }
 
-  public static readUser(phone: strOrBool, callback: callbackType) {
+  public static readUser(phone: strOrBool, callback) {
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
 
     return db.read(router.users, phone, (err: errType, data: Omit<IUserDataDto, 'checks' | 'password'>) => {
@@ -69,7 +71,7 @@ export default class UserService {
   }
 
  
-  public static updateUser(phone: strOrBool, updateObj: Partial<IUpdateObject>, callback: callbackType) {
+  public static updateUser(phone: strOrBool, updateObj: Partial<IUpdateObject>, callback) {
 
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
 
@@ -79,7 +81,7 @@ export default class UserService {
 
       if (firstName) userData.firstName = firstName;
       if (lastName) userData.lastName = lastName;
-      if (password) userData.hashPassword = UserHelper.hashPassword(password);
+      if (password) userData.hashPassword = UserHelper.hashPassword(password, callback);
 
       if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
 
@@ -90,7 +92,7 @@ export default class UserService {
     });
   }
 
-  public static deleteUser(phone: strOrBool, callback: callbackType) {
+  public static deleteUser(phone: strOrBool, callback) {
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
     
     return db.read(router.users, phone, (err:errType, userData: IUserDataDto) => {
