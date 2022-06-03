@@ -8,7 +8,7 @@ import WorkerDebugger from "./worker.debug";
 import WorkerService from "./worker.service";
 import { IParseUrl } from "./response/parseUrl.response";
  
-function workersValidateMiddleware(originalCheckData: IOriginalCheckData) {
+export default function workersValidateMiddleware(originalCheckData: IOriginalCheckData) {
   const { id, userPhone, protocol, url, method } = originalCheckData;
   originalCheckData = WorkerValidator.objValidate(originalCheckData);
   originalCheckData.id = WorkerValidator.idValidate(id);
@@ -89,5 +89,3 @@ function processCheckOutcome(originalCheckData: IOriginalCheckData, checkOutcome
 
   WorkerService.updateCheck(newCheckData, alert);
 }
-
-module.exports = workersValidateMiddleware;

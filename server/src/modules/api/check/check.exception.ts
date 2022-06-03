@@ -1,4 +1,4 @@
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 
 import {
   MISSED_REQUIRE_FIEILDS_MESSAGE, 

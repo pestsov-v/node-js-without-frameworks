@@ -14,7 +14,7 @@ import {
   isTime, 
   isUrl 
 } from "./guard/base.guard";
-import { method } from "../../core/base/enum/method.enum";
+import { method } from "../../core/base/method.enum";
 
 export  default class WorkerValidator {
   static objValidate(originalCheckData: IOriginalCheckData): IOriginalCheckData {

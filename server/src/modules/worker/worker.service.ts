@@ -1,10 +1,10 @@
-const workersValidateMiddleware = require("./workers.middleware");
+import workersValidateMiddleware from "./workers.middleware";
 import db from "../../core/database/db.router";
 import WorkerHelper from "./worker.helper";
-import { router } from "../../core/base/enum/router.enum";
 import { errOrNull } from "../logger/type/errorOrNull.type";
 import { IOriginalCheckData } from "./dto/originalCheckData.dto";
 import WorkerDebugger from "./worker.debug";
+import router from "../../core/base/router.enum";
 
 export default class WorkerService {
   static readChecks(check: string) {
@@ -21,4 +21,4 @@ export default class WorkerService {
       WorkerHelper.sendSms(newCheckData);
     });
   };
-}
+} 

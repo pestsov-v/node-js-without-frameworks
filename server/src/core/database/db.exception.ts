@@ -1,4 +1,4 @@
-import { statusCode } from "../base/enum/statusCode.enum";
+import statusCode from "../base/statusCode.enum";
 
 import {
   FILE_ERROR_CLOSED_MESSAGE, 

@@ -1,4 +1,4 @@
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { statusCode } from "../../../core/base/statusCode.enum";
 
 export interface I404Response {
 	statusCode: statusCode,

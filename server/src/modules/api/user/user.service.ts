@@ -1,6 +1,6 @@
 import db from "../../../core/database/db.router";
-import { router } from "../../../core/base/enum/router.enum";
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import router from "../../../core/base/router.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 
 import UserHelper from "./user.helper";
 import CheckValidator from "../check/check.validator";
@@ -28,6 +28,7 @@ import {
   USER_GET_SUCCESS 
 } from "./user.exception";
 import { INCORRECT_PASSWORD_FIELD, PASSWORD_NOT_MATCHED } from "../token/token.exception";
+
 
 export default class UserService {
   

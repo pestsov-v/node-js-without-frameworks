@@ -1,6 +1,6 @@
 import childProcess from "child_process";
-const db = require("../../core/database/db.router");
-import { router } from "../../core/base/enum/router.enum";
+import db from "../../core/database/db.router";
+import router  from "../../core/base/router.enum";
 import { IUserData } from "./dto/userData.dto";
 import { ICheckData } from "./dto/checkData.dto";
 

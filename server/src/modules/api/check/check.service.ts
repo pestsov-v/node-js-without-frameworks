@@ -1,9 +1,8 @@
 import dns from "dns";
 import db from "../../../core/database/db.router";
 import config from "../../../../config/variables.config";
-
-import { router } from "../../../core/base/enum/router.enum";
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import router from "../../../core/base/router.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 
 import CheckHelper from "./check.helper";
 import CheckValidator from "./check.validator";
@@ -38,6 +37,7 @@ import { errOrNull } from "../../logger/type/errorOrNull.type";
 import { ITokenData } from "./dto/tokenData.dto";
 import { IUserDataDto } from "../user/dto/userData.dto";
 import { ICheckDataDto } from "./dto/checkData.dto";
+
 
 export default class CheckService {
   static writeCheck(checkObj: ICheckObject, token: string, callback) {

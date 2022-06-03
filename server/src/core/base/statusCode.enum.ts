@@ -1,4 +1,4 @@
-export enum statusCode {
+enum statusCode {
   OK = 200,
   CREATED = 201,
   BAD_REQUEST = 400,
@@ -7,3 +7,5 @@ export enum statusCode {
   NOT_FOUND = 404,
   SERVER_ERROR = 500,
 };
+
+export default statusCode

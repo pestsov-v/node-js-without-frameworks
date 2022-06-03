@@ -1,8 +1,12 @@
 import db from "../../../core/database/db.router";
-import { router } from "../../../core/base/enum/router.enum";
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import router from "../../../core/base/router.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 import UserHelper from "../user/user.helper";
 import TokenHelper from "./token.helper";
+
+import { IUserData } from "./dto/userData.dto";
+import { errOrNull } from "../../logger/type/errorOrNull.type";
+import { ITokenObject } from "./dto/tokenObject.dto";
 
 import { 
   USER_NOT_FOUND_WITH_PHONE, 
@@ -15,9 +19,8 @@ import {
   TOKEN_UPDATE_SUCCESS, 
   TOKEN_NOT_FOUND, TOKEN_ERROR, TOKEN_DELETE_SUCCESS
  } from "./token.exception";
-import { IUserData } from "./dto/userData.dto";
-import { errOrNull } from "../../logger/type/errorOrNull.type";
-import { ITokenObject } from "./dto/tokenObject.dto";
+
+
 
 
 export default class TokenService {

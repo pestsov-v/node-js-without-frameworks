@@ -1,4 +1,4 @@
-import { method } from "../../../core/base/enum/method.enum";
+import { method } from "../../../core/base/method.enum";
 import { IReqData } from "../user/dto/reqData.dto";
 import TokenRouter from "./token.router";
 
