@@ -1,5 +1,5 @@
 const workersValidateMiddleware = require("./workers.middleware");
-const db = require("../../core/database/db.router");
+import db from "../../core/database/db.router";
 import WorkerHelper from "./worker.helper";
 import { router } from "../../core/base/enum/router.enum";
 import { errOrNull } from "../logger/type/errorOrNull.type";

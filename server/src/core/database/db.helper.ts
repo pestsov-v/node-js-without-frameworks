@@ -1,5 +1,5 @@
-class DatabaseHelper {
-  parseObj(str) {
+export default class DatabaseHelper {
+  static parseObj(str: string) {
     try {
       const obj = JSON.parse(str);
       return obj;
@@ -8,5 +8,3 @@ class DatabaseHelper {
     }
   }
 }
-
-module.exports = new DatabaseHelper();

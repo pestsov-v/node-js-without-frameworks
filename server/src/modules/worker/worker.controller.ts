@@ -1,4 +1,4 @@
-const db = require("../../core/database/db.router");
+import db from "../../core/database/db.router";
 
 import { errOrNull } from "../logger/type/errorOrNull.type";
 import WorkerService from "./worker.service";
