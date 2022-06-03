@@ -1,7 +1,11 @@
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { ITokenObject } from "./dto/tokenObject.dto";
+import { isNumber } from "./guard/base.guard";
+import { INCORRECT_TOKEN } from "./token.exception";
+import TokenValidator from "./token.validator";
+
 export default class TokenHelper {
-  static createRandomString(strLength) {
-    strLength =
-      typeof strLength == "number" && strLength > 0 ? strLength : false;
+  static createRandomString(strLength: number, callback) {
 
     if (strLength) {
       const possibleCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -17,11 +21,11 @@ export default class TokenHelper {
 
       return str;
     } else {
-      return false;
+      return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN);
     }
   }
 
-  static createObj(phone, tokenId) {
+  static createObj(phone: string, tokenId: string): ITokenObject {
     const expires = Date.now() + 1000 * 60 * 60;
 
     return {

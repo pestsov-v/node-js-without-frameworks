@@ -5,15 +5,11 @@ import { callbackType } from "./type/callback.type";
 import { IUserObj } from "./dto/userObj.dto";
 import { IUpdateObj } from "./dto/updateObj.dto";
 
-import { IGetUserResponse } from "./response/getUser.response";
-import { ICreateUserResponse } from "./response/createUser.response";
-import { IUpdateUserResponse } from "./response/updateUser.response";
-import { IDeleteUserResponse } from "./response/deleteUser.response";
 
 import UserService from "./user.service";
 import UserValidator from "./user.validator";
-const TokenValidator = require("../token/token.validator");
-const TokenController = require("../token/token.controller");
+import TokenValidator from "../token/token.validator";
+import TokenController from "../token/token.controller";
 
 import { 
   INVALID_USER_PHONE, 
@@ -24,7 +20,7 @@ import {
 import { IReqData } from "./dto/reqData.dto";
 
 export default class UserController {
-  public static createUser(data: IReqData, callback: callbackType): ICreateUserResponse {
+  public static createUser(data: IReqData, callback: callbackType) {
     const firstName: strOrBool = UserValidator.nameValidate(data.payload.firstName);
     const lastName: strOrBool = UserValidator.nameValidate(data.payload.lastName);
     const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
@@ -41,7 +37,7 @@ export default class UserController {
     return UserService.writeUser(userObj, callback);
   }
 
-  public static getUser(data: Omit<IReqData, 'payload'>, callback: callbackType): IGetUserResponse {
+  public static getUser(data: Omit<IReqData, 'payload'>, callback: callbackType) {
     const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
     if (!phone) callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
     const token: string = TokenValidator.tokenValidate(data.headers.token);
@@ -52,7 +48,7 @@ export default class UserController {
     });
   }
 
-  public static updateUser(data: IReqData, callback: callbackType): IUpdateUserResponse {
+  public static updateUser(data: IReqData, callback: callbackType) {
     const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
     if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 
@@ -73,7 +69,7 @@ export default class UserController {
     });
   }
 
-  public static deleteUser(data: Omit<IReqData, 'payload'>, callback: callbackType): IDeleteUserResponse {
+  public static deleteUser(data: Omit<IReqData, 'payload'>, callback: callbackType) {
     const phone: strOrBool = UserValidator.phoneValidate(data.queryStringObject.phone);
     if (!phone) return callback(statusCode.BAD_REQUEST, INVALID_USER_PHONE);
 

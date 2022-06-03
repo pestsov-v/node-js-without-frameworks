@@ -1,5 +1,5 @@
 import { strOrBool } from "../check/type/union.type";
-import { isBoolean, isId, isString } from "./guard/base.guard";
+import { isBoolean, isId, isNumber, isString } from "./guard/base.guard";
 
 export default class TokenValidator {
   static tokenValidate(token: string): strOrBool {
@@ -7,8 +7,8 @@ export default class TokenValidator {
 
   } 
 
-  static stringValidate(str: string): strOrBool {
-    return isString(str) ? str : false;
+  static numberValidate(length: number): number | false {
+    return isNumber(length) ? length : false;
   }
 
   static idValidate(id: string): strOrBool {

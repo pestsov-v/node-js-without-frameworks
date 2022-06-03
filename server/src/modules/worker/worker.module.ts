@@ -2,7 +2,7 @@ const colors = require("../../core/base/color");
 import WorkerController from "./worker.controller";
 
 function worker() {
-  console.log(colors.yellow, "Фоновая запись логов успешно запущена");
+  console.log("\x1b[33m%s\x1b[0m", "Фоновая запись логов успешно запущена");
 
   WorkerController.gatherAllChecks();
   WorkerController.loop();
