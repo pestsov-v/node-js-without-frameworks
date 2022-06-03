@@ -1,7 +1,7 @@
-const _url = require("url");
+import _url from "url";
 
-class CheckHelper {
-  checkObj(obj) {
+export default class CheckHelper {
+  static checkObj(obj) {
     const { checkId, userPhone, protocol, url, method, code, time } = obj;
     return {
       id: checkId,
@@ -14,9 +14,7 @@ class CheckHelper {
     };
   }
 
-  getUrl(protocol, url) {
+  static getUrl(protocol: string, url: string) {
     return _url.parse(protocol + "://" + url, true);
   }
 }
-
-module.exports = new CheckHelper();

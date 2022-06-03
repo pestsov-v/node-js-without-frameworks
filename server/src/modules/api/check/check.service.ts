@@ -1,6 +1,6 @@
 const dns = require("dns");
 const config = require("../../../../config/variables.config");
-const db = require("../../../core/database/db.router");
+import db from "../../../core/database/db.router";
 const statusCode = require("../../../core/base/statusCode");
 const router = require("../../../core/base/enum/route.enum");
 const CheckHelper = require("./check.helper");

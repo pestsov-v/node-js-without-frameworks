@@ -4,7 +4,7 @@ import { IHashObj } from "./dto/userObject.dto";
 import { strOrBool } from "./guard/isString.guard";
 import { IHashUserObjectResponse } from "./response/hashUserObject.response";
 
-const config = require("../../../../config/variables.config");
+import config from "../../../../config/variables.config";
 
 export default class UserHelper {
   static hashPassword(password: strOrBool): strOrBool {

@@ -7,7 +7,7 @@ import { IOriginalCheckData } from "./dto/originalCheckData.dto";
 import { IProcessOutcome } from "./dto/processOutcome.dto";
 import { IParseUrl } from "./response/parseUrl.response";
 import WorkerDebugger from "./worker.debug";
-const sendSms = require("../../utils/sendSms");
+import sendSms from "../../utils/sendSms";
 const { alertMessage } = require("./worker.constants");
 
 export default class WorkerHelper {

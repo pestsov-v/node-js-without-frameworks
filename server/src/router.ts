@@ -1,6 +1,6 @@
-const UserModule = require("./modules/api/user/user.module");
+import UserModule from "./modules/api/user/user.module";
 const TokenModule = require("./modules/api/token/token.module");
-const CheckModule = require("./modules/api/check/check.module");
+import CheckModule from "./modules/api/check/check.module";
 const GUIModule = require("./modules/gui/gui.module");
 
 const router = {

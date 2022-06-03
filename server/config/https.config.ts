@@ -1,9 +1,7 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-const options = {
+export const options = {
   key: fs.readFileSync(path.join(__dirname, "/../src/core/https/key.pem")),
   cert: fs.readFileSync(path.join(__dirname, "/../src/core/https/cert.pem")),
 };
-
-module.exports = options;

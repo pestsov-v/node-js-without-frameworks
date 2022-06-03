@@ -2,7 +2,7 @@ const util = require("util");
 const colors = require("../core/base/color");
 const debug = util.debuglog("server");
 
-function processResponse(
+export default function processResponse(
   res,
   method,
   trimmedPath,
@@ -65,5 +65,3 @@ function processResponse(
     );
   }
 }
-
-module.exports = processResponse;

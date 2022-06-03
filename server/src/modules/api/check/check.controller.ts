@@ -1,6 +1,7 @@
-const statusCode = require("../../../core/base/statusCode");
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
+
 const CheckService = require("./check.service");
-const CheckValidator = require("./check.validator");
+import CheckValidator from "./check.validator";
 const TokenValidator = require("../token/token.validator");
 
 const {
@@ -9,8 +10,9 @@ const {
   EMPTY_UPDATE_FILEDS,
 } = require("./check.exception");
 
-class CheckController {
-  postCheck(data, callback) {
+export default class CheckController {
+  static postCheck(data, callback) {
+    console.log(data)
     const protocol = CheckValidator.protocolValidate(data.payload.protocol);
     const url = CheckValidator.urlValidate(data.payload.url);
     const method = CheckValidator.methodValidate(data.payload.method);
@@ -25,14 +27,14 @@ class CheckController {
     CheckService.writeCheck(checkObj, data.headers.token, callback);
   }
 
-  getCheck(data, callback) {
+  static getCheck(data, callback) {
     const id = TokenValidator.idValidate(data.queryStringObject.id);
     if (!id) return callback(statusCode.BAD_REQUEST, INCORRECT_PHONE);
 
     CheckService.readCheck(id, data.headers.token, callback);
   }
 
-  updateCheck(data, callback) {
+  static updateCheck(data, callback) {
     const id = TokenValidator.idValidate(data.payload.id);
     if (!id) return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
 
@@ -50,12 +52,10 @@ class CheckController {
     CheckService.updateCheck(updateObj, data.headers.token, callback);
   }
 
-  deleteCheck(data, callback) {
+  static deleteCheck(data, callback) {
     const id = TokenValidator.idValidate(data.queryStringObject.id);
     if (!id) return callback(statusCode.NOT_FOUND, MISSED_REQUIRE_FIEILDS);
 
     CheckService.deleteCheck(id, data.headers.token, callback);
   }
 }
-
-module.exports = new CheckController();

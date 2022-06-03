@@ -1,13 +1,12 @@
 const methods = require("../../../core/base/enum/methods");
+
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 import { IReqData } from "./dto/reqData.dto";
-import { callbackType } from "./type/callback.type";
 import UserRouter from "./user.router";
 
 const {MISSED_METHOD_MESSAGE} = require('./user.exception')
 
-function UserModule (data: IReqData, callback: callbackType) {
-  
+export default  function UserModule (data: IReqData, callback) {
   const acceptableMethods = [
     methods.post,
     methods.get,
@@ -20,5 +19,3 @@ function UserModule (data: IReqData, callback: callbackType) {
     callback(statusCode.BAD_REQUEST, MISSED_METHOD_MESSAGE);
   }
 };
-
-module.exports = UserModule;
