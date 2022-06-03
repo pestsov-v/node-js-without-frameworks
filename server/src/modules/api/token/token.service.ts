@@ -37,7 +37,7 @@ export default class TokenService {
       const tokenId: string = TokenHelper.createRandomString(20, callback);
       const tokenObject: ITokenObject = TokenHelper.createObj(phone, tokenId);
 
-      db.create(router.tokens, tokenId, tokenObject, (err: errOrNull) => {
+      db.create(router.tokens, tokenId, tokenObject, (err) => {
         if (err) return callback(400, USER_NOT_CREATED);
         return callback(200, tokenObject);
       });

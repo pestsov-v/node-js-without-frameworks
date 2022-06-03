@@ -55,7 +55,7 @@ export default class UserService {
   public static createUser(phone: strOrBool, userObject: IHashUserObjectResponse, callback) {
     if (typeof phone === 'boolean') return callback(statusCode.NOT_FOUND, USER_PHONE_NOT_FOUND)
 
-    return db.create(router.users, phone, userObject, (err: errType) => {
+    return db.create(router.users, phone, userObject, (err) => {
       if (err) return callback(statusCode.SERVER_ERROR, USER_NOT_CREATED);
       return callback(statusCode.OK, USER_SUCCESS_CREATE(phone));
     });

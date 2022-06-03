@@ -1,7 +1,9 @@
-import { method } from "../../../core/base/method.enum";
-import { statusCode } from "../../../core/base/statusCode.enum";
-import { IReqData } from "./dto/reqData.dto";
+import method from "../../../core/base/method.enum";
+import statusCode from "../../../core/base/statusCode.enum";
+
 import UserRouter from "./user.router";
+
+import { IReqData } from "./dto/reqData.dto";
 import { MISSED_METHOD_MESSAGE } from './user.constants'
 
 

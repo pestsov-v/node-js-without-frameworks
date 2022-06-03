@@ -68,7 +68,7 @@ export default class CheckService {
           const obj = { id, userPhone, protocol, url, method, code, time };
           const checkObject: Omit<ICheckDataDto, 'state' | 'lastChecked'> = CheckHelper.checkObj(obj);
 
-          db.create(router.checks, id, checkObject, (err: errOrNull) => {
+          db.create(router.checks, id, checkObject, (err) => {
             if (err) return callback(statusCode.SERVER_ERROR, SERVER_CREATE_CHECK);
 
             userData.checks = userChecks;

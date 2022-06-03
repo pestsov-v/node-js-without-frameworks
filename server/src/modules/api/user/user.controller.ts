@@ -1,4 +1,4 @@
-import { statusCode } from "../../../core/base/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 import { strOrBool, strOrUndef } from "./guard/base.guard";
 
 import { IUserObj } from "./dto/userObj.dto";

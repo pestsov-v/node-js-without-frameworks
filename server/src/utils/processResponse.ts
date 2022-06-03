@@ -12,12 +12,7 @@ export default function processResponse(
   contentType = typeof contentType == "string" ? contentType : "json";
   statusCode = typeof statusCode == "number" ? statusCode : 200;
   let payloadString = "";
-
-  console.log("method", method)
-  console.log("trimmedPath", trimmedPath)
-  console.log("statusCode", statusCode)
-  console.log("payload", payload)
-  console.log("contentType", contentType)
+  
   if (contentType == "json") {
     res.setHeader("Content-Type", "application/json");
     payload = typeof payload == "object" ? payload : {};
