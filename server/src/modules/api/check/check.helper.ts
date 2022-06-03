@@ -1,10 +1,11 @@
 import _url from "url";
+import { ICheckDataDto } from "./dto/checkData.dto";
 
 export default class CheckHelper {
-  static checkObj(obj) {
-    const { checkId, userPhone, protocol, url, method, code, time } = obj;
+  static checkObj(obj: Omit<ICheckDataDto, 'state' | 'lastChecked'>): Omit<ICheckDataDto, 'state' | 'lastChecked'> {
+    const { id, userPhone, protocol, url, method, code, time } = obj;
     return {
-      id: checkId,
+      id: id,
       userPhone: userPhone,
       protocol: protocol,
       url: url,
