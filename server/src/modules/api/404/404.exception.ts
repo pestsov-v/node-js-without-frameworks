@@ -1,4 +1,4 @@
-import { statusCode } from "../../../core/base/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 import { I404Response } from "./404.response";
 import { PAGE_NOT_FOUND_MESSAGE } from "./404.constants";
 

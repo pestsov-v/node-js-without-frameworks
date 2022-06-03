@@ -1,5 +1,10 @@
-import { statusCode } from "../../../core/base/statusCode.enum"
+import statusCode from "../../../core/base/statusCode.enum"
 
-export type callbackType = {
-	(statusCode: statusCode, message: string): callbackType
+interface message {
+	statusCode: statusCode,
+	message: string
+}
+
+export type Callback404 = {
+	(statusCode: statusCode, message: message): Callback404
 }
