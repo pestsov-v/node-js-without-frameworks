@@ -9,3 +9,8 @@ export function isId(x: string): x is string {
 export function isBoolean(x: boolean): x is boolean {
 	return typeof x == "boolean" && x == true 
 }
+
+
+export function isNumber(x: number): x is number {
+	return typeof x == "number" && x > 0
+}

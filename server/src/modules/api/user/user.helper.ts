@@ -1,13 +1,14 @@
 import crypto from "crypto";
 
-import { IHashObj } from "./dto/userObject.dto";
-import { strOrBool } from "./guard/isString.guard";
+import { IUserObject } from "./dto/userObject.dto";
 import { IHashUserObjectResponse } from "./response/hashUserObject.response";
 
 import config from "../../../../config/variables.config";
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { PASSWORD_NOT_MATCHED } from "../token/token.exception";
 
 export default class UserHelper {
-  static hashPassword(password: strOrBool): strOrBool {
+  static hashPassword(password: string, callback): string {
     if (typeof password === 'string' && password.length > 0) {
       const hash: string = crypto
         .createHmac("sha256", config.hashingSecret)
@@ -15,11 +16,11 @@ export default class UserHelper {
         .digest("hex");
       return hash;
     } else {
-      return false;
+      return callback(statusCode.BAD_REQUEST, PASSWORD_NOT_MATCHED);
     }
   }
 
-  static hashUserObject(hashObj: IHashObj): IHashUserObjectResponse {
+  static hashUserObject(hashObj: IUserObject): IHashUserObjectResponse {
     const { firstName, lastName, phone, hashPassword } = hashObj;
     return {
       firstName: firstName,
