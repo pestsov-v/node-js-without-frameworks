@@ -1,4 +1,4 @@
-import { strOrBool } from "../check/type/union.type";
+import { strOrBool } from "../../../core/base/union.type";
 import { isBoolean, isId, isNumber, isString } from "./guard/base.guard";
 
 export default class TokenValidator {

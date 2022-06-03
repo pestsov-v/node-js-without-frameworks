@@ -1,4 +1,4 @@
-import { method } from "../../../../core/base/method.enum";
+import method from "../../../../core/base/method.enum";
 
 interface IQuery {
 	phone: string,
@@ -12,7 +12,7 @@ interface IPayload {
 	tosAggrement: boolean
 }
 
-export interface IReqData {
+export interface IUserData {
 	trimmedPath: string,
 	queryStringObject: IQuery;
 	method: method

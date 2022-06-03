@@ -2,9 +2,10 @@ import UserValidator from "../user/user.validator";
 import TokenValidator from "./token.validator";
 import TokenService from "./token.service";
 
-import { statusCode } from "../../../core/base/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
+import { strOrBool } from "../../../core/base/union.type";
 import { ITokenData } from "./dto/tokenData.dto";
-import { strOrBool } from "../user/guard/base.guard";
+import { tokenCallback } from "./type/tokenCallback.type";
 
 import {
   INCORRECT_PHONE_FIELD, 
@@ -14,7 +15,7 @@ import {
 } from "./token.exception";
 
 export default class TokenController {
-  static createToken(data: ITokenData, callback) {
+  static createToken(data: ITokenData, callback: tokenCallback) {
     const phone: strOrBool = UserValidator.phoneValidate(data.payload.phone);
     if (typeof phone === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_PHONE_FIELD);
 
@@ -24,14 +25,14 @@ export default class TokenController {
     TokenService.writeToken(phone, password, callback);
   }
 
-  static getToken(data: ITokenData, callback) {
+  static getToken(data: ITokenData, callback: tokenCallback) {
     const id: strOrBool = TokenValidator.idValidate(data.queryStringObject.id);
     if (typeof id === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN);
 
     TokenService.readToken(id, callback);
   }
 
-  static udpateToken(data: ITokenData, callback) {
+  static udpateToken(data: ITokenData, callback: tokenCallback) {
     const id: strOrBool = TokenValidator.idValidate(data.payload.id);
     const extend: boolean = TokenValidator.extendValidate(data.payload.extend);
 
@@ -40,14 +41,14 @@ export default class TokenController {
     TokenService.updateToken(id, callback);
   }
 
-  static deleteToken(data: ITokenData, callback) {
+  static deleteToken(data: ITokenData, callback: tokenCallback) {
     const id: strOrBool = TokenValidator.idValidate(data.queryStringObject.id);
     if (typeof id === 'boolean') return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN);
 
     TokenService.deleteToken(id, callback);
   }
 
-  static verifyToken(tokenId: string, phone: string, callback) {
+  static verifyToken(tokenId: string, phone: string, callback: tokenCallback) {
     TokenService.verifyToken(tokenId, phone, callback);
   }
 }

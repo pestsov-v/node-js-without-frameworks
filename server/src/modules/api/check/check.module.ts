@@ -1,11 +1,12 @@
 import CheckRouter from "./check.router";
 
 import statusCode from "../../../core/base/statusCode.enum";
-import { IReqData } from "../user/dto/reqData.dto";
 import { MISSED_METHOD_MESSAGE } from "../user/user.constants";
 import method from "../../../core/base/method.enum";
+import { ICheckData } from "./dto/reqData.dto";
+import { checkCallback } from "./type/postCallback.type";
 
-export default function CheckModule (data: IReqData, callback) {
+export default function CheckModule (data: ICheckData, callback: checkCallback) {
   const acceptableMethods = [
     method.post,
     method.get,
@@ -13,7 +14,7 @@ export default function CheckModule (data: IReqData, callback) {
     method.delete,
   ];
   if (acceptableMethods.indexOf(data.method) > -1) {
-    CheckRouter[data.method](data, callback);
+    CheckRouter[data.method as keyof typeof method](data, callback);
   } else {
     callback(statusCode.BAD_REQUEST, MISSED_METHOD_MESSAGE);
   }

@@ -1,11 +1,10 @@
-import { statusCode } from "../../../core/base/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
 import { ITokenObject } from "./dto/tokenObject.dto";
-import { isNumber } from "./guard/base.guard";
 import { INCORRECT_TOKEN } from "./token.exception";
-import TokenValidator from "./token.validator";
+import { tokenCallback } from "./type/tokenCallback.type";
 
 export default class TokenHelper {
-  static createRandomString(strLength: number, callback) {
+  static createRandomString(strLength: number, callback: tokenCallback) {
 
     if (strLength) {
       const possibleCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";

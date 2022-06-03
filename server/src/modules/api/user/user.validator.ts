@@ -1,5 +1,5 @@
-import { isStringUndef, strOrBool, strOrUndef } from "./guard/base.guard";
-
+import { isStringUndef } from "../../../core/base/base.guard";
+import { strOrBool, strOrUndef } from "../../../core/base/union.type";
 
 export default class UserValidator {
   public static nameValidate(name: string): strOrBool {

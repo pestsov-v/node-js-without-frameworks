@@ -5,6 +5,6 @@ interface message {
 	Error: string
 }
 
-export type checkCallback = {
-	(statusCode: statusCode, message: message| string): checkCallback
+export type tokenCallback = {
+	(statusCode: statusCode, message: message): tokenCallback
 }

@@ -4,7 +4,7 @@ import statusCode from "../../../core/base/statusCode.enum";
 
 import UserHelper from "./user.helper";
 import CheckValidator from "../check/check.validator";
-
+import { INCORRECT_PASSWORD_FIELD, PASSWORD_NOT_MATCHED } from "../token/token.exception";
 import { IUserObject } from "./dto/userObject.dto";
 import { strOrBool } from "./guard/base.guard";
 import { IHashUserObjectResponse } from "./response/hashUserObject.response";
@@ -27,7 +27,7 @@ import {
   USER_CAN_NOT_DELETE, 
   USER_GET_SUCCESS 
 } from "./user.exception";
-import { INCORRECT_PASSWORD_FIELD, PASSWORD_NOT_MATCHED } from "../token/token.exception";
+
 
 
 export default class UserService {
