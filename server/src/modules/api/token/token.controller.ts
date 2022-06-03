@@ -2,7 +2,7 @@ import UserValidator from "../user/user.validator";
 import TokenValidator from "./token.validator";
 import TokenService from "./token.service";
 
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { statusCode } from "../../../core/base/statusCode.enum";
 import { ITokenData } from "./dto/tokenData.dto";
 import { strOrBool } from "../user/guard/base.guard";
 

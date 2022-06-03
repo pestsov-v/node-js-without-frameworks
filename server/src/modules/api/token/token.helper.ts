@@ -1,4 +1,4 @@
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { statusCode } from "../../../core/base/statusCode.enum";
 import { ITokenObject } from "./dto/tokenObject.dto";
 import { isNumber } from "./guard/base.guard";
 import { INCORRECT_TOKEN } from "./token.exception";

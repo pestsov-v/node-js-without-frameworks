@@ -1,9 +1,9 @@
 import CheckRouter from "./check.router";
 
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { statusCode } from "../../../core/base/statusCode.enum";
 import { IReqData } from "../user/dto/reqData.dto";
 import { MISSED_METHOD_MESSAGE } from "../user/user.constants";
-import { method } from "../../../core/base/enum/method.enum";
+import { method } from "../../../core/base/method.enum";
 
 export default function CheckModule (data: IReqData, callback) {
   const acceptableMethods = [

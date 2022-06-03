@@ -1,6 +1,6 @@
-import format from "../../core/base/enum/format.enum";
-import { method } from "../../core/base/enum/method.enum";
-import { statusCode } from "../../core/base/enum/statusCode.enum";
+import format from "../../core/base/format.enum";
+import method from "../../core/base/method.enum";
+import statusCode from "../../core/base/statusCode.enum";
 
 const GUIHelper = require("./gui.helper");
 

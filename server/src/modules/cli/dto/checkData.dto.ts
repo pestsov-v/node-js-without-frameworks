@@ -1,5 +1,5 @@
-import { method } from "../../../core/base/enum/method.enum"
-import { statusCode } from "../../../core/base/enum/statusCode.enum"
+import { method } from "../../../core/base/method.enum"
+import { statusCode } from "../../../core/base/statusCode.enum"
 
 export interface ICheckData {
 	id: string;

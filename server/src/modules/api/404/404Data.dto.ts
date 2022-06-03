@@ -1,4 +1,4 @@
-import { method } from "../../../core/base/enum/method.enum";
+import { method } from "../../../core/base/method.enum";
 
 interface IQuery {
 	phone: string,

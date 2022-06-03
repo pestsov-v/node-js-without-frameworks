@@ -2,7 +2,7 @@ import CheckService from "./check.service";
 import CheckValidator from "./check.validator";
 import TokenValidator from "../token/token.validator";
 
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import { statusCode } from "../../../core/base/statusCode.enum";
 import { ICheckData } from "./dto/reqData.dto";
 import { numOrBool, strOrBool } from "./type/union.type";
 
@@ -12,7 +12,7 @@ import {
   EMPTY_UPDATE_FILEDS 
 } from "./check.exception";
 import { ICheckObject } from "./dto/checkObject.dto";
-import { method } from "../../../core/base/enum/method.enum";
+import { method } from "../../../core/base/method.enum";
 
 export default class CheckController {
   static postCheck(data: ICheckData, callback) {

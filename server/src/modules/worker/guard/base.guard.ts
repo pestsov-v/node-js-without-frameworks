@@ -1,4 +1,4 @@
-import { method } from "../../../core/base/enum/method.enum"
+import { method } from "../../../core/base/method.enum"
 import { strOrBool } from "../type/base.type"
 
 export function isId(x: strOrBool): x is string {

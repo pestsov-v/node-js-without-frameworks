@@ -4,7 +4,7 @@ import { errOrNull } from "../logger/type/errorOrNull.type";
 import WorkerService from "./worker.service";
 import WorkerLogger from "./worker.logger";
 import WorkerDebugger from "./worker.debug";
-import { router } from "../../core/base/enum/router.enum";
+import router from "../../core/base/router.enum";
 
 export default class WorkerController {
   static gatherAllChecks() {

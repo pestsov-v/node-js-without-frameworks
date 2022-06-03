@@ -1,4 +1,4 @@
-import { method } from "../../../core/base/enum/method.enum";
+import { method } from "../../../core/base/method.enum";
 import { isCheks, isCode, isMethod, isProtocol, isString, isTime } from "./guard/object.guard";
 import { numOrBool, objOrBool, strOrBool } from "./type/union.type";
 

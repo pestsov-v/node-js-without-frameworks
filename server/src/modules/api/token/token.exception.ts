@@ -1,4 +1,5 @@
-import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import statusCode from "../../../core/base/statusCode.enum";
+
 import {
   INCORRECT_PHONE_FIELD_MESSAGE, 
   INCORRECT_PASSWORD_FIELD_MESSAGE, 
