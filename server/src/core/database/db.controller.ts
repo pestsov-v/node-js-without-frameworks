@@ -41,7 +41,7 @@ export default class DatabaseController {
     });
   }
 
-  static dbRead(dir: string, file: string, callback: dbReadCallback): void {
+  static dbRead<T>(dir: string, file: string, callback: dbReadCallback): void {
     const filePath: string = `${baseDir}${dir}/${file}.json`;
 
     fs.readFile(filePath, "utf-8", (err, data) => {

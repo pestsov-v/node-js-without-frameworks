@@ -1,6 +1,18 @@
-import { method } from "../../../core/base/method.enum";
-import { isCheks, isCode, isMethod, isProtocol, isString, isTime } from "./guard/object.guard";
-import { numOrBool, objOrBool, strOrBool } from "./type/union.type";
+import method from "../../../core/base/method.enum";
+
+import { 
+  isCheks, 
+  isCode, 
+  isMethod, 
+  isProtocol, 
+  isString, 
+  isTime 
+} from "../../../core/base/base.guard";
+
+import { 
+  numOrBool, 
+  strOrBool 
+} from "../../../core/base/union.type";
 
 export default class CheckValidator {
   static userChecks(checks: string[]): string[] | [] {

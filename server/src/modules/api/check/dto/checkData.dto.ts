@@ -1,4 +1,4 @@
-import { method } from "../../../../core/base/method.enum"
+import method from "../../../../core/base/method.enum"
 
 export interface ICheckDataDto {
 	id: string;

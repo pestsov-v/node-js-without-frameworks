@@ -10,7 +10,15 @@ import TokenValidator from "../token/token.validator";
 import TokenHelper from "../token/token.helper";
 import TokenController from "../token/token.controller";
 
+import { strOrBool } from "../../../core/base/union.type";
+
+import { errOrNull } from "../../logger/type/errorOrNull.type";
+import { INCORRECT_TOKEN } from "../token/token.exception";
+import { IUserDataDto } from "../user/dto/userData.dto";
 import { ICheckObject } from "./dto/checkObject.dto";
+import { ITokenData } from "./dto/tokenData.dto";
+import { ICheckDataDto } from "./dto/checkData.dto";
+import { checkCallback } from "./type/postCallback.type";
 
 import {
    USER_NOT_AUTH, 
@@ -31,16 +39,12 @@ import {
   CHECK_DELETE_SUCCESS, 
   INVALID_HOSTNAME 
 } from "./check.exception";
-import { strOrBool } from "./type/union.type";
-import { INCORRECT_TOKEN } from "../token/token.exception";
-import { errOrNull } from "../../logger/type/errorOrNull.type";
-import { ITokenData } from "./dto/tokenData.dto";
-import { IUserDataDto } from "../user/dto/userData.dto";
-import { ICheckDataDto } from "./dto/checkData.dto";
+
+
 
 
 export default class CheckService {
-  static writeCheck(checkObj: ICheckObject, token: string, callback) {
+  static writeCheck(checkObj: Pick<ICheckDataDto, 'protocol' | 'url' | 'method' | 'code' | 'time'>, token: string, callback: checkCallback) {
     const { protocol, url, method, code, time } = checkObj;
 
     const validToken: strOrBool = TokenValidator.tokenValidate(token);
@@ -84,7 +88,7 @@ export default class CheckService {
     });
   }
 
-  static readCheck(id: string, token: string, callback) {
+  static readCheck(id: string, token: string, callback: checkCallback) {
     db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
       if (err) return callback(statusCode.BAD_REQUEST, TOKEN_NOT_FOUND(id));
       const validToken: strOrBool = TokenValidator.tokenValidate(token);
@@ -98,7 +102,7 @@ export default class CheckService {
     });
   }
 
-  static updateCheck(updateObj: Partial<Pick<ICheckDataDto, 'id' | 'method' | 'protocol' | 'url' | 'code' | 'time'>>, token: string, callback) {
+  static updateCheck(updateObj: Partial<Pick<ICheckDataDto, 'id' | 'method' | 'protocol' | 'url' | 'code' | 'time'>>, token: string, callback: checkCallback) {
     const { id, protocol, url, method, code, time } = updateObj;
     if (typeof id === 'undefined') return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND_ID)
     db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
@@ -127,7 +131,7 @@ export default class CheckService {
     });
   }
 
-  static deleteCheck(id: string, token: string, callback) {
+  static deleteCheck(id: string, token: string, callback: checkCallback) {
     db.read(router.checks, id, (err: errOrNull, checkData: ICheckDataDto) => {
       if (err) return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND_ID);
 
