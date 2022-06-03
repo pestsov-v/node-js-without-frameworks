@@ -1,20 +1,21 @@
-const config = require("./variables.config");
+import config from "./variables.config";
 const StringDecoder = require("string_decoder").StringDecoder;
-const url = require("url");
-const router = require("../src/router");
-const page404 = require("../src/modules/api/404/404.router");
+import url from "url";
+import router from "../src/router";
+import page404 from "../src/modules/api/404/404.router";
 const parceJsonToObject = require("../src/utils/JsonToObject");
-const processResponse = require("../src/utils/processResponse");
-const util = require("util");
+import processResponse from "../src/utils/processResponse";
+const GUIModule = require("../src/modules/gui/gui.module"); 
+
+import util from "util";
 const debug = util.debuglog("server");
-const GUIModule = require("../src/modules/gui/gui.module");
-const colors = require("../src/core/base/color");
 
-class ServerConfig {
-  httpPort = config.httpPort;
-  httpsPort = config.httpsPort;
 
-  unified(req, res) {
+export default class ServerConfig {
+  static httpPort = config.httpPort;
+  static httpsPort = config.httpsPort;
+
+  static unified(req, res) {
     const parseUrl = url.parse(req.url, true);
     const path = parseUrl.pathname;
     const queryStringObject = JSON.parse(JSON.stringify(parseUrl.query));
@@ -23,7 +24,7 @@ class ServerConfig {
     const headers = JSON.parse(JSON.stringify(req.headers));
     const decoder = new StringDecoder("utf-8");
     let buffer = "";
-
+ 
     req.on("data", function (data) {
       buffer += decoder.write(data);
     });
@@ -35,6 +36,7 @@ class ServerConfig {
         typeof router[trimmedPath] !== "undefined"
           ? router[trimmedPath]
           : page404;
+
 
       chosenHandler =
         trimmedPath.indexOf("public/") > -1 ? GUIModule.public : chosenHandler;
@@ -75,19 +77,17 @@ class ServerConfig {
     });
   }
 
-  httpHandler() {
+  public static httpHandler() {
     return console.log(
-      colors.turquoise,
+      "\x1b[35m%s\x1b[0m",
       `Сервер работает на порту: http://localhost:${config.httpPort} в ${config.envName} моде`
     );
   }
 
-  httpsHandler() {
+  public static httpsHandler() {
     return console.log(
-      colors.purple,
+      "\x1b[36m%s\x1b[0m",
       `Сервер работает на порту: https://localhost:${config.httpsPort} в ${config.envName} моде`
     );
   }
 }
-
-module.exports = new ServerConfig();

@@ -42,8 +42,6 @@ function performCheck(originalCheckData: IOriginalCheckData) {
   const parcedUrl: IParseUrl = WorkerHelper.parceUrl(protocol, url);
   const requestDetails = WorkerHelper.getDetails(originalCheckData, parcedUrl);
 
-  console.log(requestDetails)
-
   const useModule = WorkerValidator.useModuleValidate(protocol);
 
   const req = useModule.request(requestDetails, (res) => {

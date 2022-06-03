@@ -1,5 +1,5 @@
-class TokenHelper {
-  createRandomString(strLength) {
+export default class TokenHelper {
+  static createRandomString(strLength) {
     strLength =
       typeof strLength == "number" && strLength > 0 ? strLength : false;
 
@@ -21,7 +21,7 @@ class TokenHelper {
     }
   }
 
-  createObj(phone, tokenId) {
+  static createObj(phone, tokenId) {
     const expires = Date.now() + 1000 * 60 * 60;
 
     return {
@@ -31,5 +31,3 @@ class TokenHelper {
     };
   }
 }
-
-module.exports = new TokenHelper();

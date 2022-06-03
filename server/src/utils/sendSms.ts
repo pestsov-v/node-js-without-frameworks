@@ -1,6 +1,6 @@
-const config = require("../../config/variables.config");
-const https = require("https");
-const querystring = require("querystring");
+import { twilio } from "../../config/variables.config";
+import { request } from "https";
+import { stringify } from "querystring";
 
 const sendSms = (phone, msg, callback) => {
   phone =
@@ -15,25 +15,25 @@ const sendSms = (phone, msg, callback) => {
 
   if (phone && msg) {
     const payload = {
-      From: config.twilio.fromPhone,
+      From: '+380951699263',
       To: `+380${phone}`,
       Body: msg,
     };
 
-    const stringPayload = querystring.stringify(payload);
+    const stringPayload = stringify(payload);
     const requestDetails = {
       protocol: "https:",
       hostname: "api.twilio.com",
       method: "POST",
-      path: `/2010-04-01/Accounts/${config.twilio.accountSid}/Messages.json`,
-      auth: `${config.twilio.accountSid}:${config.twilio.authToken}`,
+      path: `/2010-04-01/Accounts/ACb32d411ad7fe886aac54c665d25e5c5d/Messages.json`,
+      auth: `ACb32d411ad7fe886aac54c665d25e5c5d:9455e3eb3109edc12e3d8c92768f7a67`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Content-Length": Buffer.byteLength(stringPayload),
       },
     };
 
-    const req = https.request(requestDetails, function (res) {
+    const req = request(requestDetails, function (res) {
       const status = res.statusCode;
       if (status == 200 || status == 201) {
         callback(false);
@@ -53,4 +53,4 @@ const sendSms = (phone, msg, callback) => {
   }
 };
 
-module.exports = sendSms;
+export default sendSms;

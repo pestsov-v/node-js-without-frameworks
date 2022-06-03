@@ -62,7 +62,7 @@ const currentEnv =
     ? process.env.NODE_ENV.toLowerCase()
     : "";
 
-const envToExport =
+const config =
   typeof env[currentEnv] == "object" ? env[currentEnv] : env.staging;
 
-module.exports = envToExport;
+export default config;
