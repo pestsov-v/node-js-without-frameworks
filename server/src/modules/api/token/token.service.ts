@@ -1,8 +1,8 @@
-const db = require("../../../core/database/db.router");
-const statusCode = require("../../../core/base/statusCode");
-const router = require("../../../core/base/enum/route.enum");
-const UserHelper = require("../user/user.helper");
-const TokenHelper = require("./token.helper");
+import { router } from "../../../core/base/enum/router.enum";
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
+import db from "../../../core/database/db.router";
+import UserHelper from "../user/user.helper";
+import TokenHelper from "./token.helper";
 
 const {
   USER_NOT_FOUND_WITH_PHONE,
@@ -18,8 +18,8 @@ const {
   TOKEN_DELETE_SUCCESS,
 } = require("./token.exception");
 
-class TokenService {
-  writeToken(phone, password, callback) {
+export default class TokenService {
+  static writeToken(phone, password, callback) {
     db.read(router.users, phone, (err, userData) => {
       if (err) {
         return callback(statusCode.BAD_REQUEST, USER_NOT_FOUND_WITH_PHONE);
@@ -39,14 +39,14 @@ class TokenService {
     });
   }
 
-  readToken(id, callback) {
+  static readToken(id, callback) {
     db.read(router.tokens, id, (err, tokenData) => {
       if (err) return callback(statusCode.NOT_FOUND, USER_NOT_FOUND);
       return callback(200, tokenData);
     });
   }
 
-  updateToken(id, callback) {
+  static updateToken(id, callback) {
     db.read(router.tokens, id, (err, tokenData) => {
       if (err) return callback(statusCode.BAD_REQUEST, TOKEN_NOT_EXISTS);
 
@@ -62,7 +62,7 @@ class TokenService {
     });
   }
 
-  deleteToken(id, callback) {
+  static deleteToken(id, callback) {
     db.read(router.tokens, id, (err) => {
       if (err) return callback(statusCode.NOT_FOUND, TOKEN_NOT_FOUND);
 
@@ -73,7 +73,7 @@ class TokenService {
     });
   }
 
-  verifyToken(tokenId, phone, callback) {
+  static verifyToken(tokenId, phone, callback) {
     db.read(router.tokens, tokenId, (err, tokenData) => {
       if (err) return callback(false);
       if (tokenData.phone == phone && tokenData.expires > Date.now()) {
@@ -83,5 +83,3 @@ class TokenService {
     });
   }
 }
-
-module.exports = new TokenService();

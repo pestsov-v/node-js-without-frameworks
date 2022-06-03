@@ -1,18 +1,18 @@
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 
-const CheckService = require("./check.service");
+import CheckService from "./check.service";
 import CheckValidator from "./check.validator";
-const TokenValidator = require("../token/token.validator");
+import { IReqData } from "./dto/reqData.dto";
+import TokenValidator from "../token/token.validator";
 
-const {
-  MISSED_REQUIRE_FIEILDS,
-  INCORRECT_PHONE,
-  EMPTY_UPDATE_FILEDS,
-} = require("./check.exception");
+import {
+  MISSED_REQUIRE_FIEILDS, 
+  INCORRECT_PHONE, 
+  EMPTY_UPDATE_FILEDS 
+} from "./check.exception";
 
 export default class CheckController {
-  static postCheck(data, callback) {
-    console.log(data)
+  static postCheck(data: IReqData, callback) {
     const protocol = CheckValidator.protocolValidate(data.payload.protocol);
     const url = CheckValidator.urlValidate(data.payload.url);
     const method = CheckValidator.methodValidate(data.payload.method);

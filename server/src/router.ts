@@ -1,5 +1,5 @@
 import UserModule from "./modules/api/user/user.module";
-const TokenModule = require("./modules/api/token/token.module");
+import TokenModule from "./modules/api/token/token.module";
 import CheckModule from "./modules/api/check/check.module";
 const GUIModule = require("./modules/gui/gui.module");
 
@@ -21,4 +21,4 @@ const router = {
   "api/checks": CheckModule,
 };
 
-module.exports = router;
+export default router

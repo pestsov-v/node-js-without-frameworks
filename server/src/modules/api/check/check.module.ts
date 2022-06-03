@@ -1,18 +1,16 @@
-const methods = require("../../../core/base/enum/method.enum");
+import CheckRouter from "./check.router";
 
 import { statusCode } from "../../../core/base/enum/statusCode.enum";
 import { IReqData } from "../user/dto/reqData.dto";
 import { MISSED_METHOD_MESSAGE } from "../user/user.constants";
-import CheckRouter from "./check.router";
+import { method } from "../../../core/base/enum/method.enum";
 
 export default function CheckModule (data: IReqData, callback) {
-
-  console.log(CheckRouter[data.method](data, callback))
   const acceptableMethods = [
-    methods.post,
-    methods.get,
-    methods.put,
-    methods.delete,
+    method.post,
+    method.get,
+    method.put,
+    method.delete,
   ];
   if (acceptableMethods.indexOf(data.method) > -1) {
     CheckRouter[data.method](data, callback);

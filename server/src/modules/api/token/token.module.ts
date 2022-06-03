@@ -1,9 +1,8 @@
-const method = require("../../../core/base/enum/method.enum");
-const TokenRouter = require("./token.router");
+import { method } from "../../../core/base/enum/method.enum";
+import { IReqData } from "../user/dto/reqData.dto";
+import TokenRouter from "./token.router";
 
-let TokenModule = {};
-
-TokenModule = function (data, callback) {
+export default function TokenModule (data: IReqData, callback) {
   const acceptableMethods = [
     method.post,
     method.get,
@@ -16,5 +15,3 @@ TokenModule = function (data, callback) {
     callback(405);
   }
 };
-
-module.exports = TokenModule;

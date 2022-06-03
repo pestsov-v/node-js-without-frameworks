@@ -1,17 +1,17 @@
-const statusCode = require("../../../core/base/statusCode");
-const UserValidator = require("../user/user.validator");
-const TokenValidator = require("./token.validator");
-const TokenService = require("./token.service");
+import UserValidator from "../user/user.validator";
+import TokenValidator from "./token.validator";
+import TokenService from "./token.service";
 
-const {
-  INCORRECT_PHONE_FIELD,
-  INCORRECT_PASSWORD_FIELD,
-  MISSED_REQUIRED_FIELDS,
-  INCORRECT_TOKEN,
-} = require("./token.exception");
+import {
+  INCORRECT_PHONE_FIELD, 
+  INCORRECT_PASSWORD_FIELD, 
+  MISSED_REQUIRED_FIELDS, 
+  INCORRECT_TOKEN 
+} from "./token.exception";
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
 
-class TokenController {
-  createToken(data, callback) {
+export default class TokenController {
+  static createToken(data, callback) {
     const phone = UserValidator.phoneValidate(data.payload.phone);
     if (!phone) return callback(statusCode.BAD_REQUEST, INCORRECT_PHONE_FIELD);
 
@@ -23,14 +23,14 @@ class TokenController {
     TokenService.writeToken(phone, password, callback);
   }
 
-  getToken(data, callback) {
+  static getToken(data, callback) {
     const id = TokenValidator.idValidate(data.queryStringObject.id);
     if (!id) return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN);
 
     TokenService.readToken(id, callback);
   }
 
-  udpateToken(data, callback) {
+  static udpateToken(data, callback) {
     const id = TokenValidator.idValidate(data.payload.id);
     const extend = TokenValidator.extendValidate(data.payload.extend);
 
@@ -40,16 +40,14 @@ class TokenController {
     TokenService.updateToken(id, callback);
   }
 
-  deleteToken(data, callback) {
+  static deleteToken(data, callback) {
     const id = TokenValidator.idValidate(data.queryStringObject.id);
     if (!id) return callback(statusCode.BAD_REQUEST, INCORRECT_TOKEN);
 
     TokenService.deleteToken(id, callback);
   }
 
-  verifyToken(tokenId, phone, callback) {
+  static verifyToken(tokenId, phone, callback) {
     TokenService.verifyToken(tokenId, phone, callback);
   }
 }
-
-module.exports = new TokenController();

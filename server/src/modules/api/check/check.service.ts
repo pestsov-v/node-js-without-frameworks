@@ -1,13 +1,14 @@
-const dns = require("dns");
-const config = require("../../../../config/variables.config");
+import dns from "dns";
+import config from "../../../../config/variables.config";
+import { router } from "../../../core/base/enum/router.enum";
+import { statusCode } from "../../../core/base/enum/statusCode.enum";
 import db from "../../../core/database/db.router";
-const statusCode = require("../../../core/base/statusCode");
-const router = require("../../../core/base/enum/route.enum");
-const CheckHelper = require("./check.helper");
-const CheckValidator = require("./check.validator");
-const TokenValidator = require("../token/token.validator");
-const TokenHelper = require("../token/token.helper");
-const TokenController = require("../token/token.controller");
+import CheckHelper from "./check.helper";
+import CheckValidator from "./check.validator";
+import { IPayload } from "./dto/reqData.dto";
+import TokenValidator from "../token/token.validator";
+import TokenHelper from "../token/token.helper";
+import TokenController from "../token/token.controller";
 
 const {
   USER_NOT_AUTH,
@@ -29,8 +30,8 @@ const {
   INVALID_HOSTNAME,
 } = require("./check.exception");
 
-class CheckService {
-  writeCheck(checkObj, token, callback) {
+export default class CheckService {
+  static writeCheck(checkObj: IPayload, token: string, callback) {
     const { protocol, url, method, code, time } = checkObj;
 
     const validToken = TokenValidator.tokenValidate(token);
@@ -76,7 +77,7 @@ class CheckService {
     });
   }
 
-  readCheck(id, token, callback) {
+  static readCheck(id, token, callback) {
     db.read(router.checks, id, (err, checkData) => {
       if (err) return callback(statusCode.BAD_REQUEST, TOKEN_NOT_FOUND(id));
       const validToken = TokenValidator.tokenValidate(token);
@@ -91,7 +92,7 @@ class CheckService {
     });
   }
 
-  updateCheck(updateObj, token, callback) {
+  static updateCheck(updateObj, token, callback) {
     const { id, protocol, url, method, code, time } = updateObj;
     db.read(router.checks, id, (err, checkData) => {
       if (err) return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND);
@@ -120,7 +121,7 @@ class CheckService {
     });
   }
 
-  deleteCheck(id, token, callback) {
+  static deleteCheck(id, token, callback) {
     db.read(router.checks, id, (err, checkData) => {
       if (err) return callback(statusCode.NOT_FOUND, CHECK_NOT_FOUND_ID);
 
@@ -160,5 +161,3 @@ class CheckService {
     });
   }
 }
-
-module.exports = new CheckService();

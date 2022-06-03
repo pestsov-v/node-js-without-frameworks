@@ -1,7 +1,7 @@
 import config from "./variables.config";
 const StringDecoder = require("string_decoder").StringDecoder;
 import url from "url";
-const router = require("../src/router");
+import router from "../src/router";
 import page404 from "../src/modules/api/404/404.router";
 const parceJsonToObject = require("../src/utils/JsonToObject");
 import processResponse from "../src/utils/processResponse";
@@ -36,6 +36,7 @@ export default class ServerConfig {
         typeof router[trimmedPath] !== "undefined"
           ? router[trimmedPath]
           : page404;
+
 
       chosenHandler =
         trimmedPath.indexOf("public/") > -1 ? GUIModule.public : chosenHandler;
