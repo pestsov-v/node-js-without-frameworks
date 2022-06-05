@@ -21,6 +21,7 @@
 	- [Command line interface (CLI)](#command-line-interface-cli)
 		- [Команды интерфейса командной строки](#команды-интерфейса-командной-строки)
 	- [Graphical user interface (GUI)](#graphical-user-interface-gui)
+		- [Страницы графического интерфейса](#страницы-графического-интерфейса)
 
 ## Предназначение и стек технологий
 
@@ -116,6 +117,36 @@
 
 Команды `list logs` и `more log info --{logId}` позволяют получить список всех файлов логирования, а также детали по каждому конкретному файлу логирования.
 
-[cli-list-logs.png](https://postimg.cc/McbGBqby)
+[![cli-list-logs.png](https://i.postimg.cc/9fswvfDN/cli-list-logs.png)](https://postimg.cc/McbGBqby)
 
 ## Graphical user interface (GUI)
+
+Графический интерфейс состоит из нескольких страничек и машрутизации между ними. 
+
+Подробнее про организацию кода и архитектуру GUI можно почитать [Здесь](wiki/v2.0.0.md#graphical-user-interface-gui).
+
+### Страницы графического интерфейса
+
+Главная страница
+
+[![main.png](https://i.postimg.cc/ZRMmf90C/main.png)](https://postimg.cc/N9mZFj6c)
+
+Страница регистрации
+
+[![registration.png](https://i.postimg.cc/mkKbrcG0/registration.png)](https://postimg.cc/T5q87319)
+
+Страница логина
+
+[![login.png](https://i.postimg.cc/Kj32CZgQ/login.png)](https://postimg.cc/JH8vkCxB)
+
+Страница создания чека
+
+[![creat-check.png](https://i.postimg.cc/3x1xXxjD/creat-check.png)](https://postimg.cc/SnX4qqvy)
+
+Страница доски с чеками
+
+[![dashboard.png](https://i.postimg.cc/bwyzwjXY/dashboard.png)](https://postimg.cc/7fRvKdYj)
+
+Страница настроек профиля
+
+[![settings.png](https://i.postimg.cc/G368ttzL/settings.png)](https://postimg.cc/V5BLHY3p)
