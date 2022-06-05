@@ -116,6 +116,6 @@
 
 Команды `list logs` и `more log info --{logId}` позволяют получить список всех файлов логирования, а также детали по каждому конкретному файлу логирования.
 
-[![cli-list-logs.png](https://i.postimg.cc/9fswvfDN/cli-list-logs.png)](https://postimg.cc/McbGBqby)
+[cli-list-logs.png](https://postimg.cc/McbGBqby)
 
 ## Graphical user interface (GUI)
