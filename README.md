@@ -19,6 +19,7 @@
 	- [v3.0.0 - TypeScript](#v300---typescript)
 	- [Application programming interface (API)](#application-programming-interface-api)
 	- [Command line interface (CLI)](#command-line-interface-cli)
+		- [Команды интерфейса командной строки](#команды-интерфейса-командной-строки)
 	- [Graphical user interface (GUI)](#graphical-user-interface-gui)
 
 ## Предназначение и стек технологий
@@ -86,5 +87,35 @@
 ## Application programming interface (API) 
 
 ## Command line interface (CLI)
+
+Подробнее про организацию кода и архитектуру командной строки можно почитать [Здесь](wiki/v2.0.0.md#command-line-interface-cli).
+
+Интерфейс запускается после разворачивания всех основных задач, таким как обработчики логирования (Worker) и непосредственно сами веб сервера с http и https протоколами. При запуске интерфейса командной строки выводится сообщение: "Интерфейс командной строки успешно запущен".
+
+[![cli-init.png](https://i.postimg.cc/v8cSr2yY/cli-init.png)](https://postimg.cc/V5PR1R5p)
+
+Командная строка под капотом использует модуль `readline` и работу `events`, который на основе событий - ключевого слова команды, отдаёт ту или иную информацию.
+
+### Команды интерфейса командной строки
+
+Команда `help` - позволяет получить список и описание всех команд.
+
+[![cli-help.png](https://i.postimg.cc/66Rf6rc5/cli-help.png)](https://postimg.cc/5j4CnFDZ)
+
+Команда `stats` - позволяет получить информацию по нагрузке и использованию ресурсов операционной системы.
+
+[![cli-stats.png](https://i.postimg.cc/nzKrghKZ/cli-stats.png)](https://postimg.cc/623BGw11)
+
+Команды `list users` и `more user info --{userId}` позволяют получить список зарегистрированных пользователей, а также детали по каждому конкретному пользователю.
+
+[![cli-lsit-users.png](https://i.postimg.cc/ZqbJnx6k/cli-lsit-users.png)](https://postimg.cc/bZB7Fb6L)
+
+Команды `list checks` и `more checks info --{checkId}` позволяют получить список всех чеков в базе данных, а также детали по каждому конкретному чеку.
+
+[![cli-lsit-checks.png](https://i.postimg.cc/44VpRpbv/cli-lsit-checks.png)](https://postimg.cc/7bP5gGRb)
+
+Команды `list logs` и `more log info --{logId}` позволяют получить список всех файлов логирования, а также детали по каждому конкретному файлу логирования.
+
+[![cli-list-logs.png](https://i.postimg.cc/9fswvfDN/cli-list-logs.png)](https://postimg.cc/McbGBqby)
 
 ## Graphical user interface (GUI)
