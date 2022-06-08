@@ -20,8 +20,8 @@ env.staging = {
 };
 
 env.testing = {
-  httpPort: 4010,
-  httpsPort: 4011,
+  httpPort: 4012,
+  httpsPort: 4013,
   envName: "staging",
   hashingSecret: "ThisIsSecret",
   maxChecks: 5,

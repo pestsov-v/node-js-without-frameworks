@@ -1,17 +1,20 @@
 process.env.NODE_ENV = "testing";
 
-_app = {};
+tests = {};
 
-_app.tests = {};
+const unit = require("./unit");
+const api = require("./api");
 
-_app.tests.unit = require("./unit");
-_app.tests.api = require("./api");
+tests.unit = unit;
+tests.api = api;
 
-_app.countTests = function () {
+console.log(api);
+
+countTests = function () {
   var counter = 0;
-  for (var key in _app.tests) {
-    if (_app.tests.hasOwnProperty(key)) {
-      var subTests = _app.tests[key];
+  for (var key in tests) {
+    if (tests.hasOwnProperty(key)) {
+      var subTests = tests[key];
       for (var testName in subTests) {
         if (subTests.hasOwnProperty(testName)) {
           counter++;
@@ -23,14 +26,14 @@ _app.countTests = function () {
   return counter;
 };
 
-_app.runTests = function () {
+runTests = function () {
   var errors = [];
   var successes = 0;
-  var limit = _app.countTests();
+  var limit = countTests();
   var counter = 0;
-  for (var key in _app.tests) {
-    if (_app.tests.hasOwnProperty(key)) {
-      var subTests = _app.tests[key];
+  for (var key in tests) {
+    if (tests.hasOwnProperty(key)) {
+      var subTests = tests[key];
       for (var testName in subTests) {
         if (subTests.hasOwnProperty(testName)) {
           (function () {
@@ -42,7 +45,7 @@ _app.runTests = function () {
                 counter++;
                 successes++;
                 if (counter == limit) {
-                  _app.produceTestReport(limit, successes, errors);
+                  produceTestReport(limit, successes, errors);
                 }
               });
             } catch (e) {
@@ -53,7 +56,7 @@ _app.runTests = function () {
               console.log("\x1b[31m%s\x1b[0m", tmpTestName);
               counter++;
               if (counter == limit) {
-                _app.produceTestReport(limit, successes, errors);
+                produceTestReport(limit, successes, errors);
               }
             }
           })();
@@ -63,7 +66,7 @@ _app.runTests = function () {
   }
 };
 
-_app.produceTestReport = function (limit, successes, errors) {
+produceTestReport = function (limit, successes, errors) {
   console.log("");
   console.log("--------------------BEGIN TEST REPORT--------------------");
   console.log("");
@@ -88,4 +91,4 @@ _app.produceTestReport = function (limit, successes, errors) {
   process.exit(0);
 };
 
-_app.runTests();
+runTests();
