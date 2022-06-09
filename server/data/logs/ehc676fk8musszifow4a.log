@@ -1,1 +1,1 @@
-{"check":{"id":"ehc676fk8musszifow4a","userPhone":"3931200549","protocol":"http","url":"google.com","method":"get","code":[200,201],"time":2,"state":"down","lastChecked":1654720556634},"outcome":{"error":false,"responseCode":301},"state":"down","alert":false,"timeOfCheck":1654720560078}
+{"check":{"id":"ehc676fk8musszifow4a","userPhone":"3931200549","protocol":"http","url":"google.com","method":"get","code":[200,201],"time":2,"state":"down","lastChecked":1654763880335},"outcome":{"error":false,"responseCode":301},"state":"down","alert":false,"timeOfCheck":1654763921527}

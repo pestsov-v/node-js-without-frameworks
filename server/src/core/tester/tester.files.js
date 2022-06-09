@@ -1,8 +1,6 @@
 tests = {};
 
-
-
-tests.unit = require("./unit");
-tests.api = require("./api");
+tests.unit = require("../../../test/unit");
+tests.api = require("../../../test/api");
 
 module.exports = tests;

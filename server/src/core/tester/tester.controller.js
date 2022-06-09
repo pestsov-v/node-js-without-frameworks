@@ -1,5 +1,6 @@
-const TesterHelper = require("./tester.helper");
 const http = require("http");
+
+const TesterHelper = require("./tester.helper");
 
 class TesterController {
   getRequest(path, callback) {
