@@ -10,12 +10,12 @@ class CLIGraphic {
     console.log(line);
   }
 
-  verticalSpace = function (lines) {
+  verticalSpace(lines) {
     lines = CLIValidator.linesValidate(lines);
     for (let i = 0; i < lines; i++) {
       console.log("");
     }
-  };
+  }
 
   centered(str) {
     str = CLIValidator.strValidate(str);
