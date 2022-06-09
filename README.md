@@ -49,9 +49,11 @@
 	- [v1.0.0 - JavaScript ES5](#v100---javascript-es5)
 	- [v2.0.0 - JavaScript ES7](#v200---javascript-es7)
 	- [v3.0.0 - TypeScript](#v300---typescript)
-	- [API](#api)
+	- [Application programming interface (API)](#application-programming-interface-api)
 	- [Command line interface (CLI)](#command-line-interface-cli)
+		- [Команды интерфейса командной строки](#команды-интерфейса-командной-строки)
 	- [Graphical user interface (GUI)](#graphical-user-interface-gui)
+		- [Страницы графического интерфейса](#страницы-графического-интерфейса)
 
 ## [v1.0.0 - JavaScript ES5](wiki/v1.0.0.md)
 
@@ -83,8 +85,86 @@
 Больше типизации и возможность масштабировать приложение? TypeScript это предоставляет, проверяя все входящие данные и результат выполнения функций. Таким образом позволяя 
 организовать более производительный код из-за большей работы Turbofan интерпретатора и нормализации bytecode.
 
-## API
+## Application programming interface (API) 
+
+API предоставляет следующие возможности:
+- Отправка ответа со строкой запроса, при запросе на несуществующий эндпоинт
+- Сущность пользователей
+  - Создание пользователя
+  - Чтение пользователя по его номеру телефона.
+  - Изменения данных пользователя по его номеру телефона.
+  - Удаление пользователя по его номеру телефона.
+- Сущность токена
+  - Создание токена
+  - Чтение токена по его ID.
+  - Изменения данных токена по его ID.
+  - Удаление токена по его ID.
+- Сущность чека
+  - Создание чека в массиве пользователя, который авторизировался
+  - Чтение всех токенов конкретного пользователя.
+  - Изменения данных конретного чека пользователя.
+  - Удаление чека пользователя.
 
 ## Command line interface (CLI)
 
+Подробнее про организацию кода и архитектуру командной строки можно почитать [Здесь](wiki/v2.0.0.md#command-line-interface-cli).
+
+Интерфейс запускается после разворачивания всех основных задач, таким как обработчики логирования (Worker) и непосредственно сами веб сервера с http и https протоколами. При запуске интерфейса командной строки выводится сообщение: "Интерфейс командной строки успешно запущен".
+
+[![cli-init.png](https://i.postimg.cc/v8cSr2yY/cli-init.png)](https://postimg.cc/V5PR1R5p)
+
+Командная строка под капотом использует модуль `readline` и работу `events`, который на основе событий - ключевого слова команды, отдаёт ту или иную информацию.
+
+### Команды интерфейса командной строки
+
+Команда `help` - позволяет получить список и описание всех команд.
+
+[![cli-help.png](https://i.postimg.cc/66Rf6rc5/cli-help.png)](https://postimg.cc/5j4CnFDZ)
+
+Команда `stats` - позволяет получить информацию по нагрузке и использованию ресурсов операционной системы.
+
+[![cli-stats.png](https://i.postimg.cc/nzKrghKZ/cli-stats.png)](https://postimg.cc/623BGw11)
+
+Команды `list users` и `more user info --{userId}` позволяют получить список зарегистрированных пользователей, а также детали по каждому конкретному пользователю.
+
+[![cli-lsit-users.png](https://i.postimg.cc/ZqbJnx6k/cli-lsit-users.png)](https://postimg.cc/bZB7Fb6L)
+
+Команды `list checks` и `more checks info --{checkId}` позволяют получить список всех чеков в базе данных, а также детали по каждому конкретному чеку.
+
+[![cli-lsit-checks.png](https://i.postimg.cc/44VpRpbv/cli-lsit-checks.png)](https://postimg.cc/7bP5gGRb)
+
+Команды `list logs` и `more log info --{logId}` позволяют получить список всех файлов логирования, а также детали по каждому конкретному файлу логирования.
+
+[![cli-list-logs.png](https://i.postimg.cc/9fswvfDN/cli-list-logs.png)](https://postimg.cc/McbGBqby)
+
 ## Graphical user interface (GUI)
+
+Графический интерфейс состоит из нескольких страничек и машрутизации между ними. 
+
+Подробнее про организацию кода и архитектуру GUI можно почитать [Здесь](wiki/v2.0.0.md#graphical-user-interface-gui).
+
+### Страницы графического интерфейса
+
+Главная страница
+
+[![main.png](https://i.postimg.cc/ZRMmf90C/main.png)](https://postimg.cc/N9mZFj6c)
+
+Страница регистрации
+
+[![registration.png](https://i.postimg.cc/mkKbrcG0/registration.png)](https://postimg.cc/T5q87319)
+
+Страница логина
+
+[![login.png](https://i.postimg.cc/Kj32CZgQ/login.png)](https://postimg.cc/JH8vkCxB)
+
+Страница создания чека
+
+[![creat-check.png](https://i.postimg.cc/3x1xXxjD/creat-check.png)](https://postimg.cc/SnX4qqvy)
+
+Страница доски с чеками
+
+[![dashboard.png](https://i.postimg.cc/bwyzwjXY/dashboard.png)](https://postimg.cc/7fRvKdYj)
+
+Страница настроек профиля
+
+[![settings.png](https://i.postimg.cc/G368ttzL/settings.png)](https://postimg.cc/V5BLHY3p)
